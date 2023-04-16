@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/sgoswami/Documents/susy_r21_ana_tools",
+      "program": "/Users/sgoswami/Documents/susy_r21_ana_tools/build/Debug/outDebug"
+    }
+  ]
+}

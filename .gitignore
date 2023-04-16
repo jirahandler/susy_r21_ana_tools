@@ -1,0 +1,58 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+*.pcm
+
+#ROOT data files
+*.root
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Misc
+*.xml
+*.dSYM
+argv.json
+*.png
+*.pdf
+
+
+# custom folders
+extensions
+extensions/*
+.DS_Store
+.DS_Store/*
+.localized
+.localized/*
+do_not_delete
+do_not_delete/*
+hf_all
+hf_all/*
+lf_all
+lf_all/*
