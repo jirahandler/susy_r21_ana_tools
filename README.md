@@ -47,6 +47,7 @@ make
 | `checkfile.sh`  | Script to check whether RPV heavy flavored samples exist from `dataset_search_RPV_HF.txt` |
 | `ntuples_RPV_HF.txt`  | ntuples on the grid after DAODs were passed through FTAG Legacy R-21 framework |
 | `.vscode`  | Some example Microsoft vscode scripts to run root code|
+| `gitcommit.sh`  | Edit this for the ease of committing and then `source gitcommit.sh`|
 
 ## Usage
 
