@@ -5,8 +5,10 @@ This package deals with a CERN ATLAS SUSY RPV/RPC LL Analysis if you know what t
 
 ## How to start?
 First the DAOD FTAG1/FTAG2 samples of interest are fed through the light jets MC Calibration framework on the CERN grid.
-Once you obtain the ntuples, you place them into two separate folders `hf_all` & `lf_all` for heavy and light flavor processes respectively by running `hadd`if there are more than one ntuple files per dataset;
-`hadd` is a CERN ROOT command line utility to merge two root files, see [hadd](https://manpages.ubuntu.com/manpages/xenial/man1/hadd.1.html).
+Once you obtain the ntuples, you place them into two separate folders `hf_all` & `lf_all` for heavy and light flavor processes respectively. 
+By running `hadd` you can combine them if there are more than one ntuple files per dataset.
+`hadd` is a CERN ROOT command line utility to merge two root files.
+See [hadd](https://manpages.ubuntu.com/manpages/xenial/man1/hadd.1.html) for documentation.
 This utility accepts wildcards.
 
 
@@ -27,7 +29,7 @@ lsetup "root <version number>"
 make
 ```
 
-## What each code does
+## What do the codes do?
 
 | Code/Folder  | Function |
 | ------------- | ------------- |
