@@ -43,7 +43,6 @@ make
 | `pl_perf.C`  | For plotting performance in general scenarios, self explanatory code  |
 | `my_susy_plots.C`  | For plotting performance in general scenarios, self explanatory code  |
 | `my_susyllp_plots.C`  | For plotting performance in general scenarios for jets from LLPs, self explanatory code  |
-| `my_susyllp_plots.C`  | For plotting performance in general scenarios for jets from LLPs, self explanatory code  |
 | `dataset_search_RPV_HF.txt`  | SUSY RPV HF Samples Gtt |
 | `dataset_search_RPV_LF.txt`  | SUSY RPV LF Samples Gqq |
 | `checkfile.sh`  | Script to check whether RPV heavy flavored samples exist from `dataset_search_RPV_HF.txt` |
