@@ -40,6 +40,9 @@
   ],
   "C_Cpp_Runner.useAddressSanitizer": false,
   "files.associations": {
-    "AtlasStyle.C": "cpp"
+    "AtlasStyle.C": "cpp",
+    "my_susy_plots.C": "cpp",
+    "pl_perf.C": "cpp",
+    "my_llpsusy_plots.C": "cpp"
   }
 }

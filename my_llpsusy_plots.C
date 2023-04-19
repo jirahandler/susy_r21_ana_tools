@@ -110,9 +110,9 @@ void my_llpsusy_plots()
         // Drawing function calls here
         // The temp strings have to do with the title/legends of the plot 
         // and filenames with which the plots are saved
+        
         TString temp1 = "prompt_b_LF";
         TString temp2 = "b_from_n1_HF";
-        
         //safeguard for empty histos
         if (!hres1[0] || !hres2[2]) continue;
         draw_plots(true, true, true, hres1[0], hres2[2], temp1, temp2, TString(hres1[0]->GetName()), TString(hres2[2]->GetName()), icol, chfile);
