@@ -134,9 +134,16 @@ void d::Loop()
         }
       }
 
-      if (llpjf != 0)
+      llpjf = (*jet_truthLLPJetLabel)[ijet];
+      if (llpjf == 4)
+        llpjf = 1;
+      else if (llpjf == 5)
+        llpjf = 2;
+      else if (llpjf != 0)
         continue;
-      // Lxy for b-jets frrom Neutralino decay
+
+      if (llpjf==0||llpjf==1||llpjf==2){
+      // Lxy LLP for b-jets frrom Neutralino decay
       if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
       {
         float lxy = (*jet_bH_Lxy)[ijet][0];
@@ -169,6 +176,7 @@ void d::Loop()
       if (tagged)
       {
         h_jetpt_llp_tag[llpjf]->Fill(jetpt);
+      }
       }
     }
   }
