@@ -282,7 +282,7 @@ void draw_plots(bool plot_ratio, bool btag, bool dofit, TH1 *h1, TH1 *h2, TStrin
 
     c1->Modified();
 
-    TString sp = TString("tagrate_") + l1 + l2;
+    TString sp = TString("tagrate_") + l1 +"_"+ l2;
     for (int kf = 0; kf < 2; ++kf)
     {
         sp += "_";

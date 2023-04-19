@@ -97,7 +97,9 @@ void d::Loop()
         jf = 2;
       else if (jf != 0)
         continue;
-
+      
+      //llp jet flavor, if jets are from llp
+      //jet flavor would be -ve if jets are not from llp
       int llpjf = (*jet_truthLLPJetLabel)[ijet];
       if (llpjf == 4)
         llpjf = 1;
