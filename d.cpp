@@ -24,6 +24,11 @@ void d::Loop()
 
   // book histograms
   TH1 *h_njet = new TH1D("njet", "", 10, 0., 10.);
+  TH1 *h_jetflav = new TH1D("jetflav", "", 10, 0., 100.);
+  TH1 *h_nbjet = new TH1D("nbjet", "", 10, 0., 10.);
+  TH1 *h_nbbjet = new TH1D("nbbjet", "", 100, 0., 100.);
+  TH1 *h_nbcjet = new TH1D("nbcjet", "", 100, 0., 100.);
+
 
   double xdiv[] = {0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
   const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
@@ -97,7 +102,17 @@ void d::Loop()
         jf = 2;
       else if (jf != 0)
         continue;
-      
+
+      int jfext = (*jet_DoubleHadLabel)[ijet];
+      cout << "The extended flavor labelling is:"<< jfext << endl;
+      if (jfext==5) 
+        h_nbjet->Fill(jfext);
+      else if (jfext == 55)
+        h_nbbjet->Fill(jfext);
+      else if (jfext == 54)
+        h_nbcjet->Fill(jfext);
+      h_jetflav->Fill(jfext);
+
       //llp jet flavor, if jets are from llp
       //jet flavor would be -ve if jets are not from llp
       int llpjf = (*jet_truthLLPJetLabel)[ijet];
@@ -161,8 +176,8 @@ void d::Loop()
         float v1 = (truth_PVx - (*jet_truthLLP_Decay_x)[ijet]);
         float v2 = (truth_PVy - (*jet_truthLLP_Decay_y)[ijet]);
         float v3 = (truth_PVz - (*jet_truthLLP_Decay_z)[ijet]);
-        cout << "Truth PV coordinates are: " << truth_PVx << "," << truth_PVy << "," << truth_PVz << endl;
-        cout << "Decay Vtx coordinates are: " << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << endl;
+        //cout << "Truth PV coordinates are: " << truth_PVx << "," << truth_PVy << "," << truth_PVz << endl;
+        //cout << "Decay Vtx coordinates are: " << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << endl;
         TVector3 v;
         v.SetXYZ(v1, v2, v3);
         double dvR = v.Mag();
@@ -182,4 +197,11 @@ void d::Loop()
       }
     }
   }
+}
+double delR (double eta1, double eta2, double phi1, double phi2){
+  double deta = eta1 - eta2;
+  double dphi = phi1 - phi2;
+  if (dphi<-M_PI) dphi +=2*M_PI;
+  else if (dphi >=M_PI) dphi -=2*M_PI;
+  return sqrt(deta*deta + dphi*dphi);
 }
