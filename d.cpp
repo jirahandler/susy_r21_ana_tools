@@ -17,6 +17,17 @@
 #include <map>
 using namespace std;
 
+double delR(double eta1, double eta2, double phi1, double phi2)
+{
+  double deta = eta1 - eta2;
+  double dphi = phi1 - phi2;
+  if (dphi < -M_PI)
+    dphi += 2 * M_PI;
+  else if (dphi >= M_PI)
+    dphi -= 2 * M_PI;
+  return sqrt(deta * deta + dphi * dphi);
+}
+
 void d::Loop()
 {
   if (fChain == 0)
@@ -28,7 +39,6 @@ void d::Loop()
   TH1 *h_nbjet = new TH1D("nbjet", "", 10, 0., 10.);
   TH1 *h_nbbjet = new TH1D("nbbjet", "", 100, 0., 100.);
   TH1 *h_nbcjet = new TH1D("nbcjet", "", 100, 0., 100.);
-
 
   double xdiv[] = {0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
   const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
@@ -82,126 +92,143 @@ void d::Loop()
     if (njet == 0)
       continue;
 
-    for (int ijet = 0; ijet < njet; ++ijet)
+    for (int i = 0; i < nmmc; ++i)
     {
-      // jet selection
-      if ((*jet_pt)[ijet] < 20e3 || fabs((*jet_eta)[ijet]) > 2.5)
-        continue;
-      if ((*jet_pt)[ijet] < 60e3 && (*jet_JVT)[ijet] < 0.2)
-        continue;
-      if ((*jet_aliveAfterOR)[ijet] == 0)
-        continue;
-      if ((*jet_aliveAfterORmu)[ijet] == 0)
-        continue;
-
-      // jet flavor
-      int jf = (*jet_LabDr_HadF)[ijet];
-      if (jf == 4)
-        jf = 1;
-      else if (jf == 5)
-        jf = 2;
-      else if (jf != 0)
-        continue;
-
-      int jfext = (*jet_DoubleHadLabel)[ijet];
-      cout << "The extended flavor labelling is:"<< jfext << endl;
-      if (jfext==5) 
-        h_nbjet->Fill(jfext);
-      else if (jfext == 55)
-        h_nbbjet->Fill(jfext);
-      else if (jfext == 54)
-        h_nbcjet->Fill(jfext);
-      h_jetflav->Fill(jfext);
-
-      //llp jet flavor, if jets are from llp
-      //jet flavor would be -ve if jets are not from llp
-      int llpjf = (*jet_truthLLPJetLabel)[ijet];
-      if (llpjf == 4)
-        llpjf = 1;
-      else if (llpjf == 5)
-        llpjf = 2;
-
-      // jet tagging
-      const double frac_c = 0.030;
-      double a = (*jet_dl1r_pb)[ijet];
-      double b = frac_c * (*jet_dl1r_pc)[ijet] + (1 - frac_c) * (*jet_dl1r_pu)[ijet];
-      double w_dl1r = -99;
-      if (a > 0 && b > 0)
-        w_dl1r = log(a / b);
-      bool tagged = w_dl1r > 2.20; // FixedCutBEff_77
-      // bool tagged = w_dl1r>1.27; // FixedCutBEff_85
-
-      // Lxy for all b-jets
-      if (jf == 2 && (llpjf < 0) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
+      if ((*mymc_pdgId)[i] == 1000022)
       {
-        float lxy = (*jet_bH_Lxy)[ijet][0];
-        h_lxy_all->Fill(lxy);
-        if (tagged)
-          h_lxy_tag->Fill(lxy);
-      }
-
-      // pT plots
-      double jetpt = (*jet_pt)[ijet] / 1e3;
-      if (llpjf < 0)
-      {
-        h_jetpt_all[jf]->Fill(jetpt);
-        if (tagged)
+        float dvR = sqrt(pow((*mymc_decayVtx_x)[i] - truth_PVx, 2) + pow((*mymc_decayVtx_y)[i] - truth_PVy, 2));
+        for (int ix = (*mymc_ix1)[i]; ix < (*mymc_ix2)[i]; ++ix)
         {
-          h_jetpt_tag[jf]->Fill(jetpt);
+          double etaq = (*mymc1_eta)[ix];
+          double phiq = (*mymc1_phi)[ix];
+
+          for (int ijet = 0; ijet < njet; ++ijet)
+          {
+            double etaj = (*jet_eta)[ijet];
+            double phij = (*jet_phi)[ijet];
+
+            // jet selection
+            if ((*jet_pt)[ijet] < 20e3 || fabs((*jet_eta)[ijet]) > 2.5)
+              continue;
+            if ((*jet_pt)[ijet] < 60e3 && (*jet_JVT)[ijet] < 0.2)
+              continue;
+            if ((*jet_aliveAfterOR)[ijet] == 0)
+              continue;
+            if ((*jet_aliveAfterORmu)[ijet] == 0)
+              continue;
+
+            if (delR(etaq,etaj,phiq,phij) > 0.3)
+            {
+              // jet flavor
+              int jf = (*jet_LabDr_HadF)[ijet];
+              if (jf == 4)
+                jf = 1;
+              else if (jf == 5)
+                jf = 2;
+              else if (jf != 0)
+                continue;
+
+              int jfext = (*jet_DoubleHadLabel)[ijet];
+              cout << "The extended flavor labelling is:" << jfext << endl;
+              if (jfext == 5)
+                h_nbjet->Fill(jfext);
+              else if (jfext == 55)
+                h_nbbjet->Fill(jfext);
+              else if (jfext == 54)
+                h_nbcjet->Fill(jfext);
+              h_jetflav->Fill(jfext);
+
+              // llp jet flavor, if jets are from llp
+              // jet flavor would be -ve if jets are not from llp
+              int llpjf = (*jet_truthLLPJetLabel)[ijet];
+              if (llpjf == 4)
+                llpjf = 1;
+              else if (llpjf == 5)
+                llpjf = 2;
+
+              // jet tagging
+              const double frac_c = 0.030;
+              double a = (*jet_dl1r_pb)[ijet];
+              double b = frac_c * (*jet_dl1r_pc)[ijet] + (1 - frac_c) * (*jet_dl1r_pu)[ijet];
+              double w_dl1r = -99;
+              if (a > 0 && b > 0)
+                w_dl1r = log(a / b);
+              bool tagged = w_dl1r > 2.20; // FixedCutBEff_77
+              // bool tagged = w_dl1r>1.27; // FixedCutBEff_85
+
+              // Lxy for all b-jets
+              if (jf == 2 && (llpjf < 0) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
+              {
+                float lxy = (*jet_bH_Lxy)[ijet][0];
+                h_lxy_all->Fill(lxy);
+                if (tagged)
+                  h_lxy_tag->Fill(lxy);
+              }
+
+              // pT plots
+              double jetpt = (*jet_pt)[ijet] / 1e3;
+              if (llpjf < 0)
+              {
+                h_jetpt_all[jf]->Fill(jetpt);
+                if (tagged)
+                {
+                  h_jetpt_tag[jf]->Fill(jetpt);
+                }
+              }
+
+              llpjf = (*jet_truthLLPJetLabel)[ijet];
+              if (llpjf == 4)
+                llpjf = 1;
+              else if (llpjf == 5)
+                llpjf = 2;
+              else if (llpjf != 0)
+                continue;
+
+              if (llpjf == 0 || llpjf == 1 || llpjf == 2)
+              {
+                // Lxy LLP for b-jets frrom Neutralino decay
+                if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
+                {
+                  float lxy = (*jet_bH_Lxy)[ijet][0];
+                  h_lxy_llp_all->Fill(lxy);
+                  if (tagged)
+                    h_lxy_llp_tag->Fill(lxy);
+                }
+
+                /**
+                // Neutralino (parent) decay vertex for all child jets
+                if ((!(*jet_truthLLP_Decay_x).empty()) && (!(*jet_truthLLP_Decay_y).empty()) && (!(*jet_truthLLP_Decay_z).empty()))
+                {
+
+                  float v1 = (truth_PVx - (*jet_truthLLP_Decay_x)[ijet]);
+                  float v2 = (truth_PVy - (*jet_truthLLP_Decay_y)[ijet]);
+                  float v3 = (truth_PVz - (*jet_truthLLP_Decay_z)[ijet]);
+                  // cout << "Truth PV coordinates are: " << truth_PVx << "," << truth_PVy << "," << truth_PVz << endl;
+                  // cout << "Decay Vtx coordinates are: " << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << endl;
+                  TVector3 v;
+                  v.SetXYZ(v1, v2, v3);
+                  double dvR = v.Mag();
+                }
+                */
+                h_dvR_llp_all[llpjf]->Fill(dvR);
+                if (tagged)
+                {
+                  h_dvR_llp_tag[llpjf]->Fill(dvR);
+                }
+
+                // LLP pT plots
+                double jetpt = (*jet_pt)[ijet] / 1e3;
+                h_jetpt_llp_all[llpjf]->Fill(jetpt);
+                if (tagged)
+                {
+                  h_jetpt_llp_tag[llpjf]->Fill(jetpt);
+                }
+              }
+            }
+          }
         }
-      }
-
-      llpjf = (*jet_truthLLPJetLabel)[ijet];
-      if (llpjf == 4)
-        llpjf = 1;
-      else if (llpjf == 5)
-        llpjf = 2;
-      else if (llpjf != 0)
-        continue;
-
-      if (llpjf==0||llpjf==1||llpjf==2){
-      // Lxy LLP for b-jets frrom Neutralino decay
-      if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
-      {
-        float lxy = (*jet_bH_Lxy)[ijet][0];
-        h_lxy_llp_all->Fill(lxy);
-        if (tagged)
-          h_lxy_llp_tag->Fill(lxy);
-      }
-
-      // Neutralino (parent) decay vertex for all child jets
-      if ((!(*jet_truthLLP_Decay_x).empty()) && (!(*jet_truthLLP_Decay_y).empty()) && (!(*jet_truthLLP_Decay_z).empty()))
-      {
-
-        float v1 = (truth_PVx - (*jet_truthLLP_Decay_x)[ijet]);
-        float v2 = (truth_PVy - (*jet_truthLLP_Decay_y)[ijet]);
-        float v3 = (truth_PVz - (*jet_truthLLP_Decay_z)[ijet]);
-        //cout << "Truth PV coordinates are: " << truth_PVx << "," << truth_PVy << "," << truth_PVz << endl;
-        //cout << "Decay Vtx coordinates are: " << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << endl;
-        TVector3 v;
-        v.SetXYZ(v1, v2, v3);
-        double dvR = v.Mag();
-        h_dvR_llp_all[llpjf]->Fill(dvR);
-        if (tagged)
-        {
-          h_dvR_llp_tag[llpjf]->Fill(dvR);
-        }
-      }
-      // LLP pT plots
-      double jetpt = (*jet_pt)[ijet] / 1e3;
-      h_jetpt_llp_all[llpjf]->Fill(jetpt);
-      if (tagged)
-      {
-        h_jetpt_llp_tag[llpjf]->Fill(jetpt);
-      }
       }
     }
   }
 }
-double delR (double eta1, double eta2, double phi1, double phi2){
-  double deta = eta1 - eta2;
-  double dphi = phi1 - phi2;
-  if (dphi<-M_PI) dphi +=2*M_PI;
-  else if (dphi >=M_PI) dphi -=2*M_PI;
-  return sqrt(deta*deta + dphi*dphi);
-}
+
