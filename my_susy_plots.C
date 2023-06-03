@@ -16,25 +16,25 @@ void my_susy_plots()
     // must match the partial names of histos found in a1_<dsid>.root
     const char *plot_type[] = {
         "lxy",
-        //"lxy_llp"
+        "bip",
         "jetpt_2",
-        "jetpt_0",
-        "jetpt_2_llp",
-        "jetpt_0_llp",
-        "dvR_2_llp",
-        "dvR_0_llp",
+        //"jetpt_0",
+        //"jetpt_2_llp",
+        //"jetpt_0_llp",
+        //"dvR_2_llp",
+        //"dvR_0_llp",
 
     };
     // define plot titles here
     const char *plot_title[] = {
         "Lxy [mm]",
-        //"Lxy (llp jets) [mm] ",
+        "b-impact parameter [mm]",
         "b-jet p_{T} [GeV]",
-        "light jet p_{T} [GeV]",
-        "b-jet (llp jets)  p_{T} [GeV]",
-        "light (llp jets) jet p_{T} [GeV]",
-        "LLP decay radius (b-jets) [mm]",
-        "LLP decay radius (light-jets) [mm]",
+        //"light jet p_{T} [GeV]",
+        //"b-jet (llp jets)  p_{T} [GeV]",
+        //"light (llp jets) jet p_{T} [GeV]",
+        //"LLP decay radius (b-jets) [mm]",
+        //"LLP decay radius (light-jets) [mm]",
     };
     // Get number of plots to make
     int plctrsz = (sizeof(plot_type) / sizeof(plot_type[0]));
@@ -47,23 +47,23 @@ void my_susy_plots()
         bool btag = false;
         bool dofit = false;
         bool plot_ratio = true;
-        if (plctr == 0 || plctr == 1 || plctr == 3 || plctr ==5)
+        if (plctr == 0 || plctr == 1) //|| plctr == 3 || plctr ==5)
             btag = true;
-        if (plctr == 0 || plctr == 1 || plctr == 3 || plctr == 5)
+        if (plctr == 0 || plctr == 1) //|| plctr == 3 || plctr == 5)
             dofit = true;
         const char *chvar = plot_type[plctr];
         const char *chtitl = plot_title[plctr];
 
         // put DSIDs here of the analysis ntuple files you obtained after running d_ana
         // after running d_ana, you should have gotten output files of the form a1_<dsid>.root
-        const char *filelist[] = {"503767",
-                                  "503768",
-                                  "503769",
-                                  "503770",
-                                  "503822",
+        const char *filelist[] = {"503822",
                                   "503823",
                                   "503824",
-                                  "503825"};
+                                  "503825",
+                                  "410470",
+                                  "410470",
+                                  "410470",
+                                  "410470"};
         //Get total size of the char array; div by 2 because ... pairs
         int fctr = (sizeof(filelist) / sizeof(filelist[0])) / 2;
         
@@ -75,7 +75,8 @@ void my_susy_plots()
         {   
             //Safeguard for certain datasets and plots
             //They have some missing stuff
-            if(plctr==5 && fpctr==3) continue;
+            if (plctr == 5 && fpctr == 3) continue;
+            //if (plctr == 1 && fpctr == 2) continue;
 
             //This contains the list of files you want to compare
             const char *

@@ -1,16 +1,12 @@
-/**
- * @brief header file to d.cpp
- * 
- */
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Tue Apr 11 00:13:29 2023 by ROOT version 6.29/01
+// Fri Jun  2 00:17:27 2023 by ROOT version 6.24/08
 // from TTree bTag_AntiKt4EMPFlowJets_BTagging201810/bTagAntiKt4EMPFlowJets_BTagging201810
-// found on file: 503767.root
+// found on file: 410470.root
 //////////////////////////////////////////////////////////
 
-#ifndef d_h
-#define d_h
+#ifndef tt_h
+#define tt_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -19,8 +15,9 @@
 
 // Header file for the classes stored in the TTree if any.
 #include "vector"
+using namespace std;
 
-class d {
+class tt {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -41,90 +38,70 @@ public :
    Float_t         truth_PVy;
    Float_t         truth_PVz;
    Int_t           njets;
-   std::vector<float>   *jet_pt;
-   std::vector<float>   *jet_eta;
-   std::vector<float>   *jet_phi;
-   std::vector<float>   *jet_E;
-   std::vector<float>   *jet_pt_orig;
-   std::vector<float>   *jet_eta_orig;
-   std::vector<float>   *jet_phi_orig;
-   std::vector<float>   *jet_E_orig;
-   std::vector<int>     *jet_LabDr_HadF;
-   std::vector<int>     *jet_DoubleHadLabel;
-   std::vector<float>   *jet_JVT;
-   std::vector<float>   *jet_m;
-   std::vector<float>   *jet_nConst;
-   std::vector<float>   *jet_dRiso;
-   std::vector<int>     *jet_truthMatch;
-   std::vector<int>     *jet_isPU;
-   std::vector<int>     *jet_aliveAfterOR;
-   std::vector<int>     *jet_aliveAfterORmu;
-   std::vector<int>     *jet_isBadMedium;
-   std::vector<float>   *jet_truthPt;
-   std::vector<float>   *jet_dRminToB;
-   std::vector<float>   *jet_dRminToC;
-   std::vector<float>   *jet_dRminToT;
-   std::vector<int>     *jet_isLLPDecayProd;
-   std::vector<float>   *jet_dRtoLLPDecayProd;
-   std::vector<int>     *jet_truthLLPJetLabel;
-   std::vector<float>   *jet_truthLLP_Decay_x;
-   std::vector<float>   *jet_truthLLP_Decay_y;
-   std::vector<float>   *jet_truthLLP_Decay_z;
-   std::vector<double>  *jet_dl1_pb;
-   std::vector<double>  *jet_dl1_pc;
-   std::vector<double>  *jet_dl1_pu;
-   std::vector<double>  *jet_dl1rmu_pb;
-   std::vector<double>  *jet_dl1rmu_pc;
-   std::vector<double>  *jet_dl1rmu_pu;
-   std::vector<double>  *jet_dl1r_pb;
-   std::vector<double>  *jet_dl1r_pc;
-   std::vector<double>  *jet_dl1r_pu;
-   std::vector<double>  *jet_mv2c10;
-   std::vector<double>  *jet_mv2c10mu;
-   std::vector<double>  *jet_mv2c10rnn;
-   std::vector<double>  *jet_mv2c100;
-   std::vector<double>  *jet_mv2cl100;
-   std::vector<int>     *jet_nBHadr;
-   std::vector<int>     *jet_nCHadr;
-   std::vector<std::vector<int> > *jet_bH_pdgId;
-   std::vector<std::vector<int> > *jet_bH_parent_pdgId;
-   std::vector<std::vector<float> > *jet_bH_pt;
-   std::vector<std::vector<float> > *jet_bH_eta;
-   std::vector<std::vector<float> > *jet_bH_phi;
-   std::vector<std::vector<float> > *jet_bH_E;
-   std::vector<std::vector<float> > *jet_bH_charge;
-   std::vector<std::vector<float> > *jet_bH_Lxy;
-   std::vector<std::vector<float> > *jet_bH_x;
-   std::vector<std::vector<float> > *jet_bH_y;
-   std::vector<std::vector<float> > *jet_bH_z;
-   std::vector<std::vector<float> > *jet_bH_dRjet;
-   std::vector<std::vector<int> > *jet_cH_pdgId;
-   std::vector<std::vector<int> > *jet_cH_parent_pdgId;
-   std::vector<std::vector<float> > *jet_cH_pt;
-   std::vector<std::vector<float> > *jet_cH_eta;
-   std::vector<std::vector<float> > *jet_cH_phi;
-   std::vector<std::vector<float> > *jet_cH_E;
-   std::vector<std::vector<float> > *jet_cH_charge;
-   std::vector<std::vector<float> > *jet_cH_Lxy;
-   std::vector<std::vector<float> > *jet_cH_x;
-   std::vector<std::vector<float> > *jet_cH_y;
-   std::vector<std::vector<float> > *jet_cH_z;
-   std::vector<std::vector<float> > *jet_cH_dRjet;
-   Int_t           nmmc;
-   std::vector<float>   *mymc_pt;
-   std::vector<float>   *mymc_eta;
-   std::vector<float>   *mymc_phi;
-   std::vector<int>     *mymc_pdgId;
-   std::vector<float>   *mymc_decayVtx_x;
-   std::vector<float>   *mymc_decayVtx_y;
-   std::vector<float>   *mymc_decayVtx_z;
-   std::vector<int>     *mymc_ix1;
-   std::vector<int>     *mymc_ix2;
-   Int_t           nmmc1;
-   std::vector<float>   *mymc1_pt;
-   std::vector<float>   *mymc1_eta;
-   std::vector<float>   *mymc1_phi;
-   std::vector<int>     *mymc1_pdgId;
+   vector<float>   *jet_pt;
+   vector<float>   *jet_eta;
+   vector<float>   *jet_phi;
+   vector<float>   *jet_E;
+   vector<float>   *jet_pt_orig;
+   vector<float>   *jet_eta_orig;
+   vector<float>   *jet_phi_orig;
+   vector<float>   *jet_E_orig;
+   vector<int>     *jet_LabDr_HadF;
+   vector<int>     *jet_DoubleHadLabel;
+   vector<float>   *jet_JVT;
+   vector<float>   *jet_m;
+   vector<float>   *jet_nConst;
+   vector<float>   *jet_dRiso;
+   vector<int>     *jet_truthMatch;
+   vector<int>     *jet_isPU;
+   vector<int>     *jet_aliveAfterOR;
+   vector<int>     *jet_aliveAfterORmu;
+   vector<int>     *jet_isBadMedium;
+   vector<float>   *jet_truthPt;
+   vector<float>   *jet_dRminToB;
+   vector<float>   *jet_dRminToC;
+   vector<float>   *jet_dRminToT;
+   vector<double>  *jet_dl1_pb;
+   vector<double>  *jet_dl1_pc;
+   vector<double>  *jet_dl1_pu;
+   vector<double>  *jet_dl1rmu_pb;
+   vector<double>  *jet_dl1rmu_pc;
+   vector<double>  *jet_dl1rmu_pu;
+   vector<double>  *jet_dl1r_pb;
+   vector<double>  *jet_dl1r_pc;
+   vector<double>  *jet_dl1r_pu;
+   vector<double>  *jet_mv2c10;
+   vector<double>  *jet_mv2c10mu;
+   vector<double>  *jet_mv2c10rnn;
+   vector<double>  *jet_mv2c100;
+   vector<double>  *jet_mv2cl100;
+   vector<int>     *jet_nBHadr;
+   vector<int>     *jet_nCHadr;
+   vector<vector<int> > *jet_bH_pdgId;
+   vector<vector<int> > *jet_bH_parent_pdgId;
+   vector<vector<float> > *jet_bH_pt;
+   vector<vector<float> > *jet_bH_eta;
+   vector<vector<float> > *jet_bH_phi;
+   vector<vector<float> > *jet_bH_E;
+   vector<vector<float> > *jet_bH_charge;
+   vector<vector<float> > *jet_bH_Lxy;
+   vector<vector<float> > *jet_bH_x;
+   vector<vector<float> > *jet_bH_y;
+   vector<vector<float> > *jet_bH_z;
+   vector<vector<float> > *jet_bH_dRjet;
+   vector<vector<int> > *jet_cH_pdgId;
+   vector<vector<int> > *jet_cH_parent_pdgId;
+   vector<vector<float> > *jet_cH_pt;
+   vector<vector<float> > *jet_cH_eta;
+   vector<vector<float> > *jet_cH_phi;
+   vector<vector<float> > *jet_cH_E;
+   vector<vector<float> > *jet_cH_charge;
+   vector<vector<float> > *jet_cH_Lxy;
+   vector<vector<float> > *jet_cH_x;
+   vector<vector<float> > *jet_cH_y;
+   vector<vector<float> > *jet_cH_z;
+   vector<vector<float> > *jet_cH_dRjet;
+   vector<vector<double> > *dl1inputs;
 
    // List of branches
    TBranch        *b_runnb;   //!
@@ -163,12 +140,6 @@ public :
    TBranch        *b_jet_dRminToB;   //!
    TBranch        *b_jet_dRminToC;   //!
    TBranch        *b_jet_dRminToT;   //!
-   TBranch        *b_jet_isLLPDecayProd;   //!
-   TBranch        *b_jet_dRtoLLPDecayProd;   //!
-   TBranch        *b_jet_truthLLPJetLabel;   //!
-   TBranch        *b_jet_truthLLP_Decay_x;   //!
-   TBranch        *b_jet_truthLLP_Decay_y;   //!
-   TBranch        *b_jet_truthLLP_Decay_z;   //!
    TBranch        *b_jet_dl1_pb;   //!
    TBranch        *b_jet_dl1_pc;   //!
    TBranch        *b_jet_dl1_pu;   //!
@@ -209,24 +180,10 @@ public :
    TBranch        *b_jet_cH_y;   //!
    TBranch        *b_jet_cH_z;   //!
    TBranch        *b_jet_cH_dRjet;   //!
-   TBranch        *b_nmmc;   //!
-   TBranch        *b_mymc_pt;   //!
-   TBranch        *b_mymc_eta;   //!
-   TBranch        *b_mymc_phi;   //!
-   TBranch        *b_mymc_pdgId;   //!
-   TBranch        *b_mymc_decayVtx_x;   //!
-   TBranch        *b_mymc_decayVtx_y;   //!
-   TBranch        *b_mymc_decayVtx_z;   //!
-   TBranch        *b_mymc_ix1;   //!
-   TBranch        *b_mymc_ix2;   //!
-   TBranch        *b_nmmc1;   //!
-   TBranch        *b_mymc1_pt;   //!
-   TBranch        *b_mymc1_eta;   //!
-   TBranch        *b_mymc1_phi;   //!
-   TBranch        *b_mymc1_pdgId;   //!
+   TBranch        *b_dl1inputs;   //!
 
-   d(TTree *tree=0);
-   virtual ~d();
+   tt(TTree *tree=0);
+   virtual ~tt();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
@@ -238,15 +195,15 @@ public :
 
 #endif
 
-#ifdef d_cxx
-d::d(TTree *tree) : fChain(0) 
+#ifdef tt_cxx
+tt::tt(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("503767.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("410470.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("503767.root");
+         f = new TFile("410470.root");
       }
       f->GetObject("bTag_AntiKt4EMPFlowJets_BTagging201810",tree);
 
@@ -254,19 +211,19 @@ d::d(TTree *tree) : fChain(0)
    Init(tree);
 }
 
-d::~d()
+tt::~tt()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
 }
 
-Int_t d::GetEntry(Long64_t entry)
+Int_t tt::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t d::LoadTree(Long64_t entry)
+Long64_t tt::LoadTree(Long64_t entry)
 {
 // Set the environment to read one entry
    if (!fChain) return -5;
@@ -279,7 +236,7 @@ Long64_t d::LoadTree(Long64_t entry)
    return centry;
 }
 
-void d::Init(TTree *tree)
+void tt::Init(TTree *tree)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -313,12 +270,6 @@ void d::Init(TTree *tree)
    jet_dRminToB = 0;
    jet_dRminToC = 0;
    jet_dRminToT = 0;
-   jet_isLLPDecayProd = 0;
-   jet_dRtoLLPDecayProd = 0;
-   jet_truthLLPJetLabel = 0;
-   jet_truthLLP_Decay_x = 0;
-   jet_truthLLP_Decay_y = 0;
-   jet_truthLLP_Decay_z = 0;
    jet_dl1_pb = 0;
    jet_dl1_pc = 0;
    jet_dl1_pu = 0;
@@ -359,19 +310,7 @@ void d::Init(TTree *tree)
    jet_cH_y = 0;
    jet_cH_z = 0;
    jet_cH_dRjet = 0;
-   mymc_pt = 0;
-   mymc_eta = 0;
-   mymc_phi = 0;
-   mymc_pdgId = 0;
-   mymc_decayVtx_x = 0;
-   mymc_decayVtx_y = 0;
-   mymc_decayVtx_z = 0;
-   mymc_ix1 = 0;
-   mymc_ix2 = 0;
-   mymc1_pt = 0;
-   mymc1_eta = 0;
-   mymc1_phi = 0;
-   mymc1_pdgId = 0;
+   dl1inputs = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -414,12 +353,6 @@ void d::Init(TTree *tree)
    fChain->SetBranchAddress("jet_dRminToB", &jet_dRminToB, &b_jet_dRminToB);
    fChain->SetBranchAddress("jet_dRminToC", &jet_dRminToC, &b_jet_dRminToC);
    fChain->SetBranchAddress("jet_dRminToT", &jet_dRminToT, &b_jet_dRminToT);
-   fChain->SetBranchAddress("jet_isLLPDecayProd", &jet_isLLPDecayProd, &b_jet_isLLPDecayProd);
-   fChain->SetBranchAddress("jet_dRtoLLPDecayProd", &jet_dRtoLLPDecayProd, &b_jet_dRtoLLPDecayProd);
-   fChain->SetBranchAddress("jet_truthLLPJetLabel", &jet_truthLLPJetLabel, &b_jet_truthLLPJetLabel);
-   fChain->SetBranchAddress("jet_truthLLP_Decay_x", &jet_truthLLP_Decay_x, &b_jet_truthLLP_Decay_x);
-   fChain->SetBranchAddress("jet_truthLLP_Decay_y", &jet_truthLLP_Decay_y, &b_jet_truthLLP_Decay_y);
-   fChain->SetBranchAddress("jet_truthLLP_Decay_z", &jet_truthLLP_Decay_z, &b_jet_truthLLP_Decay_z);
    fChain->SetBranchAddress("jet_dl1_pb", &jet_dl1_pb, &b_jet_dl1_pb);
    fChain->SetBranchAddress("jet_dl1_pc", &jet_dl1_pc, &b_jet_dl1_pc);
    fChain->SetBranchAddress("jet_dl1_pu", &jet_dl1_pu, &b_jet_dl1_pu);
@@ -460,25 +393,11 @@ void d::Init(TTree *tree)
    fChain->SetBranchAddress("jet_cH_y", &jet_cH_y, &b_jet_cH_y);
    fChain->SetBranchAddress("jet_cH_z", &jet_cH_z, &b_jet_cH_z);
    fChain->SetBranchAddress("jet_cH_dRjet", &jet_cH_dRjet, &b_jet_cH_dRjet);
-   fChain->SetBranchAddress("nmmc", &nmmc, &b_nmmc);
-   fChain->SetBranchAddress("mymc_pt", &mymc_pt, &b_mymc_pt);
-   fChain->SetBranchAddress("mymc_eta", &mymc_eta, &b_mymc_eta);
-   fChain->SetBranchAddress("mymc_phi", &mymc_phi, &b_mymc_phi);
-   fChain->SetBranchAddress("mymc_pdgId", &mymc_pdgId, &b_mymc_pdgId);
-   fChain->SetBranchAddress("mymc_decayVtx_x", &mymc_decayVtx_x, &b_mymc_decayVtx_x);
-   fChain->SetBranchAddress("mymc_decayVtx_y", &mymc_decayVtx_y, &b_mymc_decayVtx_y);
-   fChain->SetBranchAddress("mymc_decayVtx_z", &mymc_decayVtx_z, &b_mymc_decayVtx_z);
-   fChain->SetBranchAddress("mymc_ix1", &mymc_ix1, &b_mymc_ix1);
-   fChain->SetBranchAddress("mymc_ix2", &mymc_ix2, &b_mymc_ix2);
-   fChain->SetBranchAddress("nmmc1", &nmmc1, &b_nmmc1);
-   fChain->SetBranchAddress("mymc1_pt", &mymc1_pt, &b_mymc1_pt);
-   fChain->SetBranchAddress("mymc1_eta", &mymc1_eta, &b_mymc1_eta);
-   fChain->SetBranchAddress("mymc1_phi", &mymc1_phi, &b_mymc1_phi);
-   fChain->SetBranchAddress("mymc1_pdgId", &mymc1_pdgId, &b_mymc1_pdgId);
+   fChain->SetBranchAddress("dl1inputs", &dl1inputs, &b_dl1inputs);
    Notify();
 }
 
-Bool_t d::Notify()
+Bool_t tt::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -489,18 +408,18 @@ Bool_t d::Notify()
    return kTRUE;
 }
 
-void d::Show(Long64_t entry)
+void tt::Show(Long64_t entry)
 {
 // Print contents of entry.
 // If entry is not specified, print current entry
    if (!fChain) return;
    fChain->Show(entry);
 }
-Int_t d::Cut(Long64_t entry)
+Int_t tt::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
 }
-#endif // #ifdef d_cxx
+#endif // #ifdef tt_cxx

@@ -1,26 +1,54 @@
-CPP=g++
-LD=g++
+# Directories
+HEADER_DIR := include
+SOURCE_DIR := src
+OBJECT_DIR := obj
+BINARY_DIR := bin
 
-SPECIALFLAGS=-O2 
-#SPECIALFLAGS=-g -O0
-ROOTCFLAGS=$(shell root-config --cflags)
-ROOTLIBS=$(shell root-config --libs)
+# Header files
+HEADERS := $(HEADER_DIR)/sus.h $(HEADER_DIR)/tt.h
 
-CFLAGS = $(SPECIALFLAGS) -I.
-LFLAGS = -L.
-MANFLAGS = -lstdc++fs
+# Source files
+TT_SOURCES := $(SOURCE_DIR)/tt.cpp
+SUS_SOURCES := $(SOURCE_DIR)/sus.cpp
+TT_ANA_SOURCES := $(SOURCE_DIR)/tt_ana.cpp
+SUS_ANA_SOURCES := $(SOURCE_DIR)/sus_ana.cpp
 
-RCXX=$(CFLAGS) $(MANFLAGS) $(ROOTCFLAGS)
-RLXX=$(LFLAGS) $(ROOTLIBS)
+# Object files
+TT_OBJECTS := $(OBJECT_DIR)/tt.o
+SUS_OBJECTS := $(OBJECT_DIR)/sus.o
+TT_ANA_OBJECTS := $(OBJECT_DIR)/tt_ana.o $(TT_OBJECTS)
+SUS_ANA_OBJECTS := $(OBJECT_DIR)/sus_ana.o $(SUS_OBJECTS)
 
-SRC=d_ana.cpp d.cpp
+# Executables
+TT_ANA_EXECUTABLE := $(BINARY_DIR)/tt_ana
+SUS_ANA_EXECUTABLE := $(BINARY_DIR)/sus_ana
 
-%.o: %.cpp d.h 
-	$(CPP) $(RCXX) -c $<
+# CERN ROOT flags and libraries
+ROOT_CFLAGS := $(shell root-config --cflags)
+ROOT_LIBS := $(shell root-config --libs)
 
-all: $(SRC:.cpp=.o)
-	$(LD) $(SRC:.cpp=.o) $(RLXX) -o d_ana
+# Compiler flags
+CFLAGS := -Wall -Wextra -I$(HEADER_DIR) $(ROOT_CFLAGS)
+LDFLAGS := $(ROOT_LIBS)
+
+# Default target
+all: $(TT_ANA_EXECUTABLE) $(SUS_ANA_EXECUTABLE)
+
+# Rule to generate object files
+$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cpp $(HEADERS)
+	mkdir -p $(OBJECT_DIR)
+	g++ $(CFLAGS) -c -o $@ $<
+
+# Rules to generate executables
+$(TT_ANA_EXECUTABLE): $(TT_ANA_OBJECTS)
+	mkdir -p $(BINARY_DIR)
+	g++ $^ $(LDFLAGS) -o $@
+
+$(SUS_ANA_EXECUTABLE): $(SUS_ANA_OBJECTS)
+	mkdir -p $(BINARY_DIR)
+	g++ $^ $(LDFLAGS) -o $@
+
+.PHONY: all clean
 
 clean:
-	rm -f *~ *.o
-	rm -f d_ana
+	rm -rf $(OBJECT_DIR) $(BINARY_DIR)

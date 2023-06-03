@@ -24,7 +24,7 @@
     "`$ROOTSYS/bin/root-config --cflags --glibs`"
   ],
   "C_Cpp_Runner.includePaths": [
-    "/usr/bin/root/include"
+    "/usr/local/root_src/include"
   ],
   "C_Cpp_Runner.includeSearch": [
     "*",
@@ -39,12 +39,10 @@
     "**/.vscode/**"
   ],
   "C_Cpp_Runner.useAddressSanitizer": false,
+  "C_Cpp_Runner.showCompilationTime": false,
   "files.associations": {
-    "AtlasStyle.C": "cpp",
+    "my_susy_plots-sgoswami.C": "cpp",
     "my_susy_plots.C": "cpp",
-    "pl_perf.C": "cpp",
-    "my_llpsusy_plots.C": "cpp",
-    "run.C": "cpp"
-  },
-  "C_Cpp_Runner.showCompilationTime": false
+    "pl_perf.C": "cpp"
+  }
 }
