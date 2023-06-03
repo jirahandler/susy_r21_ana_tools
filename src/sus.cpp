@@ -176,13 +176,10 @@ void sus::Loop()
 
                   // pT plots
                   double jetpt = (*jet_pt)[ijet] / 1e3;
-                  if (llpjf < 0)
+                  h_jetpt_all[jf]->Fill(jetpt);
+                  if (tagged)
                   {
-                     h_jetpt_all[jf]->Fill(jetpt);
-                     if (tagged)
-                     {
-                        h_jetpt_tag[jf]->Fill(jetpt);
-                     }
+                     h_jetpt_tag[jf]->Fill(jetpt);
                   }
 
                   if (llpjf == 0 || llpjf == 1 || llpjf == 2)
