@@ -56,6 +56,8 @@ make
 | `ntuples_RPV_HF.txt`  | ntuples on the grid after DAODs were passed through FTAG Legacy R-21 framework |
 | `.vscode`  | Some example Microsoft vscode scripts to run root code locally|
 | `gitcommit.sh`  | Edit this for the ease of committing to git|
+| `get_script_dependencies.py`  | This is a python code to generate script dependencies|
+| `dependency_tree.md`  | This contains script dependencies|
 
 ## Usage
 
