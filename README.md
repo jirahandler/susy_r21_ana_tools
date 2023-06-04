@@ -39,11 +39,13 @@ make
 | `src/sus.cpp` | Fills relevant information into the ntuples for susy samples |
 | `include/tt.h`| Header file containing definitions to `tt.cpp` |
 | `include/sus.h`| Header file containing definitions to `sus.cpp` |
-| `AtlasStyle.C` | CERN ATLAS Plot Style |
-| `AtlasStyle.h` | Header for CERN ATLAS Plot Style `AtlasStyle.C`  |
 | `src/tt_ana` | Your executable to make ntuples to be passed on to the plotting script for tt-bar sample  |
 | `src/sus_ana`| Your executable to make ntuples to be passed on to the plotting script for susy samples  |
-| `MAKEFILE`   | compile command instructions for `cmake/make`  |
+| `obj/*`| Contains object files post `make` process  |
+| `bin/*`| Contains binary executables post `make` process  |
+| `AtlasStyle.C` | CERN ATLAS Plotting Style for CERN ROOT |
+| `AtlasStyle.h` | Header for CERN ATLAS Plot Style `AtlasStyle.C`  |
+| `MAKEFILE`   | compile command instructions for `make`  |
 | `runana.sh` | Script to run `tt_ana` & `sus_ana` |
 | `pl_perf.C`  | For plotting performance in general scenarios, self explanatory code  |
 | `my_susy_plots.C`  | For plotting performance in general scenarios, self explanatory code  |
