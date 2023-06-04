@@ -82,7 +82,7 @@ void my_susy_plots()
 
             //This contains the list of files you want to compare
             const char *
-                chfile[] = {filelist[fpctr], filelist[fpctr + 4]};
+                chfile[] = {filelist[fpctr], filelist[fpctr + 5]};
             const int nf = sizeof(chfile) / sizeof(const char *);
             TH1 *h[nf];
             

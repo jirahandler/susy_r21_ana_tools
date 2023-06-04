@@ -1,9 +1,10 @@
 import os
 import re
+from graphviz import Digraph
 import subprocess
 
-EXCLUDED_DIRS = ['.vscode', 'extensions', '.git']
-EXCLUDED_FILE_TYPES = ['.png', '_png', '.txt', '.sh']
+EXCLUDED_DIRS = ['.vscode', 'extensions', '.git','main.dSYM']
+EXCLUDED_FILE_TYPES = ['.png', '_png', '.txt', '.sh','.root','.xml','.pdf']
 OUTPUT_FILE = "dep_tree.md"
 
 def should_exclude_dir(dir_path):
@@ -20,14 +21,19 @@ def should_exclude_file(file_name):
 
 def get_cpp_header_dependencies(file_path):
     header_dependencies = set()
-    command = ['clang', '-M', '-MG', '-MM', file_path]
-    output = subprocess.check_output(command, universal_newlines=True)
-    dependencies = re.findall(r'\w+\.h', output)
-    header_dependencies.update(dependencies)
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            match = re.search(r'#include\s+[<"](.+?)[>"]', line)
+            if match:
+                header_dependencies.add(match.group(1))
     return header_dependencies
 
 def get_python_import_dependencies(file_path):
     import_dependencies = set()
+    if not os.path.isfile(file_path):
+        return import_dependencies
+    
     with open(file_path, 'r') as file:
         lines = file.readlines()
         for line in lines:
@@ -60,6 +66,16 @@ def get_object_dependencies(file_path):
     
     return object_dependencies
 
+def get_header_dependencies(file_path):
+    header_dependencies = set()
+    with open(file_path, 'r', encoding='latin-1') as file:
+        lines = file.readlines()
+        for line in lines:
+            match = re.search(r'#include\s+[<"](.+?)[>"]', line)
+            if match:
+                header_dependencies.add(match.group(1))
+    return header_dependencies
+
 def get_binary_libraries(file_path):
     libraries = set()
     command = ['otool', '-L', file_path]
@@ -90,6 +106,12 @@ def process_directory(directory):
                 write_to_file(OUTPUT_FILE, '```\n')
                 write_to_file(OUTPUT_FILE, '\n'.join(cpp_header_dependencies))
                 write_to_file(OUTPUT_FILE, '\n```\n\n')
+                
+                cpp_libraries = get_binary_libraries(file_path)
+                write_to_file(OUTPUT_FILE, f'## Libraries Used by {file_path}\n\n')
+                write_to_file(OUTPUT_FILE, '```\n')
+                write_to_file(OUTPUT_FILE, '\n'.join(cpp_libraries))
+                write_to_file(OUTPUT_FILE, '\n```\n\n')
             
             if file.endswith('.py'):
                 python_import_dependencies = get_python_import_dependencies(file_path)
@@ -110,9 +132,56 @@ def process_directory(directory):
                 write_to_file(OUTPUT_FILE, '```\n')
                 write_to_file(OUTPUT_FILE, '\n'.join(binary_libraries))
                 write_to_file(OUTPUT_FILE, '\n```\n\n')
+            
+            if file.endswith('.h'):
+                header_dependencies = get_header_dependencies(file_path)
+                write_to_file(OUTPUT_FILE, f'## Header Dependencies for {file_path}\n\n')
+                write_to_file(OUTPUT_FILE, '```\n')
+                write_to_file(OUTPUT_FILE, '\n'.join(header_dependencies))
+                write_to_file(OUTPUT_FILE, '\n```\n\n')
+
+# Generate dependency graph
+def generate_dependency_graph(directory):
+    dot = Digraph(comment='Dependency Graph')
+    
+    for root, dirs, files in os.walk(directory):
+        # Exclude certain directories
+        dirs[:] = [d for d in dirs if not should_exclude_dir(d)]
+        
+        for file in files:
+            file_path = os.path.join(root, file)
+            
+            # Exclude certain file types
+            if should_exclude_file(file_path):
+                continue
+            
+            if file.endswith(('.C', '.cpp')):
+                cpp_header_dependencies = get_cpp_header_dependencies(file_path)
+                for dependency in cpp_header_dependencies:
+                    dot.edge(file, dependency)
+            
+            if file.endswith('.py'):
+                python_import_dependencies = get_python_import_dependencies(file_path)
+                for dependency in python_import_dependencies:
+                    dot.edge(file, dependency)
+            
+            if os.access(file_path, os.X_OK):
+                object_dependencies = get_object_dependencies(file_path)
+                for dependency in object_dependencies:
+                    dot.edge(file, dependency)
+            
+            if file.endswith('.h'):
+                header_dependencies = get_header_dependencies(file_path)
+                for dependency in header_dependencies:
+                    dot.edge(file, dependency)
+    
+    dot.render('dependency_graph', format='png')
+    print("Dependency graph generated: dependency_graph.png")
 
 # Usage
 directory_path = '.'
 if os.path.exists(OUTPUT_FILE):
     os.remove(OUTPUT_FILE)
+
 process_directory(directory_path)
+generate_dependency_graph(directory_path)
