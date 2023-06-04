@@ -2,7 +2,7 @@
  * @file my_susy_plots.C
  * @author SammyG
  * @brief Get SUSY perf plots
- * @version 0.1
+ * @version 0.2
  * @date 2023-04-16
  */
 #include "AtlasStyle.C"
@@ -44,8 +44,8 @@ void my_susy_plots()
     {
         // btag: b-tagging is turned on or off
         // dofit: fitting between two different datasets in ratio plot sub-canvas
-        bool btag = false;
-        bool dofit = false;
+        bool btag = true;
+        bool dofit = true;
         bool plot_ratio = true;
         if (plctr == 0 || plctr == 1) //|| plctr == 3 || plctr ==5)
             btag = true;
@@ -56,10 +56,12 @@ void my_susy_plots()
 
         // put DSIDs here of the analysis ntuple files you obtained after running d_ana
         // after running d_ana, you should have gotten output files of the form a1_<dsid>.root
-        const char *filelist[] = {"503822",
+        const char *filelist[] = {"hfall",
+                                  "503822",
                                   "503823",
                                   "503824",
                                   "503825",
+                                  "410470",
                                   "410470",
                                   "410470",
                                   "410470",

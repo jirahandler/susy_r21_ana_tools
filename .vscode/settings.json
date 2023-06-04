@@ -43,6 +43,7 @@
   "files.associations": {
     "my_susy_plots-sgoswami.C": "cpp",
     "my_susy_plots.C": "cpp",
-    "pl_perf.C": "cpp"
+    "pl_perf.C": "cpp",
+    "AtlasStyle.C": "cpp"
   }
 }
