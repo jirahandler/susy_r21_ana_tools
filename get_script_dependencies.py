@@ -60,6 +60,14 @@ def get_object_dependencies(file_path):
     
     return object_dependencies
 
+def get_binary_libraries(file_path):
+    libraries = set()
+    command = ['otool', '-L', file_path]
+    output = subprocess.check_output(command, universal_newlines=True)
+    library_paths = re.findall(r'\t(.+?)\s+\(', output)
+    libraries.update(library_paths)
+    return libraries
+
 def write_to_file(file_path, content):
     with open(file_path, 'a') as file:
         file.write(content)
@@ -95,6 +103,12 @@ def process_directory(directory):
                 write_to_file(OUTPUT_FILE, f'## Object Dependencies for {file_path}\n\n')
                 write_to_file(OUTPUT_FILE, '```\n')
                 write_to_file(OUTPUT_FILE, '\n'.join(object_dependencies))
+                write_to_file(OUTPUT_FILE, '\n```\n\n')
+                
+                binary_libraries = get_binary_libraries(file_path)
+                write_to_file(OUTPUT_FILE, f'## Libraries Used by {file_path}\n\n')
+                write_to_file(OUTPUT_FILE, '```\n')
+                write_to_file(OUTPUT_FILE, '\n'.join(binary_libraries))
                 write_to_file(OUTPUT_FILE, '\n```\n\n')
 
 # Usage
