@@ -78,18 +78,24 @@ def process_directory(directory):
             
             if file.endswith(('.C', '.cpp')):
                 cpp_header_dependencies = get_cpp_header_dependencies(file_path)
-                write_to_file(OUTPUT_FILE, f'C++ Header Dependencies for {file_path}\n')
-                write_to_file(OUTPUT_FILE, f'{cpp_header_dependencies}\n\n')
+                write_to_file(OUTPUT_FILE, f'## C++ Header Dependencies for {file_path}\n\n')
+                write_to_file(OUTPUT_FILE, '```\n')
+                write_to_file(OUTPUT_FILE, '\n'.join(cpp_header_dependencies))
+                write_to_file(OUTPUT_FILE, '\n```\n\n')
             
             if file.endswith('.py'):
                 python_import_dependencies = get_python_import_dependencies(file_path)
-                write_to_file(OUTPUT_FILE, f'Python Import Dependencies for {file_path}\n')
-                write_to_file(OUTPUT_FILE, f'{python_import_dependencies}\n\n')
+                write_to_file(OUTPUT_FILE, f'## Python Import Dependencies for {file_path}\n\n')
+                write_to_file(OUTPUT_FILE, '```\n')
+                write_to_file(OUTPUT_FILE, '\n'.join(python_import_dependencies))
+                write_to_file(OUTPUT_FILE, '\n```\n\n')
             
             if os.access(file_path, os.X_OK):
                 object_dependencies = get_object_dependencies(file_path)
-                write_to_file(OUTPUT_FILE, f'Object Dependencies for {file_path}\n')
-                write_to_file(OUTPUT_FILE, f'{object_dependencies}\n\n')
+                write_to_file(OUTPUT_FILE, f'## Object Dependencies for {file_path}\n\n')
+                write_to_file(OUTPUT_FILE, '```\n')
+                write_to_file(OUTPUT_FILE, '\n'.join(object_dependencies))
+                write_to_file(OUTPUT_FILE, '\n```\n\n')
 
 # Usage
 directory_path = '.'
