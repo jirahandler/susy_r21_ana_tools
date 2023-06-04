@@ -55,7 +55,7 @@ make
 | `checkfile.sh`  | Script to check whether RPV heavy & light flavored samples exist from `dataset_search_RPV_*.txt` |
 | `ntuples_RPV_HF.txt`  | ntuples on the grid after DAODs were passed through FTAG Legacy R-21 framework |
 | `.vscode`  | Some example Microsoft vscode scripts to run root code locally|
-| `gitcommit.sh`  | Edit this for the ease of committing and then `source gitcommit.sh`|
+| `gitcommit.sh`  | Edit this for the ease of committing to git|
 
 ## Usage
 
@@ -72,7 +72,10 @@ python3  my_susy_plots.py
 #For pairwise comparison of jet (from LLPs) tagging efficiencies parametrized by kinetmatics or decay lengths (dv_R, r2v, lxy) etc
 root -l -b -q  my_susyllp_plots.C
 ```
-
+## Committing changes To Git
+```bash
+source gitcommit.sh
+```
 ## Contributing
 
 I'd appreciate if you contribute major code optimizations and changes to this.
