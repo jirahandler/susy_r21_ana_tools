@@ -60,3 +60,5 @@ bin
 bin/*
 obj
 obj/*
+out
+out/*

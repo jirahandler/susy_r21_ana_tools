@@ -56,8 +56,10 @@ make
 | `ntuples_RPV_HF.txt`  | ntuples on the grid after DAODs were passed through FTAG Legacy R-21 framework |
 | `.vscode`  | Some example Microsoft vscode scripts to run root code locally|
 | `gitcommit.sh`  | Edit this for the ease of committing to git|
-| `get_script_dependencies.py`  | This is a python code to generate script dependencies and a graph (image) of the same.|
-| `dependency_tree.md`  | This contains script dependencies|
+| `get_script_dependencies.py`  | This is a python code to generate script dependencies and a graph (image) of the same|
+| `dep_tree.md`  | This contains list of dependencies and library associations for `*.cpp/*.C/*.h/*.py` files and binary executables|
+| `dependency_graph`  | This text file contains list of dependencies and library associations for `*.cpp/*.C/*.h/*.py` files and binary executables, that gives slightly different info from `dep_tree.md` |
+| `Doxyfile.txt`  | This is a Doxygen config file to generate `Doxygen` entries|
 
 ## Usage
 
@@ -78,6 +80,17 @@ root -l -b -q  my_susyllp_plots.C
 ```bash
 source gitcommit.sh
 ```
+
+## Generating dependency graphs
+```bash
+python3 get_script_dependencies.py
+```
+
+## Generating Doxygen entries
+```bash
+doxygen Doxyfile.txt
+```
+
 ## Contributing
 
 I'd appreciate if you contribute major code optimizations and changes to this.
