@@ -83,6 +83,11 @@ source gitcommit.sh
 
 ## Generating dependency graphs
 ```bash
+# You also need otool on Mac provided by Xcode
+# Linux uses ldd functionality
+# Edit the code to use suitably on linux 
+brew install graphviz
+python3 -m pip install graphviz
 python3 get_script_dependencies.py
 ```
 
