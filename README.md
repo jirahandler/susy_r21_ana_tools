@@ -30,7 +30,7 @@ lsetup "root <version name/number>"
 make
 ```
 
-## What do the codes do?
+## What do the scripts do?
 
 | Code/Folder  | Function |
 | ------------- | ------------- |
@@ -93,6 +93,7 @@ python3 get_script_dependencies.py
 
 ## Generating Doxygen entries
 ```bash
+brew install doxygen
 doxygen Doxyfile.txt
 ```
 
