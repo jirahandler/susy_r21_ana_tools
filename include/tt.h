@@ -101,6 +101,13 @@ public :
    vector<vector<float> > *jet_cH_y;
    vector<vector<float> > *jet_cH_z;
    vector<vector<float> > *jet_cH_dRjet;
+   vector<vector<float>> *jet_trk_pt;
+   vector<vector<float>> *jet_trk_eta;
+   vector<vector<float>> *jet_trk_theta;
+   vector<vector<float>> *jet_trk_phi;
+   vector<vector<float>> *jet_trk_qoverp;
+   vector<vector<float>> *jet_trk_charge;
+   vector<int> *jet_trk_ntrk;
    vector<vector<double> > *dl1inputs;
 
    // List of branches

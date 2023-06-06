@@ -12,11 +12,12 @@ void tt::Loop()
       return;
 
    // book histograms
-   TH1 *h_njet = new TH1D("njet", "", 10, 0., 10.);
-   TH1 *h_jetflav = new TH1D("jetflav", "", 10, 0., 100.);
-   TH1 *h_nbjet = new TH1D("nbjet", "", 10, 0., 10.);
-   TH1 *h_nbbjet = new TH1D("nbbjet", "", 100, 0., 100.);
-   TH1 *h_nbcjet = new TH1D("nbcjet", "", 100, 0., 100.);
+   TH1 *h_njet = new TH1I("njet", "", 10, 0., 10.);
+   TH1 *h_jet_ntrk = new TH1I("njet", "", 25, 0., 25.);
+   TH1 *h_jetflav = new TH1I("jetflav", "", 10, 0., 100.);
+   TH1 *h_nbjet = new TH1I("nbjet", "", 10, 0., 10.);
+   TH1 *h_nbbjet = new TH1I("nbbjet", "", 100, 0., 100.);
+   TH1 *h_nbcjet = new TH1I("nbcjet", "", 100, 0., 100.);
 
    double xdiv[] = {0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
    // double xdiv1[] = {0.1, 0.2, 0.5,0.8, 1.,1.5, 2.,2.5,3,3.5,4,4.5, 5.};
@@ -73,6 +74,9 @@ void tt::Loop()
             continue;
          if ((*jet_aliveAfterORmu)[ijet] == 0)
             continue;
+
+         int ntrk = (*jet_trk_ntrk)[ijet];
+         h_jet_ntrk->Fill(ntrk);
 
          //  jet flavor
          int jf = (*jet_LabDr_HadF)[ijet];
