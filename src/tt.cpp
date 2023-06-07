@@ -13,7 +13,7 @@ void tt::Loop()
 
    // book histograms
    TH1 *h_njet = new TH1I("njet", "", 10, 0., 10.);
-   TH1 *h_jet_ntrk = new TH1I("ntrk", "", 25, 0., 25.);
+   TH1 *h_jet_ntrk = new TH1I("ntrk", "", 40, 0., 40.);
    TH1 *h_jetflav = new TH1I("jetflav", "", 10, 0., 100.);
    TH1 *h_nbjet = new TH1I("nbjet", "", 10, 0., 10.);
    TH1 *h_nbbjet = new TH1I("nbbjet", "", 100, 0., 100.);

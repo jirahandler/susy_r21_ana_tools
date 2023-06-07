@@ -26,12 +26,10 @@ def main():
     ]
 
     filelist = [
-        "hfall",
         "503822",
         "503823",
         "503824",
         "503825",
-        "410470",
         "410470",
         "410470",
         "410470",
@@ -50,7 +48,7 @@ def main():
         if plctr == 0 or plctr == 1:
             dofit = True
         """
-        if plctr == 3:
+        if (plctr == 3):
             btag = False
         chvar = plot_type[plctr]
         print(chvar)
@@ -62,7 +60,7 @@ def main():
             # if plctr == 5 and fpctr == 3:
             #    continue
 
-            chfile = [filelist[fpctr], filelist[fpctr + 5]]
+            chfile = [filelist[fpctr], filelist[fpctr + 4]]
             nf = len(chfile)
             print(nf)
             h = []
@@ -71,16 +69,16 @@ def main():
 
             for kf in range(nf):
                 print(f"a1_{chfile[kf]}.root")
-                ff = ROOT.TFile(f"a1_{chfile[kf]}.root", "open")
+                ff = ROOT.TFile(f"a1_{chfile[kf]}.root", "READ")
                 ROOT.TH1.AddDirectory(0)
-                if plctr != 3:
+                if (plctr != 3):
                     print(f"{chvar}_all")
                     hall_temp = ff.Get(f"{chvar}_all")
                     hall.append(hall_temp)
                     print(f"{chvar}_tag")
                     h_temp = ff.Get(f"{chvar}_tag")
                     h.append(h_temp)
-                if plctr == 3:
+                if (plctr == 3):
                     print(f"{chvar}")
                     h_temp = ff.Get(f"{chvar}")
                     h.append(h_temp)
@@ -94,8 +92,6 @@ def main():
                         print("Entered forbidden loop.")
                         continue
                     h[kf].Divide(h[kf], hall[kf], 1.0, 1.0, "B")
-                
-
             if plot_ratio:
                 c1 = ROOT.TCanvas("c1", "c1", 700, 800)
                 lowerPad = ROOT.TPad("cl", "", 0, 0, 1.0, 0.375)
@@ -126,9 +122,10 @@ def main():
             l.SetTextFont(42)
 
             for kf in range(nf):
-                if not h[kf]:
-                    print("Entered forbidden loop.")
-                    continue
+                if (plctr !=3):
+                    if not h[kf]:
+                        print("Entered forbidden loop.")
+                        continue
 
                 h[kf].SetMarkerStyle(8)
                 h[kf].SetMarkerSize(1.2)
