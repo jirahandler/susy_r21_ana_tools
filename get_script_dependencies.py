@@ -3,7 +3,7 @@ import re
 from graphviz import Digraph
 import subprocess
 
-EXCLUDED_DIRS = ['.vscode', 'extensions', '.git','main.dSYM']
+EXCLUDED_DIRS = ['.vscode', 'extensions', '.git','main.dSYM','out']
 EXCLUDED_FILE_TYPES = ['.png', '_png', '.txt', '.sh','.root','.xml','.pdf']
 OUTPUT_FILE = "dep_tree.md"
 
