@@ -15,9 +15,9 @@ void my_susy_plots()
     // define plot types here
     // must match the partial names of histos found in a1_<dsid>.root
     const char *plot_type[] = {
-        "lxy",
-        "bip",
-        "jetpt_2",
+        //"lxy",
+        //"bip",
+        //"jetpt_2",
         "ntrk",
         //"jetpt_0",
         //"jetpt_2_llp",
@@ -28,9 +28,9 @@ void my_susy_plots()
     };
     // define plot titles here
     const char *plot_title[] = {
-        "Lxy [mm]",
-        "b-impact parameter [mm]",
-        "b-jet p_{T} [GeV]",
+        //"Lxy [mm]",
+        //"b-impact parameter [mm]",
+        //"b-jet p_{T} [GeV]",
         "number of tracks",
         //"light jet p_{T} [GeV]",
         //"b-jet (llp jets)  p_{T} [GeV]",
@@ -49,11 +49,13 @@ void my_susy_plots()
         bool btag = true;
         bool dofit = true;
         bool plot_ratio = true;
+        /**
         if (plctr == 0 || plctr == 1) //|| plctr == 3 || plctr ==5)
             btag = true;
         if (plctr == 0 || plctr == 1) //|| plctr == 3 || plctr == 5)
             dofit = true;
-        if (plctr == 3)
+        */
+        if (plctr == 0)
         {
             btag = false;
             plot_ratio = false;
@@ -63,6 +65,7 @@ void my_susy_plots()
 
         // put DSIDs here of the analysis ntuple files you obtained after running d_ana
         // after running d_ana, you should have gotten output files of the form a1_<dsid>.root
+        
         const char *filelist[] = {
                                   "503822",
                                   "503823",
@@ -72,6 +75,21 @@ void my_susy_plots()
                                   "410470",
                                   "410470",
                                   "410470"};
+
+        /**
+        const char *filelist[] = {
+            "503767",
+            "503768",
+            "503769",
+            "503770",
+            "503771",
+            "410470",
+            "410470",
+            "410470",
+            "410470",
+            "410470",
+        };
+        */
         // Get total size of the char array; div by 2 because ... pairs
         int fctr = (sizeof(filelist) / sizeof(filelist[0])) / 2;
 
@@ -100,7 +118,7 @@ void my_susy_plots()
             for (int kf = 0; kf < nf; ++kf)
             {
                 TFile *ff = new TFile(TString("a1_") + chfile[kf] + ".root", "READ");
-                if (plctr != 3)
+                if (plctr != 0)
                 {
                     TH1 *hall = (TH1 *)ff->Get(TString(chvar) + "_all");
                     h[kf] = (TH1 *)ff->Get(TString(chvar) + "_tag");
@@ -113,7 +131,7 @@ void my_susy_plots()
                         h[kf]->Divide(h[kf], hall, 1., 1., "B");
                     }
                 }
-                if (plctr == 3)
+                if (plctr == 0)
                 {
                     cout << "chvar is: " << chvar << endl;
                     h[kf] = (TH1I *)ff->Get(TString(chvar));
@@ -140,12 +158,12 @@ void my_susy_plots()
                 c1 = new TCanvas("c1", "c1", 700, 800);
                 lowerPad = new TPad("cl", "", 0, 0, 1., 0.375);
                 upperPad = new TPad("cu", "", 0, 0.375, 1., 1.);
-                if (plctr != 3)
+                if (plctr != 0){
                     upperPad->SetLogx();
-                if (plctr != 3)
                     lowerPad->SetLogx();
+                }
                 if (!btag)
-                    if (plctr != 3)
+                    if (plctr != 0)
                         upperPad->SetLogy();
                 lowerPad->Draw();
                 upperPad->Draw();
@@ -162,7 +180,7 @@ void my_susy_plots()
                 c1 = new TCanvas("c1", "c1", 700, 500);
                 c1->SetGridx();
                 c1->SetGridy();
-                if (plctr != 3)
+                if (plctr != 0)
                     c1->SetLogx();
             }
 
@@ -175,7 +193,7 @@ void my_susy_plots()
             for (int kf = 0; kf < nf; ++kf)
             {
                 // Put empty histo safeguard
-                if (plctr != 3)
+                if (plctr != 0)
                     if (!h[kf])
                         continue;
 
@@ -184,7 +202,7 @@ void my_susy_plots()
                 h[kf]->SetMarkerColor(icol[kf]);
                 h[kf]->SetLineColor(icol[kf]);
                 
-                if (plctr ==3){
+                if (plctr ==0){
                 double maxBinContent = TMath::Max(h[0]->GetMaximum(), h[1]->GetMaximum());
 
                 double scalingFactor1 = maxBinContent / h[0]->GetMaximum();
@@ -196,10 +214,10 @@ void my_susy_plots()
 
                 if (kf == 0)
                 {
-                    if (plctr != 3)
+                    if (plctr != 0)
                         h[kf]->GetYaxis()->SetTitle("Tagging efficiency");
-                    if (plctr == 3)
-                        h[kf]->GetYaxis()->SetTitle("Number of tracks");
+                    if (plctr == 0)
+                        h[kf]->GetYaxis()->SetTitle("Number of entries");
                     if (btag)
                     {
                         h[kf]->SetMinimum(0);
@@ -207,29 +225,29 @@ void my_susy_plots()
                     }
                     else
                     {
-                        if (plctr != 3){
+                        if (plctr != 0){
 
                             h[kf]->SetMinimum(1e-4);
                             h[kf]->SetMaximum(1);
                         }
-                        if (plctr == 3)
+                        if (plctr == 0)
                         {
                             
                             h[kf]->SetMinimum(0);
                             //h[kf]->SetMaximum(4e6);
                         }
                     }
-                    if (plctr != 3)
+                    if (plctr != 0)
                         
                         h[kf]->Draw("e0");
-                    if (plctr == 3)
+                    if (plctr == 0)
                         h[kf]->Draw("H");
                 }
                 else
                 {
-                    if (plctr != 3)
+                    if (plctr != 0)
                         h[kf]->Draw("e0same");
-                    if (plctr == 3)
+                    if (plctr == 0)
                         h[kf]->Draw("H same");
                 }
                 l->AddEntry(h[kf], chfile[kf], "l");
@@ -242,7 +260,7 @@ void my_susy_plots()
             else
             {
                 h[0]->GetXaxis()->SetTitle(chtitl);
-                if (plctr != 3) h[0]->GetXaxis()->SetMoreLogLabels();
+                if (plctr != 0) h[0]->GetXaxis()->SetMoreLogLabels();
             }
 
             l->Draw();
@@ -271,7 +289,7 @@ void my_susy_plots()
                         hhr->GetXaxis()->SetTitleSize(0.085);
                         hhr->GetXaxis()->SetLabelSize(0.085);
                         hhr->GetXaxis()->SetTitle(chtitl);
-                        if (plctr != 3)
+                        if (plctr != 0)
                             hhr->GetXaxis()->SetMoreLogLabels();
                         hhr->GetXaxis()->SetTickLength(0.05);
                         hhr->SetMinimum(0.1);
