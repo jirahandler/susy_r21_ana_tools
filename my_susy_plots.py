@@ -15,12 +15,14 @@ def main():
         "lxy",
         "bip",
         "jetpt_2",
+        "jet_ntrk",
     ]
 
     plot_title = [
         "Lxy [mm]",
         "b-impact parameter [mm]",
         "b-jet p_{T} [GeV]",
+        "number of tracks",
     ]
 
     filelist = [
@@ -48,6 +50,8 @@ def main():
         if plctr == 0 or plctr == 1:
             dofit = True
         """
+        if plctr == 3:
+            btag = False
         chvar = plot_type[plctr]
         print(chvar)
         chtitl = plot_title[plctr]
@@ -55,8 +59,8 @@ def main():
         fctr = len(filelist) // 2
 
         for fpctr in range(fctr):
-            if plctr == 5 and fpctr == 3:
-                continue
+            #if plctr == 5 and fpctr == 3:
+            #    continue
 
             chfile = [filelist[fpctr], filelist[fpctr + 5]]
             nf = len(chfile)

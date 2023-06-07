@@ -18,6 +18,7 @@ void my_susy_plots()
         "lxy",
         "bip",
         "jetpt_2",
+        "jet_ntrk",
         //"jetpt_0",
         //"jetpt_2_llp",
         //"jetpt_0_llp",
@@ -30,6 +31,7 @@ void my_susy_plots()
         "Lxy [mm]",
         "b-impact parameter [mm]",
         "b-jet p_{T} [GeV]",
+        "number of tracks",
         //"light jet p_{T} [GeV]",
         //"b-jet (llp jets)  p_{T} [GeV]",
         //"light (llp jets) jet p_{T} [GeV]",
@@ -51,6 +53,7 @@ void my_susy_plots()
             btag = true;
         if (plctr == 0 || plctr == 1) //|| plctr == 3 || plctr == 5)
             dofit = true;
+        if (plctr==3) {btag=false;}
         const char *chvar = plot_type[plctr];
         const char *chtitl = plot_title[plctr];
 
@@ -77,7 +80,7 @@ void my_susy_plots()
         {   
             //Safeguard for certain datasets and plots
             //They have some missing stuff
-            if (plctr == 5 && fpctr == 3) continue;
+            //if (plctr == 5 && fpctr == 3) continue;
             //if (plctr == 1 && fpctr == 2) continue;
 
             //This contains the list of files you want to compare

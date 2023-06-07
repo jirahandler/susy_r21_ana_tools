@@ -44,7 +44,8 @@
     "my_susy_plots-sgoswami.C": "cpp",
     "my_susy_plots.C": "cpp",
     "pl_perf.C": "cpp",
-    "AtlasStyle.C": "cpp"
+    "AtlasStyle.C": "cpp",
+    "my_llpsusy_plots.C": "cpp"
   },
   "C_Cpp_Runner.msvcWarnings": [
     "/W4",
