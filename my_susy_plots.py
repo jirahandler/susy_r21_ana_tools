@@ -15,7 +15,7 @@ def main():
         "lxy",
         "bip",
         "jetpt_2",
-        "jet_ntrk",
+        "ntrk",
     ]
 
     plot_title = [
@@ -59,7 +59,7 @@ def main():
         fctr = len(filelist) // 2
 
         for fpctr in range(fctr):
-            #if plctr == 5 and fpctr == 3:
+            # if plctr == 5 and fpctr == 3:
             #    continue
 
             chfile = [filelist[fpctr], filelist[fpctr + 5]]
@@ -71,24 +71,30 @@ def main():
 
             for kf in range(nf):
                 print(f"a1_{chfile[kf]}.root")
-                ff = ROOT.TFile(f"a1_{chfile[kf]}.root","open")
+                ff = ROOT.TFile(f"a1_{chfile[kf]}.root", "open")
                 ROOT.TH1.AddDirectory(0)
-                print(f"{chvar}_all")
-                hall_temp = ff.Get(f"{chvar}_all")
-                hall.append(hall_temp)
-                #hall.SetDirectory(gROOT)
-                
-                print(f"{chvar}_tag")
-                h_temp = ff.Get(f"{chvar}_tag")
-                h.append(h_temp)
-                #h.SetDirectory(gROOT)
+                if plctr != 3:
+                    print(f"{chvar}_all")
+                    hall_temp = ff.Get(f"{chvar}_all")
+                    hall.append(hall_temp)
+                    print(f"{chvar}_tag")
+                    h_temp = ff.Get(f"{chvar}_tag")
+                    h.append(h_temp)
+                if plctr == 3:
+                    print(f"{chvar}")
+                    h_temp = ff.Get(f"{chvar}")
+                    h.append(h_temp)
+
+                # hall.SetDirectory(gROOT)
 
                 ff.Close()
             for kf in range(nf):
-                if (not hall[kf]) or (not h[kf]):
-                    print("Entered forbidden loop.")
-                    continue
-                h[kf].Divide(h[kf], hall[kf], 1.0, 1.0, "B")
+                if plctr != 3:
+                    if (not hall[kf]) or (not h[kf]):
+                        print("Entered forbidden loop.")
+                        continue
+                    h[kf].Divide(h[kf], hall[kf], 1.0, 1.0, "B")
+                
 
             if plot_ratio:
                 c1 = ROOT.TCanvas("c1", "c1", 700, 800)
@@ -129,7 +135,10 @@ def main():
                 h[kf].SetMarkerColor(icol[kf])
                 h[kf].SetLineColor(icol[kf])
                 if kf == 0:
-                    h[kf].GetYaxis().SetTitle("Tagging efficiency")
+                    if (plctr!=3):
+                        h[kf].GetYaxis().SetTitle("Tagging efficiency")
+                    if (plctr==3):
+                        h[kf].GetYaxis().SetTitle("Number of tracks")
                     if btag:
                         h[kf].SetMinimum(0)
                         h[kf].SetMaximum(1.1)
@@ -189,9 +198,7 @@ def main():
                         tt.SetNDC()
                         tt.SetTextFont(42)
                         tt.SetTextSize(0.08)
-                        tt.DrawLatex(
-                            0.2, 0.95 - kf * 0.1, f"p0 = {p0:.3f}\pm{e0:.3f}"
-                        )
+                        tt.DrawLatex(0.2, 0.95 - kf * 0.1, f"p0 = {p0:.3f}\pm{e0:.3f}")
 
             c1.Modified()
 
@@ -201,6 +208,7 @@ def main():
             sp += ".png"
             c1.SaveAs(sp)
             del c1
+
 
 if __name__ == "__main__":
     main()

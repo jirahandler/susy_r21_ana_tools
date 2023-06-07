@@ -6,10 +6,10 @@
  * @date 2023-04-16
  */
 #include "AtlasStyle.C"
-//The package above is a local working directory include
+// The package above is a local working directory include
 void my_susy_plots()
 {
-    //Set ATLAS style
+    // Set ATLAS style
     SetAtlasStyle();
 
     // define plot types here
@@ -18,7 +18,7 @@ void my_susy_plots()
         "lxy",
         "bip",
         "jetpt_2",
-        "jet_ntrk",
+        "ntrk",
         //"jetpt_0",
         //"jetpt_2_llp",
         //"jetpt_0_llp",
@@ -40,8 +40,8 @@ void my_susy_plots()
     };
     // Get number of plots to make
     int plctrsz = (sizeof(plot_type) / sizeof(plot_type[0]));
-    
-    //loop over different kinds of plot
+
+    // loop over different kinds of plot
     for (int plctr = 0; plctr < plctrsz; plctr++)
     {
         // btag: b-tagging is turned on or off
@@ -53,7 +53,10 @@ void my_susy_plots()
             btag = true;
         if (plctr == 0 || plctr == 1) //|| plctr == 3 || plctr == 5)
             dofit = true;
-        if (plctr==3) {btag=false;}
+        if (plctr == 3)
+        {
+            btag = false;
+        }
         const char *chvar = plot_type[plctr];
         const char *chtitl = plot_title[plctr];
 
@@ -69,46 +72,54 @@ void my_susy_plots()
                                   "410470",
                                   "410470",
                                   "410470"};
-        //Get total size of the char array; div by 2 because ... pairs
+        // Get total size of the char array; div by 2 because ... pairs
         int fctr = (sizeof(filelist) / sizeof(filelist[0])) / 2;
-        
+
         // load histograms and calculate efficiency
         // loop over pairs of datasets hf & lf (in this case)
-        //fpctr=file pair counter
+        // fpctr=file pair counter
 
         for (int fpctr = 0; fpctr < fctr; fpctr++)
-        {   
-            //Safeguard for certain datasets and plots
-            //They have some missing stuff
-            //if (plctr == 5 && fpctr == 3) continue;
-            //if (plctr == 1 && fpctr == 2) continue;
+        {
+            // Safeguard for certain datasets and plots
+            // They have some missing stuff
+            // if (plctr == 5 && fpctr == 3) continue;
+            // if (plctr == 1 && fpctr == 2) continue;
 
-            //This contains the list of files you want to compare
+            // This contains the list of files you want to compare
             const char *
                 chfile[] = {filelist[fpctr], filelist[fpctr + 5]};
             const int nf = sizeof(chfile) / sizeof(const char *);
             TH1 *h[nf];
-            
-            //Number of colors go here
-            //No of colors are provided for max 6 datasets, you can put more distinct colors
+
+            // Number of colors go here
+            // No of colors are provided for max 6 datasets, you can put more distinct colors
             const int icol[] = {1, 2, 4, 3, 6, 51};
-            
-            //Loop over flavors
+
+            // Loop over flavors
             for (int kf = 0; kf < nf; ++kf)
             {
                 TFile *ff = new TFile(TString("a1_") + chfile[kf] + ".root");
-                TH1 *hall = (TH1 *)ff->Get(TString(chvar) + "_all");
-                h[kf] = (TH1 *)ff->Get(TString(chvar) + "_tag");
-                
-                
-                //Put empty histo safeguard
-                if (!hall || !h[kf] )
+                if (plctr != 3)
                 {
-                    continue;
+                    TH1 *hall = (TH1 *)ff->Get(TString(chvar) + "_all");
+                    h[kf] = (TH1 *)ff->Get(TString(chvar) + "_tag");
                 }
-                else  
+                if (plctr == 3)
                 {
-                    h[kf]->Divide(h[kf], hall, 1., 1., "B");
+                    h[kf] = (TH1 *)ff->Get(TString(chvar));
+                }
+                if (plctr != 3)
+                {
+                    // Put empty histo safeguard
+                    if (!hall || !h[kf])
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        h[kf]->Divide(h[kf], hall, 1., 1., "B");
+                    }
                 }
             }
 
@@ -153,7 +164,8 @@ void my_susy_plots()
             for (int kf = 0; kf < nf; ++kf)
             {
                 // Put empty histo safeguard
-                if(!h[kf]) continue;
+                if (!h[kf])
+                    continue;
 
                 h[kf]->SetMarkerStyle(8);
                 h[kf]->SetMarkerSize(1.2);
@@ -161,7 +173,10 @@ void my_susy_plots()
                 h[kf]->SetLineColor(icol[kf]);
                 if (kf == 0)
                 {
-                    h[kf]->GetYaxis()->SetTitle("Tagging efficiency");
+                    if (plctr != 3)
+                        h[kf]->GetYaxis()->SetTitle("Tagging efficiency");
+                    if (plctr == 3)
+                        h[kf]->GetYaxis()->SetTitle("Number of tracks");
                     if (btag)
                     {
                         h[kf]->SetMinimum(0);
@@ -202,7 +217,8 @@ void my_susy_plots()
 
                 for (int kf = 1; kf < nf; ++kf)
                 {
-                    if (!h[kf]) continue;
+                    if (!h[kf])
+                        continue;
                     TH1 *hhr = (TH1 *)h[kf]->Clone(TString(h[kf]->GetName()) + "_ratio");
                     hhr->Divide(hhr, h[0]);
 
