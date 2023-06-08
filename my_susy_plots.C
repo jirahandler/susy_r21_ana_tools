@@ -65,16 +65,16 @@ void my_susy_plots()
 
         // put DSIDs here of the analysis ntuple files you obtained after running d_ana
         // after running d_ana, you should have gotten output files of the form a1_<dsid>.root
-        
+
         const char *filelist[] = {
-                                  "503822",
-                                  "503823",
-                                  "503824",
-                                  "503825",
-                                  "410470",
-                                  "410470",
-                                  "410470",
-                                  "410470"};
+            "503822",
+            "503823",
+            "503824",
+            "503825",
+            "410470",
+            "410470",
+            "410470",
+            "410470"};
 
         /**
         const char *filelist[] = {
@@ -114,7 +114,7 @@ void my_susy_plots()
             // No of colors are provided for max 6 datasets, you can put more distinct colors
             const int icol[] = {1, 2, 4, 3, 6, 51};
 
-            // Loop over flavors
+            // Loop over files
             for (int kf = 0; kf < nf; ++kf)
             {
                 TFile *ff = new TFile(TString("a1_") + chfile[kf] + ".root", "READ");
@@ -137,14 +137,14 @@ void my_susy_plots()
                     h[kf] = (TH1I *)ff->Get(TString(chvar));
                     if (!h[kf])
                     {
-                        
+
                         printf("Histogram is empty\n");
+                        continue;
                     }
                     else
                     {
                         printf("Histogram is not empty\n");
                     }
-                    
                 }
             }
 
@@ -158,7 +158,8 @@ void my_susy_plots()
                 c1 = new TCanvas("c1", "c1", 700, 800);
                 lowerPad = new TPad("cl", "", 0, 0, 1., 0.375);
                 upperPad = new TPad("cu", "", 0, 0.375, 1., 1.);
-                if (plctr != 0){
+                if (plctr != 0)
+                {
                     upperPad->SetLogx();
                     lowerPad->SetLogx();
                 }
@@ -201,15 +202,16 @@ void my_susy_plots()
                 h[kf]->SetMarkerSize(1.2);
                 h[kf]->SetMarkerColor(icol[kf]);
                 h[kf]->SetLineColor(icol[kf]);
-                
-                if (plctr ==0){
-                double maxBinContent = TMath::Max(h[0]->GetMaximum(), h[1]->GetMaximum());
 
-                double scalingFactor1 = maxBinContent / h[0]->GetMaximum();
-                double scalingFactor2 = maxBinContent / h[1]->GetMaximum();
+                if (plctr == 0)
+                {
+                    double maxBinContent = TMath::Max(h[0]->GetMaximum(), h[1]->GetMaximum());
 
-                h[0]->Scale(scalingFactor1);
-                h[1]->Scale(scalingFactor2);
+                    double scalingFactor1 = maxBinContent / h[0]->GetMaximum();
+                    double scalingFactor2 = maxBinContent / h[1]->GetMaximum();
+
+                    h[0]->Scale(scalingFactor1);
+                    h[1]->Scale(scalingFactor2);
                 }
 
                 if (kf == 0)
@@ -225,20 +227,21 @@ void my_susy_plots()
                     }
                     else
                     {
-                        if (plctr != 0){
+                        if (plctr != 0)
+                        {
 
                             h[kf]->SetMinimum(1e-4);
                             h[kf]->SetMaximum(1);
                         }
                         if (plctr == 0)
                         {
-                            
+
                             h[kf]->SetMinimum(0);
-                            //h[kf]->SetMaximum(4e6);
+                            // h[kf]->SetMaximum(4e6);
                         }
                     }
                     if (plctr != 0)
-                        
+
                         h[kf]->Draw("e0");
                     if (plctr == 0)
                         h[kf]->Draw("H");
@@ -260,7 +263,8 @@ void my_susy_plots()
             else
             {
                 h[0]->GetXaxis()->SetTitle(chtitl);
-                if (plctr != 0) h[0]->GetXaxis()->SetMoreLogLabels();
+                if (plctr != 0)
+                    h[0]->GetXaxis()->SetMoreLogLabels();
             }
 
             l->Draw();
