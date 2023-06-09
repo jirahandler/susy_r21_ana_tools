@@ -14,6 +14,7 @@ void tt::Loop()
    // book histograms
    TH1 *h_njet = new TH1I("njet", "", 10, 0., 10.);
    TH1 *h_jet_ntrk = new TH1I("ntrk", "", 40, 0., 40.);
+   TH1 *h_bjet_ntrk = new TH1I("bjet_ntrk", "", 40, 0., 40.);
    TH1 *h_jetflav = new TH1I("jetflav", "", 10, 0., 100.);
    TH1 *h_nbjet = new TH1I("nbjet", "", 10, 0., 10.);
    TH1 *h_nbbjet = new TH1I("nbbjet", "", 100, 0., 100.);
@@ -86,7 +87,10 @@ void tt::Loop()
             jf = 2;
          else if (jf != 0)
             continue;
-
+         if (jf == 2)
+         {
+            h_bjet_ntrk->Fill(ntrk);
+         }
          int jfext = (*jet_DoubleHadLabel)[ijet];
          std::cout << "The extended flavor labelling is:" << jfext << std::endl;
          if (jfext == 5)
