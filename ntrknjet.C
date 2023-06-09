@@ -122,7 +122,7 @@ void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &hist
         canvas->cd();
         canvas->SetGridx();
         canvas->SetGridy();
-        canvas->SetLogx();
+        //canvas->SetLogx();
         cout << "Size of hist array:" << histograms.size() << endl;
 
         referenceHist[0]->SetTitle(title.c_str());
