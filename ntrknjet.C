@@ -309,7 +309,7 @@ int ntrknjet()
         }
         std::vector<std::string> jetptHistogramNames = {"jetpt_2_all",
                                                       "jetpt_2_prompt",
-                                                      "jetpt_2_displaced"};
+                                                      "jetpt_2_llp_all"};
         for (const auto &histName : jetptHistogramNames)
         {
             TH1 *histogram = (TH1 *)file->Get(histName.c_str());
