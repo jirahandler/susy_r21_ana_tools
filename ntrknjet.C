@@ -122,7 +122,7 @@ void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &hist
         canvas->cd();
         canvas->SetGridx();
         canvas->SetGridy();
-        //canvas->SetLogx();
+        canvas->SetLogx();
         cout << "Size of hist array:" << histograms.size() << endl;
 
         referenceHist[0]->SetTitle(title.c_str());
@@ -133,12 +133,37 @@ void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &hist
         referenceHist[0]->GetYaxis()->SetTitle("Number of entries");
         referenceHist[0]->Draw("HIST");
 
+        /**
         for (size_t i = 1; i < referenceHist.size(); ++i)
         {
             double maxBinContent = TMath::Max(referenceHist[0]->GetMaximum(), referenceHist[i]->GetMaximum());
             double scalingFactor1 = maxBinContent / referenceHist[0]->GetMaximum();
             double scalingFactor2 = maxBinContent / referenceHist[i]->GetMaximum();
             referenceHist[i]->Scale(scalingFactor2 / scalingFactor1);
+            referenceHist[i]->SetTitle(title.c_str());
+            referenceHist[i]->GetXaxis()->SetLabelSize(0);
+            referenceHist[i]->GetXaxis()->SetTitleSize(0);
+            referenceHist[i]->SetMarkerStyle(8);
+            referenceHist[i]->SetMarkerSize(1.2);
+            referenceHist[i]->SetMarkerColor(icolref[i]);
+            referenceHist[i]->SetLineColor(icolref[i]);
+            referenceHist[i]->Draw("HIST SAME");
+        }
+        */
+        double maxBinContent = referenceHist[0]->GetMaximum();
+
+        for (size_t i = 1; i < referenceHist.size(); ++i)
+        {
+            double scalingFactor = maxBinContent / referenceHist[i]->GetMaximum();
+            if (scalingFactor < 1.0)
+            {
+                referenceHist[i]->Scale(scalingFactor);
+            }
+            else
+            {
+                referenceHist[i]->Scale(1.0 / scalingFactor);
+            }
+
             referenceHist[i]->SetTitle(title.c_str());
             referenceHist[i]->GetXaxis()->SetLabelSize(0);
             referenceHist[i]->GetXaxis()->SetTitleSize(0);
@@ -211,12 +236,15 @@ int ntrknjet()
     TFile *referenceFile = TFile::Open(referenceFileName.c_str(), "READ");
 
     std::vector<std::string> referencejetHistogramNames = {"nbjet"};
+    std::vector<std::string> referencejetptHistogramNames = {"jetpt_2_all"};
     std::vector<std::string> referencejetlxyHistogramNames = {"lxy_all"};
     std::vector<std::string> referencejetbipHistogramNames = {"bip_all"};
     std::vector<std::string> referenceTrackHistogramNames = {"ntrk", "bjet_ntrk"};
 
     std::vector<TH1 *> referencejetHistograms;
     std::vector<std::string> referencejetNames;
+    std::vector<TH1 *> referencejetptHistograms;
+    std::vector<std::string> referencejetptNames;
     std::vector<TH1 *> referencejetlxyHistograms;
     std::vector<std::string> referencejetlxyNames;
     std::vector<TH1 *> referencejetbipHistograms;
@@ -229,6 +257,12 @@ int ntrknjet()
         TH1 *histogram = (TH1 *)referenceFile->Get(histName.c_str());
         referencejetHistograms.push_back(histogram);
         referencejetNames.push_back(histName);
+    }
+    for (const auto &histName : referencejetptHistogramNames)
+    {
+        TH1 *histogram = (TH1 *)referenceFile->Get(histName.c_str());
+        referencejetptHistograms.push_back(histogram);
+        referencejetptNames.push_back(histName);
     }
     for (const auto &histName : referencejetlxyHistogramNames)
     {
@@ -249,7 +283,6 @@ int ntrknjet()
         referenceTrackNames.push_back(histName);
     }
 
-
     // Loop through the other files
     for (const auto &fileName : fileNames)
     {
@@ -257,6 +290,8 @@ int ntrknjet()
 
         std::vector<TH1 *> jetHistograms;
         std::vector<std::string> jetNames;
+        std::vector<TH1 *> jetptHistograms;
+        std::vector<std::string> jetptNames;
         std::vector<TH1 *> jetlxyHistograms;
         std::vector<std::string> jetlxyNames;
         std::vector<TH1 *> jetbipHistograms;
@@ -272,15 +307,27 @@ int ntrknjet()
             jetHistograms.push_back(histogram);
             jetNames.push_back(histName);
         }
+        std::vector<std::string> jetptHistogramNames = {"jetpt_2_all",
+                                                      "jetpt_2_prompt",
+                                                      "jetpt_2_displaced"};
+        for (const auto &histName : jetptHistogramNames)
+        {
+            TH1 *histogram = (TH1 *)file->Get(histName.c_str());
+            jetptHistograms.push_back(histogram);
+            jetptNames.push_back(histName);
+        }
 
-        std::vector<std::string> jetlxyHistogramNames = {"lxy_all", "lxy_llp_all"};
+        std::vector<std::string> jetlxyHistogramNames = {"lxy_all",
+                                                         "lxy_llp_all"};
         for (const auto &histName : jetlxyHistogramNames)
         {
             TH1 *histogram = (TH1 *)file->Get(histName.c_str());
             jetlxyHistograms.push_back(histogram);
             jetlxyNames.push_back(histName);
         }
-        std::vector<std::string> jetbipHistogramNames = {"bip_all", "bip_displaced_all", "bip_prompt_all"};
+        std::vector<std::string> jetbipHistogramNames = {"bip_all",
+                                                         "bip_prompt_all",
+                                                         "bip_displaced_all"}; //, "bip_all","bip_displaced_all", "bip_prompt_all"};
         for (const auto &histName : jetbipHistogramNames)
         {
             TH1 *histogram = (TH1 *)file->Get(histName.c_str());
@@ -289,7 +336,10 @@ int ntrknjet()
         }
 
         // Fetch track histograms from current file
-        std::vector<std::string> trackHistogramNames = {"ntrk", "bjet_ntrk", "bpromptntrk", "bdisplacedntrk"};
+        std::vector<std::string> trackHistogramNames = {"ntrk",
+                                                        "bjet_ntrk",
+                                                        "bpromptntrk",
+                                                        "bdisplacedntrk"};
         for (const auto &histName : trackHistogramNames)
         {
             TH1 *histogram = (TH1 *)file->Get(histName.c_str());
@@ -300,6 +350,10 @@ int ntrknjet()
         std::string jetTitle = "jet Histograms for " + fs::path(fileName).stem().string();
         std::string jetSaveName = "jet_histograms_" + fs::path(fileName).stem().string() + ".png";
         plotHistogramsAndRatio(fileName, jetHistograms, jetNames, jetTitle, jetSaveName, referencejetHistograms, referenceFileName, false);
+
+        std::string jetptTitle = "jet pt Histograms for " + fs::path(fileName).stem().string();
+        std::string jetptSaveName = "jet_pt_histograms_" + fs::path(fileName).stem().string() + ".png";
+        plotHistogramsAndRatio(fileName, jetptHistograms, jetptNames, jetptTitle, jetptSaveName, referencejetptHistograms, referenceFileName, false);
 
         std::string jetlxyTitle = "jet lxy Histograms for " + fs::path(fileName).stem().string();
         std::string jetlxySaveName = "jet_lxy_histograms_" + fs::path(fileName).stem().string() + ".png";

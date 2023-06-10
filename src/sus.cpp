@@ -70,6 +70,8 @@ void sus::Loop()
    TH1 *h_jetpt_all[njf];
    TH1 *h_jetpt_tag[njf];
 
+   TH1 *h_jetpt_prompt[njf];
+
    TH1 *h_jetpt_llp_all[njf];
    TH1 *h_jetpt_llp_tag[njf];
 
@@ -79,6 +81,7 @@ void sus::Loop()
    for (int jf = 0; jf < njf; ++jf)
    {
       h_jetpt_all[jf] = new TH1D(TString("jetpt_") + jf + "_all", "", npdiv, xpdiv);
+      h_jetpt_prompt[jf] = new TH1D(TString("jetpt_") + jf + "_prompt", "", npdiv, xpdiv);
       h_jetpt_tag[jf] = (TH1 *)h_jetpt_all[jf]->Clone(TString("jetpt_") + jf + "_tag");
 
       h_jetpt_llp_all[jf] = new TH1D(TString("jetpt_") + jf + "_llp_all", "", npdiv, xpdiv);
@@ -87,6 +90,7 @@ void sus::Loop()
       h_dvR_llp_all[jf] = new TH1D(TString("dvR_") + jf + "_llp_all", "", ndiv, xdiv);
       h_dvR_llp_tag[jf] = (TH1 *)h_dvR_llp_all[jf]->Clone(TString("dvR_") + jf + "_llp_tag");
    }
+   
 
    Long64_t nentries = fChain->GetEntriesFast();
 
@@ -132,7 +136,7 @@ void sus::Loop()
                      continue;
                   if ((*jet_aliveAfterORmu)[ijet] == 0)
                      continue;
-                  
+
                   int ntrk = (*jet_trk_ntrk)[ijet];
                   h_jet_ntrk->Fill(ntrk);
 
@@ -146,8 +150,7 @@ void sus::Loop()
                      jf = 2;
                   else if (jf != 0)
                      continue;
-                  
-                  
+
                   int jfext = (*jet_DoubleHadLabel)[ijet];
                   cout << "The extended flavor labelling is:" << jfext << endl;
                   if (jfext == 5)
@@ -170,11 +173,11 @@ void sus::Loop()
                         llpjf = 1;
                      else if (llpjf == 5)
                         llpjf = 2;
-                     else if (llpjf != 0)
-                        continue;
+                     else if (llpjf == 0)
+                        llpjf = 0;
                   }
 
-                  if ((jf == 2))
+                  if ((jf == 2) && (llpjf < 0))
                   {
                      h_nbpromptjet->Fill(jf);
                      h_bpromptjet_ntrk->Fill(ntrk);
@@ -184,7 +187,8 @@ void sus::Loop()
                      h_nbdisplacedjet->Fill(llpjf);
                      h_bdisplacedjet_ntrk->Fill(ntrk);
                   }
-                  if ((jf==2) || (llpjf==2)){
+                  if (jf == 2)
+                  {
                      h_bjet_ntrk->Fill(ntrk);
                   }
 
@@ -214,17 +218,17 @@ void sus::Loop()
                   {
                      h_jetpt_tag[jf]->Fill(jetpt);
                   }
+                  if(llpjf<0){
+                     h_jetpt_prompt[jf]->Fill(jetpt);
+                  }
 
-                  if (llpjf == 0 || llpjf == 1 || llpjf == 2)
+                  // LLP Lxy for b-jets from Neutralino decay
+                  if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
                   {
-                     // LLP Lxy for b-jets from Neutralino decay
-                     if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
-                     {
-                        float lxy = (*jet_bH_Lxy)[ijet][0];
-                        h_lxy_llp_all->Fill(lxy);
-                        if (tagged)
-                           h_lxy_llp_tag->Fill(lxy);
-                     }
+                     float lxy = (*jet_bH_Lxy)[ijet][0];
+                     h_lxy_llp_all->Fill(lxy);
+                     if (tagged)
+                        h_lxy_llp_tag->Fill(lxy);
                   }
 
                   // This has to do with bip; without this we can't get the angle between b jet axis and the LLP jet decay axis direction
@@ -247,7 +251,7 @@ void sus::Loop()
                         h_bip_displaced_tag->Fill(bip);
                      }
                   }
-                  if (jf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
+                  if ((jf == 2) && (llpjf < 0) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
                   {
                      float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
                      h_bip_prompt_all->Fill(bip);
