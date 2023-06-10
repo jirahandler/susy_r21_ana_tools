@@ -21,7 +21,7 @@ void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &hist
     TCanvas *canvas = new TCanvas("canvas", "Histograms", 800, 800);
     // canvas->SetMargin(0.1, 0.1, 0.1, 0.1);
     const int icol[] = {1, 2, 4, 3, 6, 51};
-    const int icolref[] = {7, 9, 11, 15, 17, 62};
+    const int icolref[] = {12, 9, 11, 15, 17, 62};
 
     TPad *lowerPad = nullptr;
     TPad *upperPad = nullptr;
@@ -122,7 +122,7 @@ void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &hist
         canvas->cd();
         canvas->SetGridx();
         canvas->SetGridy();
-        canvas->SetLogx();
+        //canvas->SetLogx();
         cout << "Size of hist array:" << histograms.size() << endl;
 
         referenceHist[0]->SetTitle(title.c_str());
