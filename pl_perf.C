@@ -11,25 +11,25 @@ void pl_perf()
 {
   SetAtlasStyle();
 
-  bool plot_ratio = true;
+  bool plot_ratio = false;
 
-  //const char* chvar = "lxy";
-  //const char* chtitl = "Lxy [mm]";
-  //bool btag = true, dofit = false;
+  const char* chvar = "lxy";
+  const char* chtitl = "Lxy [mm]";
+  bool btag = true, dofit = false;
 
   //const char* chvar = "jetpt_2";
   //const char* chtitl = "b-jet p_{T} [GeV]";
   //bool btag = true, dofit = true;
 
-  const char* chvar = "jetpt_0";
-  const char* chtitl = "light jet p_{T} [GeV]";
-  bool btag = true, dofit = true;
+  //const char* chvar = "jetpt_0";
+  //const char* chtitl = "light jet p_{T} [GeV]";
+  //bool btag = true, dofit = true;
 
   // load histograms and calculate efficiency
 
-  //const char* chfile[] = {"410472","410482"};
+  const char* chfile[] = {"410470"};
   //const char* chfile[] = {"410470","410472","410480","410482","411356","412116"};
-  const char* chfile[] = {"hf","lf"};
+  //const char* chfile[] = {"hf","lf"};
   const int nf = sizeof(chfile)/sizeof(const char*);
   TH1* h[nf];
 
@@ -86,6 +86,7 @@ void pl_perf()
       if (btag) {
 	h[kf]->SetMinimum(0);
 	h[kf]->SetMaximum(1.1);
+  //h[kf]->GetXaxis()->SetRangeUser(1e-4, 1e2);
       } else {
 	h[kf]->SetMinimum(1e-4);
 	h[kf]->SetMaximum(1e-2);
@@ -158,6 +159,6 @@ void pl_perf()
   for (int kf = 0; kf<nf; ++kf) {
     sp += "_"; sp += chfile[kf];
   }
-  sp += ".pdf";
+  sp += ".png";
   c1->SaveAs(sp);
 }

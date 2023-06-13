@@ -20,7 +20,7 @@ void tt::Loop()
    TH1 *h_nbbjet = new TH1I("nbbjet", "", 100, 0., 100.);
    TH1 *h_nbcjet = new TH1I("nbcjet", "", 100, 0., 100.);
 
-   double xdiv[] = {0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
+   double xdiv[] = {0.001,0.01,0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
    // double xdiv1[] = {0.1, 0.2, 0.5,0.8, 1.,1.5, 2.,2.5,3,3.5,4,4.5, 5.};
    const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
    // const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
@@ -28,8 +28,17 @@ void tt::Loop()
    TH1 *h_lxy_all = new TH1D("lxy_all", "", ndiv, xdiv);
    TH1 *h_lxy_tag = (TH1 *)h_lxy_all->Clone("lxy_tag");
 
+   TH1 *h_lxy_wc_all = new TH1D("lxy_wc_all", "", ndiv, xdiv);
+   TH1 *h_lxy_wc_tag = (TH1 *)h_lxy_all->Clone("lxy_wc_tag");
+
+   TH1 *h_cxy_all = new TH1D("cxy_all", "", ndiv, xdiv);
+   TH1 *h_cxy_tag = (TH1 *)h_cxy_all->Clone("cxy_tag");
+
    TH1 *h_bip_all = new TH1D("bip_all", "", ndiv, xdiv);
    TH1 *h_bip_tag = (TH1 *)h_bip_all->Clone("bip_tag");
+
+   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv, xdiv, ndiv, xdiv);
+   TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
 
    const int njf = 3;
 
@@ -118,6 +127,33 @@ void tt::Loop()
             h_lxy_all->Fill(lxy);
             if (tagged)
                h_lxy_tag->Fill(lxy);
+         }
+         // Lxy for all c-jets
+         if (jf == 1 && jet_cH_Lxy && !(*jet_cH_Lxy)[ijet].empty())
+         {
+            float cxy = (*jet_cH_Lxy)[ijet][0];
+            h_cxy_all->Fill(cxy);
+            if (tagged)
+               h_cxy_tag->Fill(cxy);
+         }
+         // Lxy for all b-jets minus bc jets
+         if ((jfext == 5) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
+         {  cout<<"Entered forbidden cheese."<<endl;
+            float lxy = (*jet_bH_Lxy)[ijet][0];
+            h_lxy_wc_all->Fill(lxy);
+            if (tagged)
+               h_lxy_wc_tag->Fill(lxy);
+         }
+
+         if ((jf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
+         {
+            float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
+            float lxy = (*jet_bH_Lxy)[ijet][0];
+            h_bip_lxy_all->Fill(bip, lxy);
+            if (tagged)
+            {
+               h_bip_lxy_tag->Fill(bip, lxy);
+            }
          }
 
          // pT plots

@@ -53,6 +53,9 @@ void sus::Loop()
    TH1 *h_bip_all = new TH1D("bip_all", "", ndiv, xdiv);
    TH1 *h_bip_tag = (TH1 *)h_bip_all->Clone("bip_tag");
 
+   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv, xdiv,ndiv,xdiv);
+   TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
+
    TH1 *h_bip_displaced_all = new TH1D("bip_displaced_all", "", ndiv, xdiv);
    TH1 *h_bip_displaced_tag = (TH1 *)h_bip_all->Clone("bip_displaced_tag");
 
@@ -258,6 +261,16 @@ void sus::Loop()
                      if (tagged)
                      {
                         h_bip_prompt_tag->Fill(bip);
+                     }
+                  }
+                  if ((jf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
+                  {
+                     float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
+                     float lxy = (*jet_bH_Lxy)[ijet][0];
+                     h_bip_lxy_all->Fill(bip,lxy);
+                     if (tagged)
+                     {
+                        h_bip_lxy_tag->Fill(bip,lxy);
                      }
                   }
                   /**
