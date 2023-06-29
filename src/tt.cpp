@@ -20,10 +20,10 @@ void tt::Loop()
    TH1 *h_nbbjet = new TH1I("nbbjet", "", 100, 0., 100.);
    TH1 *h_nbcjet = new TH1I("nbcjet", "", 100, 0., 100.);
 
-   double xdiv[] = {0.001,0.01,0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
-   // double xdiv1[] = {0.1, 0.2, 0.5,0.8, 1.,1.5, 2.,2.5,3,3.5,4,4.5, 5.};
+   double xdiv[] = {0.0001,0.001,0.01,0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
+   double xdiv1[] = {-5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.8, -0.5, -0.2, -0.1, 0, 0.1, 0.2, 0.5, 0.8, 1., 1.5, 2., 2.5, 3, 3.5, 4, 4.5, 5.};
    const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
-   // const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
+   const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
 
    TH1 *h_lxy_all = new TH1D("lxy_all", "", ndiv, xdiv);
    TH1 *h_lxy_tag = (TH1 *)h_lxy_all->Clone("lxy_tag");
@@ -34,10 +34,10 @@ void tt::Loop()
    TH1 *h_cxy_all = new TH1D("cxy_all", "", ndiv, xdiv);
    TH1 *h_cxy_tag = (TH1 *)h_cxy_all->Clone("cxy_tag");
 
-   TH1 *h_bip_all = new TH1D("bip_all", "", ndiv, xdiv);
+   TH1 *h_bip_all = new TH1D("bip_all", "", ndiv1, xdiv1);
    TH1 *h_bip_tag = (TH1 *)h_bip_all->Clone("bip_tag");
 
-   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv, xdiv, ndiv, xdiv);
+   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv1, xdiv1, ndiv, xdiv);
    TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
 
    const int njf = 3;
@@ -109,6 +109,10 @@ void tt::Loop()
          else if (jfext == 54)
             h_nbcjet->Fill(jfext);
          h_jetflav->Fill(jfext);
+
+         int nbjet = (*jet_bH_Lxy)[ijet].size();
+         if (nbjet > 1)
+            continue; // only consider single B-hadron cases
 
          // jet tagging
          const double frac_c = 0.030;

@@ -14,6 +14,20 @@
 
 namespace fs = std::filesystem;
 
+int countEntriesAtXValue(TH1 *hist, double binLowEdge, double binUpEdge)
+{
+    int binLow = hist->FindBin(binLowEdge);
+    int binUp = hist->FindBin(binUpEdge);
+
+    int numEntriesInBin = 0;
+    for (int bin = binLow; bin <= binUp; ++bin)
+    {
+        numEntriesInBin += hist->GetBinContent(bin);
+    }
+
+    return numEntriesInBin;
+}
+
 void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &histograms, const std::vector<std::string> &names, const std::string &title, const std::string &saveName, std::vector<TH1 *> &referenceHist, const std::string &referenceFileName, bool enableRatioPlot = false)
 {
     SetAtlasStyle(); // Set the ATLAS style
@@ -79,7 +93,7 @@ void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &hist
             histograms[i]->Draw("HIST SAME");
         }
 
-        TLegend *legend = new TLegend(0.7, 0.2, 0.85, 0.35);
+        TLegend *legend = new TLegend(0.7, 0.8, 0.85, 0.95);
         legend->SetMargin(0.2);
         legend->SetBorderSize(0);
         legend->SetFillStyle(0);
@@ -123,7 +137,7 @@ void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &hist
         canvas->SetGridx();
         canvas->SetGridy();
         //canvas->SetLogx();
-        cout << "Size of hist array:" << histograms.size() << endl;
+        //cout << "Size of hist array:" << histograms.size() << endl;
 
         referenceHist[0]->SetTitle(title.c_str());
         referenceHist[0]->SetMarkerStyle(8);
@@ -174,7 +188,7 @@ void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &hist
             referenceHist[i]->Draw("HIST SAME");
         }
 
-        cout << "Size of hist array:" << histograms.size() << endl;
+        //cout << "Size of hist array:" << histograms.size() << endl;
 
         for (size_t i = 0; i < histograms.size(); ++i)
         {
@@ -221,6 +235,7 @@ void plotHistogramsAndRatio(const std::string fileName, std::vector<TH1 *> &hist
 }
 int ntrknjet()
 {
+    gErrorIgnoreLevel = kWarning;
     std::vector<std::string> fileNames = {
         "a1_hfall.root",
         "a1_503822.root",
@@ -287,6 +302,16 @@ int ntrknjet()
     for (const auto &fileName : fileNames)
     {
         TFile *file = TFile::Open(fileName.c_str());
+
+        TH1 *hist = dynamic_cast<TH1 *>(file->Get("bip_all"));
+
+        // Count the entries within the specified x value
+        double xValue = 0.0;
+
+        int entriesAtXValue = countEntriesAtXValue(hist, -xValue, xValue);
+        int totalEntries = hist->GetEntries();
+        double percentofbip0 = static_cast<double>(entriesAtXValue) / static_cast<double>(totalEntries);
+        cout << "Percentage of b-jets with bip = 0 is " << 100.0*percentofbip0 << " in dataset: " << fileName.c_str() << endl;
 
         std::vector<TH1 *> jetHistograms;
         std::vector<std::string> jetNames;

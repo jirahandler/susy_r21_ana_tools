@@ -44,7 +44,7 @@ void CreateRatioPlot(const char *files[], const TString histNames[])
     hblxy_wc->GetYaxis()->SetTitleSize(0.06);
     hblxy_wc->SetStats(0);
     hblxy_wc->SetMinimum(0.0001);
-    
+
 
     // Divide h[2] by h[3] and store the result in hcxy
     TH1 *hcxy = dynamic_cast<TH1 *>(h[2]->Clone("hcxy"));
@@ -63,8 +63,8 @@ void CreateRatioPlot(const char *files[], const TString histNames[])
     TCanvas *canvas = new TCanvas("canvas", "Ratio Plot", 1200, 800);
     canvas->SetGridx();
     canvas->SetGridy();
-    canvas->SetLogx();
-    
+    //canvas->SetLogx();
+
 
     TPad *lowerPad, *upperPad;
     lowerPad = new TPad("cl", "", 0, 0, 1., 0.375);
@@ -83,8 +83,8 @@ void CreateRatioPlot(const char *files[], const TString histNames[])
 
     lowerPad->SetTopMargin(0.03);
     lowerPad->SetBottomMargin(0.29);
-    
-    
+
+
     // Draw hblxy and hcxy on the canvas
     hblxy->Draw("HIST");
     hblxy_wc->Draw("HIST SAME");
@@ -106,7 +106,7 @@ void CreateRatioPlot(const char *files[], const TString histNames[])
 
     // Switch to lower pad
     lowerPad->cd();
-    
+
     // Create a histogram for the ratio of hblxy divided by hcxy
     TH1* hhr[2];
 
@@ -114,6 +114,7 @@ void CreateRatioPlot(const char *files[], const TString histNames[])
     hhr[0]->Divide(hblxy,hcxy,1,1,"B");
     hhr[0]->SetLineColor(kRed);
     hhr[0]->SetMarkerColor(kRed);
+    hhr[0]->SetTitle("Tagging efficiency plots for tt-bar");
     hhr[0]->GetYaxis()->SetNdivisions(505);
     hhr[0]->GetYaxis()->SetTitle("Ratio to nominal");
     hhr[0]->GetYaxis()->SetTitleOffset(0.5);

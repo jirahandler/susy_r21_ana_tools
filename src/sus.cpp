@@ -42,24 +42,27 @@ void sus::Loop()
 
    TH1 *h_jetflav = new TH1I("jetflav", "", 10, 0., 100.);
 
-   double xdiv[] = {0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
-   // double xdiv1[] = {0.1, 0.2, 0.5,0.8, 1.,1.5, 2.,2.5,3,3.5,4,4.5, 5.};
+   double xdiv[] = {0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100., 150. , 200.};
+   double xdiv1[] = {-20.,-15.,-10.,-7.5,-5,-4.5,-4,-3.5,-3,-2.5,-2,-1.5,-1,-0.8,-0.5,-0.2,-0.1,-0.01,0,0.01,0.1, 0.2, 0.5,0.8, 1.,1.5, 2.,2.5,3,3.5,4,4.5, 5.,7.5,10.,15.,20.};
    const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
-   // const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
+   const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
 
    TH1 *h_lxy_all = new TH1D("lxy_all", "", ndiv, xdiv);
    TH1 *h_lxy_tag = (TH1 *)h_lxy_all->Clone("lxy_tag");
 
-   TH1 *h_bip_all = new TH1D("bip_all", "", ndiv, xdiv);
+   TH1 *h_bip_all = new TH1D("bip_all", "", ndiv1, xdiv1);
    TH1 *h_bip_tag = (TH1 *)h_bip_all->Clone("bip_tag");
 
-   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv, xdiv,ndiv,xdiv);
+   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv1, xdiv1,ndiv,xdiv);
    TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
 
-   TH1 *h_bip_displaced_all = new TH1D("bip_displaced_all", "", ndiv, xdiv);
+   TH2 *h_llp_bip_lxy_all = new TH2F("llp_bip_lxy_all", "", ndiv1, xdiv1, ndiv, xdiv);
+   TH2 *h_llp_bip_lxy_tag = (TH2F *)h_llp_bip_lxy_all->Clone("llp_bip_lxy_tag");
+
+   TH1 *h_bip_displaced_all = new TH1D("bip_displaced_all", "", ndiv1, xdiv1);
    TH1 *h_bip_displaced_tag = (TH1 *)h_bip_all->Clone("bip_displaced_tag");
 
-   TH1 *h_bip_prompt_all = new TH1D("bip_prompt_all", "", ndiv, xdiv);
+   TH1 *h_bip_prompt_all = new TH1D("bip_prompt_all", "", ndiv1, xdiv1);
    TH1 *h_bip_prompt_tag = (TH1 *)h_bip_all->Clone("bip_prompt_tag");
 
    TH1 *h_lxy_llp_all = new TH1D("lxy_llp_all", "", ndiv, xdiv);
@@ -93,7 +96,7 @@ void sus::Loop()
       h_dvR_llp_all[jf] = new TH1D(TString("dvR_") + jf + "_llp_all", "", ndiv, xdiv);
       h_dvR_llp_tag[jf] = (TH1 *)h_dvR_llp_all[jf]->Clone(TString("dvR_") + jf + "_llp_tag");
    }
-   
+
 
    Long64_t nentries = fChain->GetEntriesFast();
 
@@ -167,7 +170,7 @@ void sus::Loop()
                   int llpjf;
 
                   // llp jet flavor, if jets are from llp
-                  // jet flavor would be -ve if jets are not from llp decay
+                  // jet flavor would be -ve 99 if jets are not from llp decay
 
                   if (jet_truthLLPJetLabel)
                   {
@@ -205,6 +208,10 @@ void sus::Loop()
                   bool tagged = w_dl1r > 2.20; // FixedCutBEff_77
                   // bool tagged = w_dl1r>1.27; // FixedCutBEff_85
 
+                  int nbjet = (*jet_bH_Lxy)[ijet].size();
+                  if (nbjet > 1)
+                     continue;
+
                   // Lxy for all b-jets
                   if (jf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
                   {
@@ -235,7 +242,7 @@ void sus::Loop()
                   }
 
                   // This has to do with bip; without this we can't get the angle between b jet axis and the LLP jet decay axis direction
-                  if ((llpjf == 2 || jf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
+                  if ((jf==2 || llpjf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
                   {
                      float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
                      h_bip_all->Fill(bip);
@@ -263,7 +270,7 @@ void sus::Loop()
                         h_bip_prompt_tag->Fill(bip);
                      }
                   }
-                  if ((jf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
+                  if ((jf == 2 || llpjf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
                   {
                      float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
                      float lxy = (*jet_bH_Lxy)[ijet][0];
@@ -271,6 +278,16 @@ void sus::Loop()
                      if (tagged)
                      {
                         h_bip_lxy_tag->Fill(bip,lxy);
+                     }
+                  }
+                  if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
+                  {
+                     float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
+                     float lxy = (*jet_bH_Lxy)[ijet][0];
+                     h_llp_bip_lxy_all->Fill(bip, lxy);
+                     if (tagged)
+                     {
+                        h_llp_bip_lxy_tag->Fill(bip, lxy);
                      }
                   }
                   /**

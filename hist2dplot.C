@@ -18,14 +18,15 @@ void plot2DHistograms(const char *file1, const char *file2, const char *histName
     h1->SetStats(0);
     h2->SetStats(0);
 
-    h1->GetXaxis()->SetRangeUser(0, 6);
+    h1->GetXaxis()->SetRangeUser(-6, 6);
     h1->GetYaxis()->SetRangeUser(0, 70);
 
-    h2->GetXaxis()->SetRangeUser(0, 100);
-    h2->GetYaxis()->SetRangeUser(0, 100);
+    h2->GetXaxis()->SetRangeUser(-6, 6);
+    h2->GetYaxis()->SetRangeUser(0, 150);
 
-    h1->SetTitle("tt-bar");
-    h2->SetTitle("SUSY HF Combined");
+    h1->SetTitle("tt-bar DSID 410470");
+    h2->SetTitle("SUSY HF (DSID: 503822[0p01ns]-503825[10ns]) Combined: b-jets from LLP only");
+    //h2->SetTitle("SUSY HF (DSID: 503822[0p01ns]-503825[10ns]) Combined: b-jets from LLP + other b-jets");
 
     // Create a canvas to display the histograms
     TCanvas *canvas = new TCanvas("canvas", "2D Histograms", 800, 800);
@@ -44,7 +45,8 @@ void plot2DHistograms(const char *file1, const char *file2, const char *histName
     gPad->SetLogz(); // Set logarithmic scale for the color axis if desired
 
     // Save the canvas as a PNG image
-    canvas->SaveAs("bip_lxy_histograms.png");
+    canvas->SaveAs("llp_bip_lxy_histograms.png");
+    //canvas->SaveAs("bip_lxy_histograms.png");
 
     // Clean up
     delete canvas;
@@ -57,6 +59,8 @@ void hist2dplot()
     const char *file1 = "a1_410470.root";
     const char *file2 = "a1_hfall.root";
     const char *histName1 = "bip_lxy_all";
-    const char *histName2 = "bip_lxy_all";
+    const char *histName2 = "llp_bip_lxy_all";
+    //const char *histName2 = "bip_lxy_all";
+   
     plot2DHistograms(file1, file2, histName1, histName2);
 }
