@@ -15,10 +15,11 @@ void my_susy_plots()
     // define plot types here
     // must match the partial names of histos found in a1_<dsid>.root
     const char *plot_type[] = {
-        //"lxy",
-        //"bip",
-        //"jetpt_2",
-        "ntrk",
+        "lxy",
+        "lxy_llp_bip0",
+        "bip",
+        "jetpt_2",
+        //"ntrk",
         //"jetpt_0",
         //"jetpt_2_llp",
         //"jetpt_0_llp",
@@ -28,10 +29,11 @@ void my_susy_plots()
     };
     // define plot titles here
     const char *plot_title[] = {
-        //"Lxy [mm]",
-        //"b-impact parameter [mm]",
-        //"b-jet p_{T} [GeV]",
-        "number of tracks",
+        "Lxy [mm]",
+        "Lxy (bip=0) [mm]"
+        "b-impact parameter [mm]",
+        "b-jet p_{T} [GeV]",
+        //"number of tracks",
         //"light jet p_{T} [GeV]",
         //"b-jet (llp jets)  p_{T} [GeV]",
         //"light (llp jets) jet p_{T} [GeV]",
@@ -57,8 +59,8 @@ void my_susy_plots()
         */
         if (plctr == 0)
         {
-            btag = false;
-            plot_ratio = false;
+            btag = true;
+            plot_ratio = true;
         }
         const char *chvar = plot_type[plctr];
         const char *chtitl = plot_title[plctr];
@@ -67,14 +69,21 @@ void my_susy_plots()
         // after running d_ana, you should have gotten output files of the form a1_<dsid>.root
 
         const char *filelist[] = {
-            "503822",
-            "503823",
-            "503824",
-            "503825",
+            "merged_file_1100.root",
+            "merged_file_1200.root",
+            "merged_file_1300.root",
+            "merged_file_1400.root",
+            "merged_file_1500.root",
+            "merged_file_1600.root",
+            "merged_file_1700.root",
             "410470",
             "410470",
             "410470",
-            "410470"};
+            "410470",
+            "410470",
+            "410470",
+            "410470",
+        };
 
         /**
         const char *filelist[] = {
@@ -106,13 +115,13 @@ void my_susy_plots()
 
             // This contains the list of files you want to compare
             const char *
-                chfile[] = {filelist[fpctr], filelist[fpctr + 4]};
+                chfile[] = {filelist[fpctr], filelist[fpctr + 7]};
             const int nf = sizeof(chfile) / sizeof(const char *);
             TH1 *h[nf];
 
             // Number of colors go here
             // No of colors are provided for max 6 datasets, you can put more distinct colors
-            const int icol[] = {1, 2, 4, 3, 6, 51};
+            const int icol[] = {1, 2, 4, 3, 6, 51, 65};
 
             // Loop over files
             for (int kf = 0; kf < nf; ++kf)
@@ -202,7 +211,7 @@ void my_susy_plots()
                 h[kf]->SetMarkerSize(1.2);
                 h[kf]->SetMarkerColor(icol[kf]);
                 h[kf]->SetLineColor(icol[kf]);
-
+/**
                 if (plctr == 0)
                 {
                     double maxBinContent = TMath::Max(h[0]->GetMaximum(), h[1]->GetMaximum());
@@ -213,7 +222,7 @@ void my_susy_plots()
                     h[0]->Scale(scalingFactor1);
                     h[1]->Scale(scalingFactor2);
                 }
-
+*/
                 if (kf == 0)
                 {
                     if (plctr != 0)
@@ -324,7 +333,7 @@ void my_susy_plots()
 
             c1->Modified();
 
-            TString sp = "tagrate_";
+            TString sp = "new_tagrate_";
             sp += chvar;
             for (int kf = 0; kf < nf; ++kf)
             {
