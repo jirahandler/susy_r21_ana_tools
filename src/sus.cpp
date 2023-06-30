@@ -63,10 +63,13 @@ void sus::Loop()
    TH1 *h_bip_displaced_tag = (TH1 *)h_bip_all->Clone("bip_displaced_tag");
 
    TH1 *h_bip_prompt_all = new TH1D("bip_prompt_all", "", ndiv1, xdiv1);
-   TH1 *h_bip_prompt_tag = (TH1 *)h_bip_all->Clone("bip_prompt_tag");
+   TH1 *h_bip_prompt_tag = (TH1 *)h_bip_prompt_all->Clone("bip_prompt_tag");
 
    TH1 *h_lxy_llp_all = new TH1D("lxy_llp_all", "", ndiv, xdiv);
    TH1 *h_lxy_llp_tag = (TH1 *)h_lxy_llp_all->Clone("lxy_llp_tag");
+
+   TH1 *h_lxy_llp_bip0_all = new TH1D("lxy_llp_bip0_all", "", ndiv, xdiv);
+   TH1 *h_lxy_llp_bip0_tag = (TH1 *)h_lxy_llp_bip0_all->Clone("lxy_llp_bip0_tag");
 
    const int njf = 3;
 
@@ -232,35 +235,47 @@ void sus::Loop()
                      h_jetpt_prompt[jf]->Fill(jetpt);
                   }
 
-                  // LLP Lxy for b-jets from Neutralino decay
-                  if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
-                  {
-                     float lxy = (*jet_bH_Lxy)[ijet][0];
-                     h_lxy_llp_all->Fill(lxy);
-                     if (tagged)
-                        h_lxy_llp_tag->Fill(lxy);
-                  }
-
                   // This has to do with bip; without this we can't get the angle between b jet axis and the LLP jet decay axis direction
+                  // Get all b-jets
                   if ((jf==2 || llpjf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
                   {
                      float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
+                     float lxy = (*jet_bH_Lxy)[ijet][0];
+
                      h_bip_all->Fill(bip);
+                     h_bip_lxy_all->Fill(bip, lxy);
                      if (tagged)
                      {
                         h_bip_tag->Fill(bip);
+                        h_bip_lxy_tag->Fill(bip, lxy);
                      }
                   }
 
+                  // Get only b-jets from llp decays marked as such
                   if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
                   {
                      float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
+                     float lxy = (*jet_bH_Lxy)[ijet][0];
+
+                     h_lxy_llp_all->Fill(lxy);
                      h_bip_displaced_all->Fill(bip);
+                     h_llp_bip_lxy_all->Fill(bip, lxy);
                      if (tagged)
                      {
+                        h_lxy_llp_tag->Fill(lxy);
                         h_bip_displaced_tag->Fill(bip);
+                        h_llp_bip_lxy_tag->Fill(bip, lxy);
+                     }
+
+                     if (bip==0){
+                        h_lxy_llp_bip0_all->Fill(lxy);
+                        if (tagged){
+                           h_lxy_llp_bip0_tag->Fill(lxy);
+                        }
                      }
                   }
+
+                  // Get only prompt decays
                   if ((jf == 2) && (llpjf < 0) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
                   {
                      float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
@@ -270,26 +285,7 @@ void sus::Loop()
                         h_bip_prompt_tag->Fill(bip);
                      }
                   }
-                  if ((jf == 2 || llpjf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
-                  {
-                     float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
-                     float lxy = (*jet_bH_Lxy)[ijet][0];
-                     h_bip_lxy_all->Fill(bip,lxy);
-                     if (tagged)
-                     {
-                        h_bip_lxy_tag->Fill(bip,lxy);
-                     }
-                  }
-                  if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
-                  {
-                     float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
-                     float lxy = (*jet_bH_Lxy)[ijet][0];
-                     h_llp_bip_lxy_all->Fill(bip, lxy);
-                     if (tagged)
-                     {
-                        h_llp_bip_lxy_tag->Fill(bip, lxy);
-                     }
-                  }
+
                   /**
                   // Neutralino (parent) decay vertex for all child jets
                   if ((!(*jet_truthLLP_Decay_x).empty()) && (!(*jet_truthLLP_Decay_y).empty()) && (!(*jet_truthLLP_Decay_z).empty()))
