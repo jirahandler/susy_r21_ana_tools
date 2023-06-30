@@ -69,36 +69,22 @@ void my_susy_plots()
         // after running d_ana, you should have gotten output files of the form a1_<dsid>.root
 
         const char *filelist[] = {
-            "merged_file_1100.root",
-            "merged_file_1200.root",
-            "merged_file_1300.root",
-            "merged_file_1400.root",
-            "merged_file_1500.root",
-            "merged_file_1600.root",
-            "merged_file_1700.root",
-            "410470",
-            "410470",
-            "410470",
-            "410470",
-            "410470",
-            "410470",
-            "410470",
+            "merged_file_1100",
+            "merged_file_1200",
+            "merged_file_1300",
+            "merged_file_1400",
+            "merged_file_1500",
+            "merged_file_1600",
+            "merged_file_1700",
+            "a1_410470",
+            "a1_410470",
+            "a1_410470",
+            "a1_410470",
+            "a1_410470",
+            "a1_410470",
+            "a1_410470"
         };
 
-        /**
-        const char *filelist[] = {
-            "503767",
-            "503768",
-            "503769",
-            "503770",
-            "503771",
-            "410470",
-            "410470",
-            "410470",
-            "410470",
-            "410470",
-        };
-        */
         // Get total size of the char array; div by 2 because ... pairs
         int fctr = (sizeof(filelist) / sizeof(filelist[0])) / 2;
 
@@ -108,11 +94,6 @@ void my_susy_plots()
 
         for (int fpctr = 0; fpctr < fctr; fpctr++)
         {
-            // Safeguard for certain datasets and plots
-            // They have some missing stuff
-            // if (plctr == 5 && fpctr == 3) continue;
-            // if (plctr == 1 && fpctr == 2) continue;
-
             // This contains the list of files you want to compare
             const char *
                 chfile[] = {filelist[fpctr], filelist[fpctr + 7]};
@@ -126,20 +107,20 @@ void my_susy_plots()
             // Loop over files
             for (int kf = 0; kf < nf; ++kf)
             {
-                TFile *ff = new TFile(TString("a1_") + chfile[kf] + ".root", "READ");
-                if (plctr != 0)
+                TFile *ff = new TFile(TString(chfile[kf]) + ".root", "READ");
+                // TFile *ff = new TFile(TString("a1_") + chfile[kf] + ".root", "READ");
+
+                TH1 *hall = (TH1 *)ff->Get(TString(chvar) + "_all");
+                h[kf] = (TH1 *)ff->Get(TString(chvar) + "_tag");
+                if (!hall || !h[kf])
                 {
-                    TH1 *hall = (TH1 *)ff->Get(TString(chvar) + "_all");
-                    h[kf] = (TH1 *)ff->Get(TString(chvar) + "_tag");
-                    if (!hall || !h[kf])
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        h[kf]->Divide(h[kf], hall, 1., 1., "B");
-                    }
+                    continue;
                 }
+                else
+                {
+                    h[kf]->Divide(h[kf], hall, 1., 1., "B");
+                }
+                /**
                 if (plctr == 0)
                 {
                     cout << "chvar is: " << chvar << endl;
@@ -155,6 +136,7 @@ void my_susy_plots()
                         printf("Histogram is not empty\n");
                     }
                 }
+                */
             }
 
             // Draw plots
