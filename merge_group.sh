@@ -5,6 +5,8 @@ unset file_end
 unset increment
 unset filename_increment
 
+hadd merged_file_1100.root a1_503822.root a1_503823.root a1_503824.root a1_503825.root
+
 output_file_prefix="merged_file"
 file_start=503827
 file_end=503856
