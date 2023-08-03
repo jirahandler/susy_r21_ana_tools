@@ -35,11 +35,6 @@ void sus::Loop()
    TH1 *h_nbbjet = new TH1I("nbbjet", "", 100, 0., 100.);
    TH1 *h_nbcjet = new TH1I("nbcjet", "", 100, 0., 100.);
 
-
-   TH1 *h_bjet_ntrk = new TH1I("bjet_ntrk", "", 40, 0., 40.);
-   TH1 *h_bpromptjet_ntrk = new TH1I("bpromptntrk", "", 40, 0., 40.);
-   TH1 *h_bdisplacedjet_ntrk = new TH1I("bdisplacedntrk", "", 40, 0., 40.);
-
    TH1 *h_jetflav = new TH1I("jetflav", "", 10, 0., 100.);
 
    double xdiv[] = {0.0001, 0.001, 0.01, 0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
@@ -52,6 +47,9 @@ void sus::Loop()
 
    TH1 *h_ip3d_ntrk_np_all = new TH1D("ntrk_np_all", "", 40, 0., 40.);
    TH1 *h_ip3d_ntrk_np_tag = (TH1 *)h_ip3d_ntrk_np_all->Clone("ntrk_np_tag");
+
+   TH1 *h_ip3d_ntrk_np_inc_all = new TH1D("ntrk_np_inc_all", "", 40, 0., 40.);
+   TH1 *h_ip3d_ntrk_np_inc_tag = (TH1 *)h_ip3d_ntrk_np_inc_all->Clone("ntrk_np_inc_tag");
 
    TH1 *h_lxy_all = new TH1D("lxy_all", "", ndiv, xdiv);
    TH1 *h_lxy_tag = (TH1 *)h_lxy_all->Clone("lxy_tag");
@@ -144,7 +142,7 @@ void sus::Loop()
                   int nb = (*jet_bH_Lxy)[ijet].size();
                   h_nbjet->Fill(nb);
 
-                  if (nb > 1)
+                  if (jf != 2 || nb > 1)
                      continue; // only consider single B-hadron cases
 
                   // jet tagging
@@ -181,6 +179,14 @@ void sus::Loop()
                      if (tagged)
                      {
                         h_ip3d_ntrk_np_tag->Fill(ntrk);
+                     }
+                  }
+                  else if (fabs(jetbip) > 1e-5)
+                  {
+                     h_ip3d_ntrk_np_inc_all->Fill(ntrk);
+                     if (tagged)
+                     {
+                        h_ip3d_ntrk_np_inc_tag->Fill(ntrk);
                      }
                   }
                }

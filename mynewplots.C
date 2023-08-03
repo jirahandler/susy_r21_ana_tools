@@ -76,8 +76,8 @@ int mynewplots()
         TString latexpart = " m_{#tilde{g}} ";
         TString legtextpostnp = " = 1700 GeV non prompt (single-b), ";
         TString legtextpostp = " = 1700 GeV prompt (single-b), ";
-        TString legtextpostnpcond = " #left|bip#right| #leq 10^{-5} ";
-        TString legtextpostpcond = " #left|bip#right| > 10^{-5} , #left|bip#right| #leq 0.2, #DeltaR #leq 0.1  ";
+        TString legtextpostnpcond = " #left|bip#right| > 10^{-5} , #left|bip#right| #leq 0.2, #DeltaR #leq 0.1  ";
+        TString legtextpostpcond = " #left|bip#right| #leq 10^{-5} ";
 
         TString rat2 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond;
         TString rat3 = legtextpre + latexpart + legtextpostp + legtextpostpcond;
