@@ -123,7 +123,9 @@
     "algorithm": "cpp",
     "plotHist.C": "cpp",
     "hist2dplot.C": "cpp",
-    "my_susy_extended_plots.C": "cpp"
+    "my_susy_extended_plots.C": "cpp",
+    "main.C": "cpp",
+    "mynewplots.C": "cpp"
   },
   "C_Cpp_Runner.msvcWarnings": [
     "/W4",

@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Fri Jun  2 00:21:33 2023 by ROOT version 6.24/08
+// Tue Aug  1 07:00:26 2023 by ROOT version 6.24/08
 // from TTree bTag_AntiKt4EMPFlowJets_BTagging201810/bTagAntiKt4EMPFlowJets_BTagging201810
-// found on file: 503822.root
+// found on file: 503856.root
 //////////////////////////////////////////////////////////
 
 #ifndef sus_h
@@ -11,11 +11,11 @@
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
-#include <vector>
-using namespace std;
 
 // Header file for the classes stored in the TTree if any.
-#include "vector"
+#include <vector>
+
+using namespace std;
 
 class sus {
 public :
@@ -105,20 +105,6 @@ public :
    vector<float>   *jet_rnnip_pc;
    vector<float>   *jet_rnnip_pu;
    vector<float>   *jet_rnnip_ptau;
-   vector<int>     *jet_sv1_Nvtx;
-   vector<float>   *jet_sv1_ntrkv;
-   vector<float>   *jet_sv1_n2t;
-   vector<float>   *jet_sv1_m;
-   vector<float>   *jet_sv1_efc;
-   vector<float>   *jet_sv1_sig3d;
-   vector<float>   *sv1_llr;
-   vector<float>   *jet_sv1_normdist;
-   vector<float>   *jet_sv1_deltaR;
-   vector<float>   *jet_sv1_Lxy;
-   vector<float>   *jet_sv1_L3d;
-   vector<vector<float> > *jet_sv1_vtx_x;
-   vector<vector<float> > *jet_sv1_vtx_y;
-   vector<vector<float> > *jet_sv1_vtx_z;
    vector<int>     *jet_nBHadr;
    vector<int>     *jet_nCHadr;
    vector<vector<int> > *jet_bH_pdgId;
@@ -151,7 +137,41 @@ public :
    vector<vector<float> > *jet_trk_phi;
    vector<vector<float> > *jet_trk_qoverp;
    vector<vector<float> > *jet_trk_charge;
-   vector<int>     *jet_trk_ntrk;
+   vector<vector<float> > *jet_trk_chi2;
+   vector<vector<float> > *jet_trk_ndf;
+   vector<vector<int> > *jet_trk_nNextToInnHits;
+   vector<vector<int> > *jet_trk_nInnHits;
+   vector<vector<int> > *jet_trk_nBLHits;
+   vector<vector<int> > *jet_trk_nsharedBLHits;
+   vector<vector<int> > *jet_trk_nsplitBLHits;
+   vector<vector<int> > *jet_trk_nPixHits;
+   vector<vector<int> > *jet_trk_nPixHoles;
+   vector<vector<int> > *jet_trk_nsharedPixHits;
+   vector<vector<int> > *jet_trk_nsplitPixHits;
+   vector<vector<int> > *jet_trk_nSCTHits;
+   vector<vector<int> > *jet_trk_nSCTHoles;
+   vector<vector<int> > *jet_trk_nsharedSCTHits;
+   vector<vector<int> > *jet_trk_expectBLayerHit;
+   vector<vector<int> > *jet_trk_expectInnermostPixelLayerHit;
+   vector<vector<int> > *jet_trk_expectNextToInnermostPixelLayerHit;
+   vector<vector<float> > *jet_trk_d0;
+   vector<vector<float> > *jet_trk_z0;
+   vector<vector<float> > *jet_trk_ip3d_d0;
+   vector<vector<float> > *jet_trk_ip3d_d02D;
+   vector<vector<float> > *jet_trk_ip3d_z0;
+   vector<vector<float> > *jet_trk_ip3d_d0sig;
+   vector<vector<float> > *jet_trk_ip3d_z0sig;
+   vector<vector<int> > *jet_trk_algo;
+   vector<vector<float> > *jet_trk_vtx_X;
+   vector<vector<float> > *jet_trk_vtx_Y;
+   vector<vector<float> > *jet_trk_vtx_Z;
+   vector<vector<int> > *jet_trk_pdg_id;
+   vector<vector<int> > *jet_trk_barcode;
+   vector<vector<int> > *jet_trk_parent_pdgid;
+   vector<int>     *jet_btag_ntrk;
+   vector<int>     *jet_ip3d_ntrk;
+   vector<vector<int> > *jet_trk_ip3d_grade;
+   vector<vector<float> > *jet_trk_ip3d_llr;
    Int_t           nmmc;
    vector<float>   *mymc_pt;
    vector<float>   *mymc_eta;
@@ -249,20 +269,6 @@ public :
    TBranch        *b_jet_rnnip_pc;   //!
    TBranch        *b_jet_rnnip_pu;   //!
    TBranch        *b_jet_rnnip_ptau;   //!
-   TBranch        *b_jet_sv1_Nvtx;   //!
-   TBranch        *b_jet_sv1_ntrkv;   //!
-   TBranch        *b_jet_sv1_n2t;   //!
-   TBranch        *b_jet_sv1_m;   //!
-   TBranch        *b_jet_sv1_efc;   //!
-   TBranch        *b_jet_sv1_sig3d;   //!
-   TBranch        *b_sv1_llr;   //!
-   TBranch        *b_jet_sv1_normdist;   //!
-   TBranch        *b_jet_sv1_deltaR;   //!
-   TBranch        *b_jet_sv1_Lxy;   //!
-   TBranch        *b_jet_sv1_L3d;   //!
-   TBranch        *b_jet_sv1_vtx_x;   //!
-   TBranch        *b_jet_sv1_vtx_y;   //!
-   TBranch        *b_jet_sv1_vtx_z;   //!
    TBranch        *b_jet_nBHadr;   //!
    TBranch        *b_jet_nCHadr;   //!
    TBranch        *b_jet_bH_pdgId;   //!
@@ -295,7 +301,41 @@ public :
    TBranch        *b_jet_trk_phi;   //!
    TBranch        *b_jet_trk_qoverp;   //!
    TBranch        *b_jet_trk_charge;   //!
-   TBranch        *b_jet_trk_ntrk;   //!
+   TBranch        *b_jet_trk_chi2;   //!
+   TBranch        *b_jet_trk_ndf;   //!
+   TBranch        *b_jet_trk_nNextToInnHits;   //!
+   TBranch        *b_jet_trk_nInnHits;   //!
+   TBranch        *b_jet_trk_nBLHits;   //!
+   TBranch        *b_jet_trk_nsharedBLHits;   //!
+   TBranch        *b_jet_trk_nsplitBLHits;   //!
+   TBranch        *b_jet_trk_nPixHits;   //!
+   TBranch        *b_jet_trk_nPixHoles;   //!
+   TBranch        *b_jet_trk_nsharedPixHits;   //!
+   TBranch        *b_jet_trk_nsplitPixHits;   //!
+   TBranch        *b_jet_trk_nSCTHits;   //!
+   TBranch        *b_jet_trk_nSCTHoles;   //!
+   TBranch        *b_jet_trk_nsharedSCTHits;   //!
+   TBranch        *b_jet_trk_expectBLayerHit;   //!
+   TBranch        *b_jet_trk_expectInnermostPixelLayerHit;   //!
+   TBranch        *b_jet_trk_expectNextToInnermostPixelLayerHit;   //!
+   TBranch        *b_jet_trk_d0;   //!
+   TBranch        *b_jet_trk_z0;   //!
+   TBranch        *b_jet_trk_ip3d_d0;   //!
+   TBranch        *b_jet_trk_ip3d_d02D;   //!
+   TBranch        *b_jet_trk_ip3d_z0;   //!
+   TBranch        *b_jet_trk_ip3d_d0sig;   //!
+   TBranch        *b_jet_trk_ip3d_z0sig;   //!
+   TBranch        *b_jet_trk_algo;   //!
+   TBranch        *b_jet_trk_vtx_X;   //!
+   TBranch        *b_jet_trk_vtx_Y;   //!
+   TBranch        *b_jet_trk_vtx_Z;   //!
+   TBranch        *b_jet_trk_pdg_id;   //!
+   TBranch        *b_jet_trk_barcode;   //!
+   TBranch        *b_jet_trk_parent_pdgid;   //!
+   TBranch        *b_jet_btag_ntrk;   //!
+   TBranch        *b_jet_ip3d_ntrk;   //!
+   TBranch        *b_jet_trk_ip3d_grade;   //!
+   TBranch        *b_jet_trk_ip3d_llr;   //!
    TBranch        *b_nmmc;   //!
    TBranch        *b_mymc_pt;   //!
    TBranch        *b_mymc_eta;   //!
@@ -326,14 +366,14 @@ public :
 #endif
 
 #ifdef sus_cxx
-sus::sus(TTree *tree) : fChain(0) 
+sus::sus(TTree *tree) : fChain(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("503822.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("503856.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("503822.root");
+         f = new TFile("503856.root");
       }
       f->GetObject("bTag_AntiKt4EMPFlowJets_BTagging201810",tree);
 
@@ -444,20 +484,6 @@ void sus::Init(TTree *tree)
    jet_rnnip_pc = 0;
    jet_rnnip_pu = 0;
    jet_rnnip_ptau = 0;
-   jet_sv1_Nvtx = 0;
-   jet_sv1_ntrkv = 0;
-   jet_sv1_n2t = 0;
-   jet_sv1_m = 0;
-   jet_sv1_efc = 0;
-   jet_sv1_sig3d = 0;
-   sv1_llr = 0;
-   jet_sv1_normdist = 0;
-   jet_sv1_deltaR = 0;
-   jet_sv1_Lxy = 0;
-   jet_sv1_L3d = 0;
-   jet_sv1_vtx_x = 0;
-   jet_sv1_vtx_y = 0;
-   jet_sv1_vtx_z = 0;
    jet_nBHadr = 0;
    jet_nCHadr = 0;
    jet_bH_pdgId = 0;
@@ -490,7 +516,41 @@ void sus::Init(TTree *tree)
    jet_trk_phi = 0;
    jet_trk_qoverp = 0;
    jet_trk_charge = 0;
-   jet_trk_ntrk = 0;
+   jet_trk_chi2 = 0;
+   jet_trk_ndf = 0;
+   jet_trk_nNextToInnHits = 0;
+   jet_trk_nInnHits = 0;
+   jet_trk_nBLHits = 0;
+   jet_trk_nsharedBLHits = 0;
+   jet_trk_nsplitBLHits = 0;
+   jet_trk_nPixHits = 0;
+   jet_trk_nPixHoles = 0;
+   jet_trk_nsharedPixHits = 0;
+   jet_trk_nsplitPixHits = 0;
+   jet_trk_nSCTHits = 0;
+   jet_trk_nSCTHoles = 0;
+   jet_trk_nsharedSCTHits = 0;
+   jet_trk_expectBLayerHit = 0;
+   jet_trk_expectInnermostPixelLayerHit = 0;
+   jet_trk_expectNextToInnermostPixelLayerHit = 0;
+   jet_trk_d0 = 0;
+   jet_trk_z0 = 0;
+   jet_trk_ip3d_d0 = 0;
+   jet_trk_ip3d_d02D = 0;
+   jet_trk_ip3d_z0 = 0;
+   jet_trk_ip3d_d0sig = 0;
+   jet_trk_ip3d_z0sig = 0;
+   jet_trk_algo = 0;
+   jet_trk_vtx_X = 0;
+   jet_trk_vtx_Y = 0;
+   jet_trk_vtx_Z = 0;
+   jet_trk_pdg_id = 0;
+   jet_trk_barcode = 0;
+   jet_trk_parent_pdgid = 0;
+   jet_btag_ntrk = 0;
+   jet_ip3d_ntrk = 0;
+   jet_trk_ip3d_grade = 0;
+   jet_trk_ip3d_llr = 0;
    mymc_pt = 0;
    mymc_eta = 0;
    mymc_phi = 0;
@@ -590,20 +650,6 @@ void sus::Init(TTree *tree)
    fChain->SetBranchAddress("jet_rnnip_pc", &jet_rnnip_pc, &b_jet_rnnip_pc);
    fChain->SetBranchAddress("jet_rnnip_pu", &jet_rnnip_pu, &b_jet_rnnip_pu);
    fChain->SetBranchAddress("jet_rnnip_ptau", &jet_rnnip_ptau, &b_jet_rnnip_ptau);
-   fChain->SetBranchAddress("jet_sv1_Nvtx", &jet_sv1_Nvtx, &b_jet_sv1_Nvtx);
-   fChain->SetBranchAddress("jet_sv1_ntrkv", &jet_sv1_ntrkv, &b_jet_sv1_ntrkv);
-   fChain->SetBranchAddress("jet_sv1_n2t", &jet_sv1_n2t, &b_jet_sv1_n2t);
-   fChain->SetBranchAddress("jet_sv1_m", &jet_sv1_m, &b_jet_sv1_m);
-   fChain->SetBranchAddress("jet_sv1_efc", &jet_sv1_efc, &b_jet_sv1_efc);
-   fChain->SetBranchAddress("jet_sv1_sig3d", &jet_sv1_sig3d, &b_jet_sv1_sig3d);
-   fChain->SetBranchAddress("sv1_llr", &sv1_llr, &b_sv1_llr);
-   fChain->SetBranchAddress("jet_sv1_normdist", &jet_sv1_normdist, &b_jet_sv1_normdist);
-   fChain->SetBranchAddress("jet_sv1_deltaR", &jet_sv1_deltaR, &b_jet_sv1_deltaR);
-   fChain->SetBranchAddress("jet_sv1_Lxy", &jet_sv1_Lxy, &b_jet_sv1_Lxy);
-   fChain->SetBranchAddress("jet_sv1_L3d", &jet_sv1_L3d, &b_jet_sv1_L3d);
-   fChain->SetBranchAddress("jet_sv1_vtx_x", &jet_sv1_vtx_x, &b_jet_sv1_vtx_x);
-   fChain->SetBranchAddress("jet_sv1_vtx_y", &jet_sv1_vtx_y, &b_jet_sv1_vtx_y);
-   fChain->SetBranchAddress("jet_sv1_vtx_z", &jet_sv1_vtx_z, &b_jet_sv1_vtx_z);
    fChain->SetBranchAddress("jet_nBHadr", &jet_nBHadr, &b_jet_nBHadr);
    fChain->SetBranchAddress("jet_nCHadr", &jet_nCHadr, &b_jet_nCHadr);
    fChain->SetBranchAddress("jet_bH_pdgId", &jet_bH_pdgId, &b_jet_bH_pdgId);
@@ -636,7 +682,41 @@ void sus::Init(TTree *tree)
    fChain->SetBranchAddress("jet_trk_phi", &jet_trk_phi, &b_jet_trk_phi);
    fChain->SetBranchAddress("jet_trk_qoverp", &jet_trk_qoverp, &b_jet_trk_qoverp);
    fChain->SetBranchAddress("jet_trk_charge", &jet_trk_charge, &b_jet_trk_charge);
-   fChain->SetBranchAddress("jet_trk_ntrk", &jet_trk_ntrk, &b_jet_trk_ntrk);
+   fChain->SetBranchAddress("jet_trk_chi2", &jet_trk_chi2, &b_jet_trk_chi2);
+   fChain->SetBranchAddress("jet_trk_ndf", &jet_trk_ndf, &b_jet_trk_ndf);
+   fChain->SetBranchAddress("jet_trk_nNextToInnHits", &jet_trk_nNextToInnHits, &b_jet_trk_nNextToInnHits);
+   fChain->SetBranchAddress("jet_trk_nInnHits", &jet_trk_nInnHits, &b_jet_trk_nInnHits);
+   fChain->SetBranchAddress("jet_trk_nBLHits", &jet_trk_nBLHits, &b_jet_trk_nBLHits);
+   fChain->SetBranchAddress("jet_trk_nsharedBLHits", &jet_trk_nsharedBLHits, &b_jet_trk_nsharedBLHits);
+   fChain->SetBranchAddress("jet_trk_nsplitBLHits", &jet_trk_nsplitBLHits, &b_jet_trk_nsplitBLHits);
+   fChain->SetBranchAddress("jet_trk_nPixHits", &jet_trk_nPixHits, &b_jet_trk_nPixHits);
+   fChain->SetBranchAddress("jet_trk_nPixHoles", &jet_trk_nPixHoles, &b_jet_trk_nPixHoles);
+   fChain->SetBranchAddress("jet_trk_nsharedPixHits", &jet_trk_nsharedPixHits, &b_jet_trk_nsharedPixHits);
+   fChain->SetBranchAddress("jet_trk_nsplitPixHits", &jet_trk_nsplitPixHits, &b_jet_trk_nsplitPixHits);
+   fChain->SetBranchAddress("jet_trk_nSCTHits", &jet_trk_nSCTHits, &b_jet_trk_nSCTHits);
+   fChain->SetBranchAddress("jet_trk_nSCTHoles", &jet_trk_nSCTHoles, &b_jet_trk_nSCTHoles);
+   fChain->SetBranchAddress("jet_trk_nsharedSCTHits", &jet_trk_nsharedSCTHits, &b_jet_trk_nsharedSCTHits);
+   fChain->SetBranchAddress("jet_trk_expectBLayerHit", &jet_trk_expectBLayerHit, &b_jet_trk_expectBLayerHit);
+   fChain->SetBranchAddress("jet_trk_expectInnermostPixelLayerHit", &jet_trk_expectInnermostPixelLayerHit, &b_jet_trk_expectInnermostPixelLayerHit);
+   fChain->SetBranchAddress("jet_trk_expectNextToInnermostPixelLayerHit", &jet_trk_expectNextToInnermostPixelLayerHit, &b_jet_trk_expectNextToInnermostPixelLayerHit);
+   fChain->SetBranchAddress("jet_trk_d0", &jet_trk_d0, &b_jet_trk_d0);
+   fChain->SetBranchAddress("jet_trk_z0", &jet_trk_z0, &b_jet_trk_z0);
+   fChain->SetBranchAddress("jet_trk_ip3d_d0", &jet_trk_ip3d_d0, &b_jet_trk_ip3d_d0);
+   fChain->SetBranchAddress("jet_trk_ip3d_d02D", &jet_trk_ip3d_d02D, &b_jet_trk_ip3d_d02D);
+   fChain->SetBranchAddress("jet_trk_ip3d_z0", &jet_trk_ip3d_z0, &b_jet_trk_ip3d_z0);
+   fChain->SetBranchAddress("jet_trk_ip3d_d0sig", &jet_trk_ip3d_d0sig, &b_jet_trk_ip3d_d0sig);
+   fChain->SetBranchAddress("jet_trk_ip3d_z0sig", &jet_trk_ip3d_z0sig, &b_jet_trk_ip3d_z0sig);
+   fChain->SetBranchAddress("jet_trk_algo", &jet_trk_algo, &b_jet_trk_algo);
+   fChain->SetBranchAddress("jet_trk_vtx_X", &jet_trk_vtx_X, &b_jet_trk_vtx_X);
+   fChain->SetBranchAddress("jet_trk_vtx_Y", &jet_trk_vtx_Y, &b_jet_trk_vtx_Y);
+   fChain->SetBranchAddress("jet_trk_vtx_Z", &jet_trk_vtx_Z, &b_jet_trk_vtx_Z);
+   fChain->SetBranchAddress("jet_trk_pdg_id", &jet_trk_pdg_id, &b_jet_trk_pdg_id);
+   fChain->SetBranchAddress("jet_trk_barcode", &jet_trk_barcode, &b_jet_trk_barcode);
+   fChain->SetBranchAddress("jet_trk_parent_pdgid", &jet_trk_parent_pdgid, &b_jet_trk_parent_pdgid);
+   fChain->SetBranchAddress("jet_btag_ntrk", &jet_btag_ntrk, &b_jet_btag_ntrk);
+   fChain->SetBranchAddress("jet_ip3d_ntrk", &jet_ip3d_ntrk, &b_jet_ip3d_ntrk);
+   fChain->SetBranchAddress("jet_trk_ip3d_grade", &jet_trk_ip3d_grade, &b_jet_trk_ip3d_grade);
+   fChain->SetBranchAddress("jet_trk_ip3d_llr", &jet_trk_ip3d_llr, &b_jet_trk_ip3d_llr);
    fChain->SetBranchAddress("nmmc", &nmmc, &b_nmmc);
    fChain->SetBranchAddress("mymc_pt", &mymc_pt, &b_mymc_pt);
    fChain->SetBranchAddress("mymc_eta", &mymc_eta, &b_mymc_eta);

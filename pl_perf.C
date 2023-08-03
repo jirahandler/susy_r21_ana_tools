@@ -5,9 +5,12 @@
  * @version 0.1
  * @date 2023-04-16
  */
+// mc16_13TeV .503825.MGPy8EG_A14NNPDF23LO_GG_rpvHF_1100_200_10ns.deriv.DAOD_TOPQ1.e8342_e7400_s3126_r9364_r9315_p3832
+
 #include "AtlasStyle.C"
 
-void pl_perf()
+    void
+    pl_perf()
 {
   SetAtlasStyle();
 

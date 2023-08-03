@@ -25,6 +25,9 @@ void tt::Loop()
    const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
    const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
 
+   TH1 *h_ip3d_ntrk_all = new TH1D("ntrk_all", "", 40, 0., 40.);
+   TH1 *h_ip3d_ntrk_tag = (TH1 *)h_ip3d_ntrk_all->Clone("ntrk_tag");
+
    TH1 *h_lxy_all = new TH1D("lxy_all", "", ndiv, xdiv);
    TH1 *h_lxy_tag = (TH1 *)h_lxy_all->Clone("lxy_tag");
 
@@ -85,8 +88,7 @@ void tt::Loop()
          if ((*jet_aliveAfterORmu)[ijet] == 0)
             continue;
 
-         int ntrk = (*jet_trk_ntrk)[ijet];
-         h_jet_ntrk->Fill(ntrk);
+         int ntrk = (*jet_ip3d_ntrk)[ijet];
 
          //  jet flavor
          int jf = (*jet_LabDr_HadF)[ijet];
@@ -127,10 +129,19 @@ void tt::Loop()
          // Lxy for all b-jets
          if (jf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
          {
+            int nbjet = (*jet_bH_Lxy)[ijet].size();
+            if (nbjet > 1)
+               continue;
+
             float lxy = (*jet_bH_Lxy)[ijet][0];
             h_lxy_all->Fill(lxy);
-            if (tagged)
+            h_ip3d_ntrk_all->Fill(ntrk);
+
+            if (tagged){
                h_lxy_tag->Fill(lxy);
+               h_ip3d_ntrk_tag->Fill(ntrk);
+            }
+
          }
          // Lxy for all c-jets
          if (jf == 1 && jet_cH_Lxy && !(*jet_cH_Lxy)[ijet].empty())

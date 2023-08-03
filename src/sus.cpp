@@ -4,10 +4,12 @@
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
+#include <TVector3.h>
 
 #include <iostream>
 #include <cmath>
 #include <map>
+
 using namespace std;
 
 double delR(double eta1, double eta2, double phi1, double phi2)
@@ -29,13 +31,11 @@ void sus::Loop()
 
    // book histograms
    TH1 *h_njet = new TH1I("njet", "", 10, 0., 10.);
-   TH1 *h_nbpromptjet = new TH1I("nbpromptjet", "", 10, 0., 10.);
-   TH1 *h_nbdisplacedjet = new TH1I("nbdisplacedjet", "", 10, 0., 10.);
    TH1 *h_nbjet = new TH1I("nbjet", "", 10, 0., 10.);
    TH1 *h_nbbjet = new TH1I("nbbjet", "", 100, 0., 100.);
    TH1 *h_nbcjet = new TH1I("nbcjet", "", 100, 0., 100.);
 
-   TH1 *h_jet_ntrk = new TH1I("ntrk", "", 40, 0., 40.);
+
    TH1 *h_bjet_ntrk = new TH1I("bjet_ntrk", "", 40, 0., 40.);
    TH1 *h_bpromptjet_ntrk = new TH1I("bpromptntrk", "", 40, 0., 40.);
    TH1 *h_bdisplacedjet_ntrk = new TH1I("bdisplacedntrk", "", 40, 0., 40.);
@@ -47,6 +47,12 @@ void sus::Loop()
    const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
    const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
 
+   TH1 *h_ip3d_ntrk_p_all = new TH1D("ntrk_p_all", "", 40, 0., 40.);
+   TH1 *h_ip3d_ntrk_p_tag = (TH1 *)h_ip3d_ntrk_p_all->Clone("ntrk_p_tag");
+
+   TH1 *h_ip3d_ntrk_np_all = new TH1D("ntrk_np_all", "", 40, 0., 40.);
+   TH1 *h_ip3d_ntrk_np_tag = (TH1 *)h_ip3d_ntrk_np_all->Clone("ntrk_np_tag");
+
    TH1 *h_lxy_all = new TH1D("lxy_all", "", ndiv, xdiv);
    TH1 *h_lxy_tag = (TH1 *)h_lxy_all->Clone("lxy_tag");
 
@@ -56,21 +62,6 @@ void sus::Loop()
    TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv1, xdiv1,ndiv,xdiv);
    TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
 
-   TH2 *h_llp_bip_lxy_all = new TH2F("llp_bip_lxy_all", "", ndiv1, xdiv1, ndiv, xdiv);
-   TH2 *h_llp_bip_lxy_tag = (TH2F *)h_llp_bip_lxy_all->Clone("llp_bip_lxy_tag");
-
-   TH1 *h_bip_displaced_all = new TH1D("bip_displaced_all", "", ndiv1, xdiv1);
-   TH1 *h_bip_displaced_tag = (TH1 *)h_bip_all->Clone("bip_displaced_tag");
-
-   TH1 *h_bip_prompt_all = new TH1D("bip_prompt_all", "", ndiv1, xdiv1);
-   TH1 *h_bip_prompt_tag = (TH1 *)h_bip_prompt_all->Clone("bip_prompt_tag");
-
-   TH1 *h_lxy_llp_all = new TH1D("lxy_llp_all", "", ndiv, xdiv);
-   TH1 *h_lxy_llp_tag = (TH1 *)h_lxy_llp_all->Clone("lxy_llp_tag");
-
-   TH1 *h_lxy_llp_bip0_all = new TH1D("lxy_llp_bip0_all", "", ndiv, xdiv);
-   TH1 *h_lxy_llp_bip0_tag = (TH1 *)h_lxy_llp_bip0_all->Clone("lxy_llp_bip0_tag");
-
    const int njf = 3;
 
    double xpdiv[] = {20, 30, 40, 50, 60, 75, 90, 110, 140, 200, 300};
@@ -79,25 +70,10 @@ void sus::Loop()
    TH1 *h_jetpt_all[njf];
    TH1 *h_jetpt_tag[njf];
 
-   TH1 *h_jetpt_prompt[njf];
-
-   TH1 *h_jetpt_llp_all[njf];
-   TH1 *h_jetpt_llp_tag[njf];
-
-   TH1 *h_dvR_llp_all[njf];
-   TH1 *h_dvR_llp_tag[njf];
-
    for (int jf = 0; jf < njf; ++jf)
    {
       h_jetpt_all[jf] = new TH1D(TString("jetpt_") + jf + "_all", "", npdiv, xpdiv);
-      h_jetpt_prompt[jf] = new TH1D(TString("jetpt_") + jf + "_prompt", "", npdiv, xpdiv);
       h_jetpt_tag[jf] = (TH1 *)h_jetpt_all[jf]->Clone(TString("jetpt_") + jf + "_tag");
-
-      h_jetpt_llp_all[jf] = new TH1D(TString("jetpt_") + jf + "_llp_all", "", npdiv, xpdiv);
-      h_jetpt_llp_tag[jf] = (TH1 *)h_jetpt_all[jf]->Clone(TString("jetpt_") + jf + "_llp_tag");
-
-      h_dvR_llp_all[jf] = new TH1D(TString("dvR_") + jf + "_llp_all", "", ndiv, xdiv);
-      h_dvR_llp_tag[jf] = (TH1 *)h_dvR_llp_all[jf]->Clone(TString("dvR_") + jf + "_llp_tag");
    }
 
 
@@ -146,12 +122,8 @@ void sus::Loop()
                   if ((*jet_aliveAfterORmu)[ijet] == 0)
                      continue;
 
-                  int ntrk = (*jet_trk_ntrk)[ijet];
-                  h_jet_ntrk->Fill(ntrk);
+                  int ntrk = (*jet_ip3d_ntrk)[ijet];
 
-                  // if (delR(etaq,etaj,phiq,phij) > 0.3)
-                  //{
-                  //  jet flavor
                   int jf = (*jet_LabDr_HadF)[ijet];
                   if (jf == 4)
                      jf = 1;
@@ -162,159 +134,53 @@ void sus::Loop()
 
                   int jfext = (*jet_DoubleHadLabel)[ijet];
                   cout << "The extended flavor labelling is:" << jfext << endl;
-                  if (jfext == 5)
-                     h_nbjet->Fill(jfext);
-                  else if (jfext == 55)
+
+                  if (jfext == 55)
                      h_nbbjet->Fill(jfext);
                   else if (jfext == 54)
                      h_nbcjet->Fill(jfext);
                   h_jetflav->Fill(jfext);
 
-                  int llpjf;
+                  int nb = (*jet_bH_Lxy)[ijet].size();
+                  h_nbjet->Fill(nb);
 
-                  // llp jet flavor, if jets are from llp
-                  // jet flavor would be -ve 99 if jets are not from llp decay
-
-                  if (jet_truthLLPJetLabel)
-                  {
-                     llpjf = (*jet_truthLLPJetLabel)[ijet];
-                     if (llpjf == 4)
-                        llpjf = 1;
-                     else if (llpjf == 5)
-                        llpjf = 2;
-                     else if (llpjf == 0)
-                        llpjf = 0;
-                  }
-
-                  if ((jf == 2) && (llpjf < 0))
-                  {
-                     h_nbpromptjet->Fill(jf);
-                     h_bpromptjet_ntrk->Fill(ntrk);
-                  }
-                  if (llpjf == 2)
-                  {
-                     h_nbdisplacedjet->Fill(llpjf);
-                     h_bdisplacedjet_ntrk->Fill(ntrk);
-                  }
-                  if (jf == 2)
-                  {
-                     h_bjet_ntrk->Fill(ntrk);
-                  }
+                  if (nb > 1)
+                     continue; // only consider single B-hadron cases
 
                   // jet tagging
                   const double frac_c = 0.030;
                   double a = (*jet_dl1r_pb)[ijet];
                   double b = frac_c * (*jet_dl1r_pc)[ijet] + (1 - frac_c) * (*jet_dl1r_pu)[ijet];
                   double w_dl1r = -99;
-                  if (a > 0 && b > 0)
+                  if (a > 0 && b > 0){
                      w_dl1r = log(a / b);
+                  }
                   bool tagged = w_dl1r > 2.20; // FixedCutBEff_77
                   // bool tagged = w_dl1r>1.27; // FixedCutBEff_85
 
-                  int nbjet = (*jet_bH_Lxy)[ijet].size();
-                  if (nbjet > 1)
-                     continue;
+                  // b-hadron decay position
+                  double jetlxy = (*jet_bH_Lxy)[ijet][0];
+                  // b-hadron IP
+                  double jetbip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
 
-                  // Lxy for all b-jets
-                  if (jf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty())
+                  TVector3 v_llp((*jet_truthLLP_Decay_x)[ijet] - truth_PVx, (*jet_truthLLP_Decay_y)[ijet] - truth_PVy, (*jet_truthLLP_Decay_z)[ijet] - truth_PVz);
+                  TVector3 v_bh((*jet_bH_x)[ijet][0] - truth_PVx, (*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_z)[ijet][0] - truth_PVz);
+                  double dr = v_llp.DeltaR(v_bh);
+
+                  if (fabs(jetbip) <= 1e-5 )
                   {
-                     float lxy = (*jet_bH_Lxy)[ijet][0];
-                     h_lxy_all->Fill(lxy);
-                     if (tagged)
-                        h_lxy_tag->Fill(lxy);
-                  }
-
-                  // pT plots
-                  double jetpt = (*jet_pt)[ijet] / 1e3;
-                  h_jetpt_all[jf]->Fill(jetpt);
-                  if (tagged)
-                  {
-                     h_jetpt_tag[jf]->Fill(jetpt);
-                  }
-                  if(llpjf<0){
-                     h_jetpt_prompt[jf]->Fill(jetpt);
-                  }
-
-                  // This has to do with bip; without this we can't get the angle between b jet axis and the LLP jet decay axis direction
-                  // Get all b-jets
-                  if ((jf==2 || llpjf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
-                  {
-                     float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
-                     float lxy = (*jet_bH_Lxy)[ijet][0];
-
-                     h_bip_all->Fill(bip);
-                     h_bip_lxy_all->Fill(bip, lxy);
+                     h_ip3d_ntrk_p_all->Fill(ntrk);
                      if (tagged)
                      {
-                        h_bip_tag->Fill(bip);
-                        h_bip_lxy_tag->Fill(bip, lxy);
+                        h_ip3d_ntrk_p_tag->Fill(ntrk);
                      }
                   }
-
-                  // Get only b-jets from llp decays marked as such
-                  if (llpjf == 2 && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
+                  else if (fabs(jetbip) > 1e-5 && fabs(jetbip) < 0.2 && dr<0.1)
                   {
-                     float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
-                     float lxy = (*jet_bH_Lxy)[ijet][0];
-
-                     h_lxy_llp_all->Fill(lxy);
-                     h_bip_displaced_all->Fill(bip);
-                     h_llp_bip_lxy_all->Fill(bip, lxy);
+                     h_ip3d_ntrk_np_all->Fill(ntrk);
                      if (tagged)
                      {
-                        h_lxy_llp_tag->Fill(lxy);
-                        h_bip_displaced_tag->Fill(bip);
-                        h_llp_bip_lxy_tag->Fill(bip, lxy);
-                     }
-
-                     if (bip==0){
-                        h_lxy_llp_bip0_all->Fill(lxy);
-                        if (tagged){
-                           h_lxy_llp_bip0_tag->Fill(lxy);
-                        }
-                     }
-                  }
-
-                  // Get only prompt decays
-                  if ((jf == 2) && (llpjf < 0) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
-                  {
-                     float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
-                     h_bip_prompt_all->Fill(bip);
-                     if (tagged)
-                     {
-                        h_bip_prompt_tag->Fill(bip);
-                     }
-                  }
-
-                  /**
-                  // Neutralino (parent) decay vertex for all child jets
-                  if ((!(*jet_truthLLP_Decay_x).empty()) && (!(*jet_truthLLP_Decay_y).empty()) && (!(*jet_truthLLP_Decay_z).empty()))
-                  {
-
-                    float v1 = (truth_PVx - (*jet_truthLLP_Decay_x)[ijet]);
-                    float v2 = (truth_PVy - (*jet_truthLLP_Decay_y)[ijet]);
-                    float v3 = (truth_PVz - (*jet_truthLLP_Decay_z)[ijet]);
-                    // cout << "Truth PV coordinates are: " << truth_PVx << "," << truth_PVy << "," << truth_PVz << endl;
-                    // cout << "Decay Vtx coordinates are: " << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << "," << (*jet_truthLLP_Decay_x)[ijet] << endl;
-                    TVector3 v;
-                    v.SetXYZ(v1, v2, v3);
-                    double dvR = v.Mag();
-                  }
-                  */
-                  if (llpjf == 0 || llpjf == 1 || llpjf == 2)
-                  {
-                     h_dvR_llp_all[llpjf]->Fill(dvR);
-                     if (tagged)
-                     {
-                        h_dvR_llp_tag[llpjf]->Fill(dvR);
-                     }
-
-                     // LLP pT plots
-                     double jetpt = (*jet_pt)[ijet] / 1e3;
-                     h_jetpt_llp_all[llpjf]->Fill(jetpt);
-                     if (tagged)
-                     {
-                        h_jetpt_llp_tag[llpjf]->Fill(jetpt);
+                        h_ip3d_ntrk_np_tag->Fill(ntrk);
                      }
                   }
                }

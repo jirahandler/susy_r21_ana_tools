@@ -15,10 +15,10 @@ void my_susy_plots()
     // define plot types here
     // must match the partial names of histos found in a1_<dsid>.root
     const char *plot_type[] = {
-        "lxy",
-        "lxy_llp_bip0",
-        "bip",
-        "jetpt_2",
+        "ntrk"
+        //"lxy_llp_bip0",
+        //"bip",
+        //"jetpt_2",
         //"ntrk",
         //"jetpt_0",
         //"jetpt_2_llp",
@@ -29,10 +29,10 @@ void my_susy_plots()
     };
     // define plot titles here
     const char *plot_title[] = {
-        "Lxy [mm]",
-        "Lxy (bip=0) [mm]"
-        "b-impact parameter [mm]",
-        "b-jet p_{T} [GeV]",
+        "Num Tracks"
+        //"Lxy (bip=0) [mm]"
+        //"b-impact parameter [mm]",
+        //"b-jet p_{T} [GeV]",
         //"number of tracks",
         //"light jet p_{T} [GeV]",
         //"b-jet (llp jets)  p_{T} [GeV]",
@@ -69,20 +69,20 @@ void my_susy_plots()
         // after running d_ana, you should have gotten output files of the form a1_<dsid>.root
 
         const char *filelist[] = {
-            "merged_file_1100",
-            "merged_file_1200",
-            "merged_file_1300",
-            "merged_file_1400",
-            "merged_file_1500",
-            "merged_file_1600",
-            "merged_file_1700",
+            "a1_hf_1700",
+            //"merged_file_1200",
+            //"merged_file_1300",
+            //"merged_file_1400",
+            //"merged_file_1500",
+            //"merged_file_1600",
+            //"merged_file_1700",
             "a1_410470",
-            "a1_410470",
-            "a1_410470",
-            "a1_410470",
-            "a1_410470",
-            "a1_410470",
-            "a1_410470"
+            //"a1_410470",
+            //"a1_410470",
+            //"a1_410470",
+            //"a1_410470",
+            //"a1_410470",
+            //"a1_410470"
         };
 
         // Get total size of the char array; div by 2 because ... pairs
@@ -96,7 +96,7 @@ void my_susy_plots()
         {
             // This contains the list of files you want to compare
             const char *
-                chfile[] = {filelist[fpctr], filelist[fpctr + 7]};
+                chfile[] = {filelist[fpctr], filelist[fpctr + 1]};
             const int nf = sizeof(chfile) / sizeof(const char *);
             TH1 *h[nf];
 
@@ -181,6 +181,7 @@ void my_susy_plots()
             l->SetBorderSize(0);
             l->SetFillStyle(0);
             l->SetTextFont(42);
+            l->SetTextSize(0.04);
 
             for (int kf = 0; kf < nf; ++kf)
             {

@@ -5,23 +5,16 @@ void my_susy_extended_plots()
     SetAtlasStyle();
 
     const char *plot_type[] = {
-        "lxy",
-        "lxy_llp_bip0",
-        "jetpt_2"};
+        "ntrk"
+        };
 
     const char *plot_title[] = {
-        "Lxy [mm]",
-        "Lxy (bip=0) [mm]",
-        "b-jet p_{T} [GeV]"};
+        "Num Tracks"
+        };
 
     const char *filelist[] = {
-        "merged_file_1100",
-        "merged_file_1200",
-        "merged_file_1300",
-        "merged_file_1400",
-        "merged_file_1500",
-        "merged_file_1600",
-        "merged_file_1700"};
+        "a1_hf_1700"
+        };
     const char *ttfile = {"a1_410470"};
 
     int nplots = (sizeof(plot_type) / sizeof(plot_type[0]));
@@ -31,7 +24,7 @@ void my_susy_extended_plots()
     {
         if (kp == 1)
             continue;
-        bool dofit = false;
+        bool dofit = true;
         // Set some plotting flags
         if (kp == 2)
         {
@@ -63,13 +56,6 @@ void my_susy_extended_plots()
             hhf[0]->Divide(hhf[0], hf_hall[0], 1., 1., "B");
             htt->Divide(htt, htt_hall, 1., 1., "B");
 
-            if (kp == 0)
-            {
-                hhf[1] = (TH1 *)hf_file->Get(TString(plot_type[kp + 1]) + "_tag");
-                hf_hall[1] = (TH1 *)hf_file->Get(TString(plot_type[kp + 1]) + "_all");
-                hhf[1]->Divide(hhf[1], hf_hall[1], 1., 1., "B");
-            }
-
             // Set Canvas
 
             TPad *lowerPad, *upperPad;
@@ -80,11 +66,6 @@ void my_susy_extended_plots()
             lowerPad = new TPad("cl", "", 0, 0, 1., 0.375);
             upperPad = new TPad("cu", "", 0, 0.375, 1., 1.);
 
-            if (kp == 0)
-            {
-                upperPad->SetLogx();
-                lowerPad->SetLogx();
-            }
             // upperPad->SetLogy();
 
             lowerPad->Draw();
@@ -103,6 +84,7 @@ void my_susy_extended_plots()
             l->SetBorderSize(0);
             l->SetFillStyle(0);
             l->SetTextFont(42);
+            l->SetTextSize(0.04);
 
             htt->SetMarkerStyle(8);
             htt->SetMarkerSize(1.2);
@@ -114,32 +96,17 @@ void my_susy_extended_plots()
             hhf[0]->SetMarkerColor(icol[1]);
             hhf[0]->SetLineColor(icol[1]);
 
-            if (kp == 0)
-            {
-                hhf[1]->SetMarkerStyle(8);
-                hhf[1]->SetMarkerSize(1.2);
-                hhf[1]->SetMarkerColor(icol[2]);
-                hhf[1]->SetLineColor(icol[2]);
-            }
-
             htt->GetYaxis()->SetTitle("Tagging efficiency");
             htt->GetXaxis()->SetRangeUser(0.01,100.);
-            htt->SetMinimum(1e-4); // or 0, if not log scale
+            htt->SetMinimum(0); // or 0, if not log scale
             htt->SetMaximum(1.1);
 
-            hhf[0]->SetMinimum(1e-4); // or 0, if not log scale
+            hhf[0]->SetMinimum(0); // or 0, if not log scale
             hhf[0]->SetMaximum(1.1);
             hhf[0]->GetXaxis()->SetRangeUser(0.01, 100.);
 
             htt->Draw("e0");
             hhf[0]->Draw("e0SAME");
-            if (kp == 0)
-            {
-                hhf[1]->SetMinimum(1e-4); // or 0, if not log scale
-                hhf[1]->SetMaximum(1.1);
-                hhf[1]->Draw("e0SAME");
-                hhf[1]->GetXaxis()->SetRangeUser(0.01, 100.);
-            }
 
             htt->GetXaxis()->SetLabelSize(0);
             htt->GetXaxis()->SetTitleSize(0);
@@ -147,10 +114,6 @@ void my_susy_extended_plots()
             l->AddEntry(htt, "tt-bar", "l");
             l->AddEntry(hhf[0], filelist[kf], "l");
 
-            if (kp == 0)
-            {
-                l->AddEntry(hhf[1], TString("bip=0") + filelist[kf], "l");
-            }
             l->Draw();
 
             lowerPad->cd();
@@ -162,12 +125,6 @@ void my_susy_extended_plots()
 
             hhr[0]->Divide(hhr[0], htt);
 
-            if (kp == 0)
-            {
-                hhr[1] = (TH1 *)hhf[1]->Clone(TString(hhf[1]->GetName()) + "_ratio");
-                hhr[1]->Divide(hhr[1], htt);
-            }
-
             hhr[0]->GetYaxis()->SetNdivisions(505);
             hhr[0]->GetYaxis()->SetTitle("Ratio to nominal");
             hhr[0]->GetYaxis()->SetTitleOffset(0.8);
@@ -175,23 +132,14 @@ void my_susy_extended_plots()
             hhr[0]->GetYaxis()->SetLabelSize(0.085);
             hhr[0]->GetXaxis()->SetTitleSize(0.085);
             hhr[0]->GetXaxis()->SetLabelSize(0.085);
-            hhr[0]->GetXaxis()->SetTitle(plot_type[kp]);
+            hhr[0]->GetXaxis()->SetTitle(plot_title[kp]);
             hhr[0]->GetXaxis()->SetRangeUser(0.01, 100.);
-            if (kp == 0)
-            {
-                hhr[1]->GetXaxis()->SetTitle(plot_type[kp + 1]);
-                hhr[1]->GetXaxis()->SetRangeUser(0.01, 100.);
-            }
+
             hhr[0]->GetXaxis()->SetMoreLogLabels();
             hhr[0]->GetXaxis()->SetTickLength(0.05);
             hhr[0]->SetMinimum(0.1);
             hhr[0]->SetMaximum(2.5);
             hhr[0]->Draw();
-
-            if (kp == 0)
-            {
-                hhr[1]->Draw("same");
-            }
 
             TString sp = "new_tagrate_";
             sp += TString(plot_type[kp]) + "_" + TString(filelist[kf]) + "tt" + ".png";
