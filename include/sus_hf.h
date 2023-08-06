@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Sun Aug  6 02:10:28 2023 by ROOT version 6.08/06
+// Tue Aug  1 07:00:26 2023 by ROOT version 6.24/08
 // from TTree bTag_AntiKt4EMPFlowJets_BTagging201810/bTagAntiKt4EMPFlowJets_BTagging201810
-// found on file: lf_1100.root
+// found on file: 503856.root
 //////////////////////////////////////////////////////////
 
 #ifndef sus_h
@@ -13,7 +13,7 @@
 #include <TFile.h>
 
 // Header file for the classes stored in the TTree if any.
-#include "vector"
+#include <vector>
 
 using namespace std;
 
@@ -105,78 +105,6 @@ public :
    vector<float>   *jet_rnnip_pc;
    vector<float>   *jet_rnnip_pu;
    vector<float>   *jet_rnnip_ptau;
-   Float_t         PV_jf_x;
-   Float_t         PV_jf_y;
-   Float_t         PV_jf_z;
-   vector<vector<int> > *jet_trk_jf_Vertex;
-   vector<float>   *jet_jf_pb;
-   vector<float>   *jet_jf_pc;
-   vector<float>   *jet_jf_pu;
-   vector<float>   *jet_jf_llr;
-   vector<float>   *jet_jf_m;
-   vector<float>   *jet_jf_mUncorr;
-   vector<float>   *jet_jf_efc;
-   vector<float>   *jet_jf_deta;
-   vector<float>   *jet_jf_dphi;
-   vector<float>   *jet_jf_dR;
-   vector<float>   *jet_jf_dRFlightDir;
-   vector<float>   *jet_jf_ntrkAtVx;
-   vector<float>   *jet_jf_nvtx;
-   vector<float>   *jet_jf_sig3d;
-   vector<float>   *jet_jf_nvtx1t;
-   vector<float>   *jet_jf_n2t;
-   vector<float>   *jet_jf_VTXsize;
-   vector<vector<float> > *jet_jf_vtx_chi2;
-   vector<vector<float> > *jet_jf_vtx_ndf;
-   vector<vector<int> > *jet_jf_vtx_ntrk;
-   vector<vector<float> > *jet_jf_vtx_L3D;
-   vector<vector<float> > *jet_jf_vtx_sig3D;
-   vector<float>   *jet_jf_phi;
-   vector<float>   *jet_jf_theta;
-   vector<vector<float> > *jet_jf_vtx_sigTrans;
-   vector<vector<float> > *jet_jf_vtx_x;
-   vector<vector<float> > *jet_jf_vtx_x_err;
-   vector<vector<float> > *jet_jf_vtx_y;
-   vector<vector<float> > *jet_jf_vtx_y_err;
-   vector<vector<float> > *jet_jf_vtx_z;
-   vector<vector<float> > *jet_jf_vtx_z_err;
-   vector<float>   *jet_jf_theta_err;
-   vector<float>   *jet_jf_phi_err;
-   vector<float>   *nTrk_vtx1;
-   vector<float>   *mass_first_vtx;
-   vector<float>   *e_first_vtx;
-   vector<float>   *e_frac_vtx1;
-   vector<float>   *closestVtx_L3D;
-   vector<float>   *JF_Lxy1;
-   vector<float>   *vtx1_MaxTrkRapidity;
-   vector<float>   *vtx1_AvgTrkRapidity;
-   vector<float>   *vtx1_MinTrkRapidity;
-   vector<float>   *nTrk_vtx2;
-   vector<float>   *mass_second_vtx;
-   vector<float>   *e_second_vtx;
-   vector<float>   *e_frac_vtx2;
-   vector<float>   *second_closestVtx_L3D;
-   vector<float>   *JF_Lxy2;
-   vector<float>   *vtx2_MaxTrkRapidity;
-   vector<float>   *vtx2_AvgTrkRapidity;
-   vector<float>   *vtx2_MinTrkRapidity;
-   vector<float>   *MaxTrkRapidity;
-   vector<float>   *MinTrkRapidity;
-   vector<float>   *AvgTrkRapidity;
-   vector<int>     *jet_sv1_Nvtx;
-   vector<float>   *jet_sv1_ntrkv;
-   vector<float>   *jet_sv1_n2t;
-   vector<float>   *jet_sv1_m;
-   vector<float>   *jet_sv1_efc;
-   vector<float>   *jet_sv1_sig3d;
-   vector<float>   *sv1_llr;
-   vector<float>   *jet_sv1_normdist;
-   vector<float>   *jet_sv1_deltaR;
-   vector<float>   *jet_sv1_Lxy;
-   vector<float>   *jet_sv1_L3d;
-   vector<vector<float> > *jet_sv1_vtx_x;
-   vector<vector<float> > *jet_sv1_vtx_y;
-   vector<vector<float> > *jet_sv1_vtx_z;
    vector<int>     *jet_nBHadr;
    vector<int>     *jet_nCHadr;
    vector<vector<int> > *jet_bH_pdgId;
@@ -341,78 +269,6 @@ public :
    TBranch        *b_jet_rnnip_pc;   //!
    TBranch        *b_jet_rnnip_pu;   //!
    TBranch        *b_jet_rnnip_ptau;   //!
-   TBranch        *b_PV_jf_x;   //!
-   TBranch        *b_PV_jf_y;   //!
-   TBranch        *b_PV_jf_z;   //!
-   TBranch        *b_jet_trk_jf_Vertex;   //!
-   TBranch        *b_jet_jf_pb;   //!
-   TBranch        *b_jet_jf_pc;   //!
-   TBranch        *b_jet_jf_pu;   //!
-   TBranch        *b_jet_jf_llr;   //!
-   TBranch        *b_jet_jf_m;   //!
-   TBranch        *b_jet_jf_mUncorr;   //!
-   TBranch        *b_jet_jf_efc;   //!
-   TBranch        *b_jet_jf_deta;   //!
-   TBranch        *b_jet_jf_dphi;   //!
-   TBranch        *b_jet_jf_dR;   //!
-   TBranch        *b_jet_jf_dRFlightDir;   //!
-   TBranch        *b_jet_jf_ntrkAtVx;   //!
-   TBranch        *b_jet_jf_nvtx;   //!
-   TBranch        *b_jet_jf_sig3d;   //!
-   TBranch        *b_jet_jf_nvtx1t;   //!
-   TBranch        *b_jet_jf_n2t;   //!
-   TBranch        *b_jet_jf_VTXsize;   //!
-   TBranch        *b_jet_jf_vtx_chi2;   //!
-   TBranch        *b_jet_jf_vtx_ndf;   //!
-   TBranch        *b_jet_jf_vtx_ntrk;   //!
-   TBranch        *b_jet_jf_vtx_L3D;   //!
-   TBranch        *b_jet_jf_vtx_sig3D;   //!
-   TBranch        *b_jet_jf_phi;   //!
-   TBranch        *b_jet_jf_theta;   //!
-   TBranch        *b_jet_jf_vtx_sigTrans;   //!
-   TBranch        *b_jet_jf_vtx_x;   //!
-   TBranch        *b_jet_jf_vtx_x_err;   //!
-   TBranch        *b_jet_jf_vtx_y;   //!
-   TBranch        *b_jet_jf_vtx_y_err;   //!
-   TBranch        *b_jet_jf_vtx_z;   //!
-   TBranch        *b_jet_jf_vtx_z_err;   //!
-   TBranch        *b_jet_jf_theta_err;   //!
-   TBranch        *b_jet_jf_phi_err;   //!
-   TBranch        *b_nTrk_vtx1;   //!
-   TBranch        *b_mass_first_vtx;   //!
-   TBranch        *b_e_first_vtx;   //!
-   TBranch        *b_e_frac_vtx1;   //!
-   TBranch        *b_closestVtx_L3D;   //!
-   TBranch        *b_JF_Lxy1;   //!
-   TBranch        *b_vtx1_MaxTrkRapidity;   //!
-   TBranch        *b_vtx1_AvgTrkRapidity;   //!
-   TBranch        *b_vtx1_MinTrkRapidity;   //!
-   TBranch        *b_nTrk_vtx2;   //!
-   TBranch        *b_mass_second_vtx;   //!
-   TBranch        *b_e_second_vtx;   //!
-   TBranch        *b_e_frac_vtx2;   //!
-   TBranch        *b_second_closestVtx_L3D;   //!
-   TBranch        *b_JF_Lxy2;   //!
-   TBranch        *b_vtx2_MaxTrkRapidity;   //!
-   TBranch        *b_vtx2_AvgTrkRapidity;   //!
-   TBranch        *b_vtx2_MinTrkRapidity;   //!
-   TBranch        *b_MaxTrkRapidity;   //!
-   TBranch        *b_MinTrkRapidity;   //!
-   TBranch        *b_AvgTrkRapidity;   //!
-   TBranch        *b_jet_sv1_Nvtx;   //!
-   TBranch        *b_jet_sv1_ntrkv;   //!
-   TBranch        *b_jet_sv1_n2t;   //!
-   TBranch        *b_jet_sv1_m;   //!
-   TBranch        *b_jet_sv1_efc;   //!
-   TBranch        *b_jet_sv1_sig3d;   //!
-   TBranch        *b_sv1_llr;   //!
-   TBranch        *b_jet_sv1_normdist;   //!
-   TBranch        *b_jet_sv1_deltaR;   //!
-   TBranch        *b_jet_sv1_Lxy;   //!
-   TBranch        *b_jet_sv1_L3d;   //!
-   TBranch        *b_jet_sv1_vtx_x;   //!
-   TBranch        *b_jet_sv1_vtx_y;   //!
-   TBranch        *b_jet_sv1_vtx_z;   //!
    TBranch        *b_jet_nBHadr;   //!
    TBranch        *b_jet_nCHadr;   //!
    TBranch        *b_jet_bH_pdgId;   //!
@@ -515,9 +371,9 @@ sus::sus(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("lf_1100.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("503856.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("lf_1100.root");
+         f = new TFile("503856.root");
       }
       f->GetObject("bTag_AntiKt4EMPFlowJets_BTagging201810",tree);
 
@@ -628,75 +484,6 @@ void sus::Init(TTree *tree)
    jet_rnnip_pc = 0;
    jet_rnnip_pu = 0;
    jet_rnnip_ptau = 0;
-   jet_trk_jf_Vertex = 0;
-   jet_jf_pb = 0;
-   jet_jf_pc = 0;
-   jet_jf_pu = 0;
-   jet_jf_llr = 0;
-   jet_jf_m = 0;
-   jet_jf_mUncorr = 0;
-   jet_jf_efc = 0;
-   jet_jf_deta = 0;
-   jet_jf_dphi = 0;
-   jet_jf_dR = 0;
-   jet_jf_dRFlightDir = 0;
-   jet_jf_ntrkAtVx = 0;
-   jet_jf_nvtx = 0;
-   jet_jf_sig3d = 0;
-   jet_jf_nvtx1t = 0;
-   jet_jf_n2t = 0;
-   jet_jf_VTXsize = 0;
-   jet_jf_vtx_chi2 = 0;
-   jet_jf_vtx_ndf = 0;
-   jet_jf_vtx_ntrk = 0;
-   jet_jf_vtx_L3D = 0;
-   jet_jf_vtx_sig3D = 0;
-   jet_jf_phi = 0;
-   jet_jf_theta = 0;
-   jet_jf_vtx_sigTrans = 0;
-   jet_jf_vtx_x = 0;
-   jet_jf_vtx_x_err = 0;
-   jet_jf_vtx_y = 0;
-   jet_jf_vtx_y_err = 0;
-   jet_jf_vtx_z = 0;
-   jet_jf_vtx_z_err = 0;
-   jet_jf_theta_err = 0;
-   jet_jf_phi_err = 0;
-   nTrk_vtx1 = 0;
-   mass_first_vtx = 0;
-   e_first_vtx = 0;
-   e_frac_vtx1 = 0;
-   closestVtx_L3D = 0;
-   JF_Lxy1 = 0;
-   vtx1_MaxTrkRapidity = 0;
-   vtx1_AvgTrkRapidity = 0;
-   vtx1_MinTrkRapidity = 0;
-   nTrk_vtx2 = 0;
-   mass_second_vtx = 0;
-   e_second_vtx = 0;
-   e_frac_vtx2 = 0;
-   second_closestVtx_L3D = 0;
-   JF_Lxy2 = 0;
-   vtx2_MaxTrkRapidity = 0;
-   vtx2_AvgTrkRapidity = 0;
-   vtx2_MinTrkRapidity = 0;
-   MaxTrkRapidity = 0;
-   MinTrkRapidity = 0;
-   AvgTrkRapidity = 0;
-   jet_sv1_Nvtx = 0;
-   jet_sv1_ntrkv = 0;
-   jet_sv1_n2t = 0;
-   jet_sv1_m = 0;
-   jet_sv1_efc = 0;
-   jet_sv1_sig3d = 0;
-   sv1_llr = 0;
-   jet_sv1_normdist = 0;
-   jet_sv1_deltaR = 0;
-   jet_sv1_Lxy = 0;
-   jet_sv1_L3d = 0;
-   jet_sv1_vtx_x = 0;
-   jet_sv1_vtx_y = 0;
-   jet_sv1_vtx_z = 0;
    jet_nBHadr = 0;
    jet_nCHadr = 0;
    jet_bH_pdgId = 0;
@@ -863,78 +650,6 @@ void sus::Init(TTree *tree)
    fChain->SetBranchAddress("jet_rnnip_pc", &jet_rnnip_pc, &b_jet_rnnip_pc);
    fChain->SetBranchAddress("jet_rnnip_pu", &jet_rnnip_pu, &b_jet_rnnip_pu);
    fChain->SetBranchAddress("jet_rnnip_ptau", &jet_rnnip_ptau, &b_jet_rnnip_ptau);
-   fChain->SetBranchAddress("PV_jf_x", &PV_jf_x, &b_PV_jf_x);
-   fChain->SetBranchAddress("PV_jf_y", &PV_jf_y, &b_PV_jf_y);
-   fChain->SetBranchAddress("PV_jf_z", &PV_jf_z, &b_PV_jf_z);
-   fChain->SetBranchAddress("jet_trk_jf_Vertex", &jet_trk_jf_Vertex, &b_jet_trk_jf_Vertex);
-   fChain->SetBranchAddress("jet_jf_pb", &jet_jf_pb, &b_jet_jf_pb);
-   fChain->SetBranchAddress("jet_jf_pc", &jet_jf_pc, &b_jet_jf_pc);
-   fChain->SetBranchAddress("jet_jf_pu", &jet_jf_pu, &b_jet_jf_pu);
-   fChain->SetBranchAddress("jet_jf_llr", &jet_jf_llr, &b_jet_jf_llr);
-   fChain->SetBranchAddress("jet_jf_m", &jet_jf_m, &b_jet_jf_m);
-   fChain->SetBranchAddress("jet_jf_mUncorr", &jet_jf_mUncorr, &b_jet_jf_mUncorr);
-   fChain->SetBranchAddress("jet_jf_efc", &jet_jf_efc, &b_jet_jf_efc);
-   fChain->SetBranchAddress("jet_jf_deta", &jet_jf_deta, &b_jet_jf_deta);
-   fChain->SetBranchAddress("jet_jf_dphi", &jet_jf_dphi, &b_jet_jf_dphi);
-   fChain->SetBranchAddress("jet_jf_dR", &jet_jf_dR, &b_jet_jf_dR);
-   fChain->SetBranchAddress("jet_jf_dRFlightDir", &jet_jf_dRFlightDir, &b_jet_jf_dRFlightDir);
-   fChain->SetBranchAddress("jet_jf_ntrkAtVx", &jet_jf_ntrkAtVx, &b_jet_jf_ntrkAtVx);
-   fChain->SetBranchAddress("jet_jf_nvtx", &jet_jf_nvtx, &b_jet_jf_nvtx);
-   fChain->SetBranchAddress("jet_jf_sig3d", &jet_jf_sig3d, &b_jet_jf_sig3d);
-   fChain->SetBranchAddress("jet_jf_nvtx1t", &jet_jf_nvtx1t, &b_jet_jf_nvtx1t);
-   fChain->SetBranchAddress("jet_jf_n2t", &jet_jf_n2t, &b_jet_jf_n2t);
-   fChain->SetBranchAddress("jet_jf_VTXsize", &jet_jf_VTXsize, &b_jet_jf_VTXsize);
-   fChain->SetBranchAddress("jet_jf_vtx_chi2", &jet_jf_vtx_chi2, &b_jet_jf_vtx_chi2);
-   fChain->SetBranchAddress("jet_jf_vtx_ndf", &jet_jf_vtx_ndf, &b_jet_jf_vtx_ndf);
-   fChain->SetBranchAddress("jet_jf_vtx_ntrk", &jet_jf_vtx_ntrk, &b_jet_jf_vtx_ntrk);
-   fChain->SetBranchAddress("jet_jf_vtx_L3D", &jet_jf_vtx_L3D, &b_jet_jf_vtx_L3D);
-   fChain->SetBranchAddress("jet_jf_vtx_sig3D", &jet_jf_vtx_sig3D, &b_jet_jf_vtx_sig3D);
-   fChain->SetBranchAddress("jet_jf_phi", &jet_jf_phi, &b_jet_jf_phi);
-   fChain->SetBranchAddress("jet_jf_theta", &jet_jf_theta, &b_jet_jf_theta);
-   fChain->SetBranchAddress("jet_jf_vtx_sigTrans", &jet_jf_vtx_sigTrans, &b_jet_jf_vtx_sigTrans);
-   fChain->SetBranchAddress("jet_jf_vtx_x", &jet_jf_vtx_x, &b_jet_jf_vtx_x);
-   fChain->SetBranchAddress("jet_jf_vtx_x_err", &jet_jf_vtx_x_err, &b_jet_jf_vtx_x_err);
-   fChain->SetBranchAddress("jet_jf_vtx_y", &jet_jf_vtx_y, &b_jet_jf_vtx_y);
-   fChain->SetBranchAddress("jet_jf_vtx_y_err", &jet_jf_vtx_y_err, &b_jet_jf_vtx_y_err);
-   fChain->SetBranchAddress("jet_jf_vtx_z", &jet_jf_vtx_z, &b_jet_jf_vtx_z);
-   fChain->SetBranchAddress("jet_jf_vtx_z_err", &jet_jf_vtx_z_err, &b_jet_jf_vtx_z_err);
-   fChain->SetBranchAddress("jet_jf_theta_err", &jet_jf_theta_err, &b_jet_jf_theta_err);
-   fChain->SetBranchAddress("jet_jf_phi_err", &jet_jf_phi_err, &b_jet_jf_phi_err);
-   fChain->SetBranchAddress("nTrk_vtx1", &nTrk_vtx1, &b_nTrk_vtx1);
-   fChain->SetBranchAddress("mass_first_vtx", &mass_first_vtx, &b_mass_first_vtx);
-   fChain->SetBranchAddress("e_first_vtx", &e_first_vtx, &b_e_first_vtx);
-   fChain->SetBranchAddress("e_frac_vtx1", &e_frac_vtx1, &b_e_frac_vtx1);
-   fChain->SetBranchAddress("closestVtx_L3D", &closestVtx_L3D, &b_closestVtx_L3D);
-   fChain->SetBranchAddress("JF_Lxy1", &JF_Lxy1, &b_JF_Lxy1);
-   fChain->SetBranchAddress("vtx1_MaxTrkRapidity", &vtx1_MaxTrkRapidity, &b_vtx1_MaxTrkRapidity);
-   fChain->SetBranchAddress("vtx1_AvgTrkRapidity", &vtx1_AvgTrkRapidity, &b_vtx1_AvgTrkRapidity);
-   fChain->SetBranchAddress("vtx1_MinTrkRapidity", &vtx1_MinTrkRapidity, &b_vtx1_MinTrkRapidity);
-   fChain->SetBranchAddress("nTrk_vtx2", &nTrk_vtx2, &b_nTrk_vtx2);
-   fChain->SetBranchAddress("mass_second_vtx", &mass_second_vtx, &b_mass_second_vtx);
-   fChain->SetBranchAddress("e_second_vtx", &e_second_vtx, &b_e_second_vtx);
-   fChain->SetBranchAddress("e_frac_vtx2", &e_frac_vtx2, &b_e_frac_vtx2);
-   fChain->SetBranchAddress("second_closestVtx_L3D", &second_closestVtx_L3D, &b_second_closestVtx_L3D);
-   fChain->SetBranchAddress("JF_Lxy2", &JF_Lxy2, &b_JF_Lxy2);
-   fChain->SetBranchAddress("vtx2_MaxTrkRapidity", &vtx2_MaxTrkRapidity, &b_vtx2_MaxTrkRapidity);
-   fChain->SetBranchAddress("vtx2_AvgTrkRapidity", &vtx2_AvgTrkRapidity, &b_vtx2_AvgTrkRapidity);
-   fChain->SetBranchAddress("vtx2_MinTrkRapidity", &vtx2_MinTrkRapidity, &b_vtx2_MinTrkRapidity);
-   fChain->SetBranchAddress("MaxTrkRapidity", &MaxTrkRapidity, &b_MaxTrkRapidity);
-   fChain->SetBranchAddress("MinTrkRapidity", &MinTrkRapidity, &b_MinTrkRapidity);
-   fChain->SetBranchAddress("AvgTrkRapidity", &AvgTrkRapidity, &b_AvgTrkRapidity);
-   fChain->SetBranchAddress("jet_sv1_Nvtx", &jet_sv1_Nvtx, &b_jet_sv1_Nvtx);
-   fChain->SetBranchAddress("jet_sv1_ntrkv", &jet_sv1_ntrkv, &b_jet_sv1_ntrkv);
-   fChain->SetBranchAddress("jet_sv1_n2t", &jet_sv1_n2t, &b_jet_sv1_n2t);
-   fChain->SetBranchAddress("jet_sv1_m", &jet_sv1_m, &b_jet_sv1_m);
-   fChain->SetBranchAddress("jet_sv1_efc", &jet_sv1_efc, &b_jet_sv1_efc);
-   fChain->SetBranchAddress("jet_sv1_sig3d", &jet_sv1_sig3d, &b_jet_sv1_sig3d);
-   fChain->SetBranchAddress("sv1_llr", &sv1_llr, &b_sv1_llr);
-   fChain->SetBranchAddress("jet_sv1_normdist", &jet_sv1_normdist, &b_jet_sv1_normdist);
-   fChain->SetBranchAddress("jet_sv1_deltaR", &jet_sv1_deltaR, &b_jet_sv1_deltaR);
-   fChain->SetBranchAddress("jet_sv1_Lxy", &jet_sv1_Lxy, &b_jet_sv1_Lxy);
-   fChain->SetBranchAddress("jet_sv1_L3d", &jet_sv1_L3d, &b_jet_sv1_L3d);
-   fChain->SetBranchAddress("jet_sv1_vtx_x", &jet_sv1_vtx_x, &b_jet_sv1_vtx_x);
-   fChain->SetBranchAddress("jet_sv1_vtx_y", &jet_sv1_vtx_y, &b_jet_sv1_vtx_y);
-   fChain->SetBranchAddress("jet_sv1_vtx_z", &jet_sv1_vtx_z, &b_jet_sv1_vtx_z);
    fChain->SetBranchAddress("jet_nBHadr", &jet_nBHadr, &b_jet_nBHadr);
    fChain->SetBranchAddress("jet_nCHadr", &jet_nCHadr, &b_jet_nCHadr);
    fChain->SetBranchAddress("jet_bH_pdgId", &jet_bH_pdgId, &b_jet_bH_pdgId);
