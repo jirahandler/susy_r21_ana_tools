@@ -127,7 +127,11 @@
     "main.C": "cpp",
     "mynewplots.C": "cpp",
     "lfplotsntrk.C": "cpp",
-    "hfplotsntrk.C": "cpp"
+    "hfplotsntrk.C": "cpp",
+    "lfplotspt.C": "cpp",
+    "hfplotspt.C": "cpp",
+    "hfplotslxy.C": "cpp",
+    "reweight.C": "cpp"
   },
   "C_Cpp_Runner.msvcWarnings": [
     "/W4",

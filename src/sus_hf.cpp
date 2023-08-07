@@ -42,6 +42,11 @@ void sus::Loop()
    const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
    const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
 
+   TFile *f_rew_in = new TFile("rw_lxy.root");
+   TH1 *h_w_p = (TH1 *)f_rew_in->Get("lxy_rw_p");
+   TH1 *h_w_np = (TH1 *)f_rew_in->Get("lxy_rw_np");
+   TH1 *h_w_np_inc = (TH1 *)f_rew_in->Get("lxy_rw_np_inc");
+
    TH1 *h_ip3d_ntrk_p_all = new TH1D("ntrk_p_all", "", 40, 0., 40.);
    TH1 *h_ip3d_ntrk_p_tag = (TH1 *)h_ip3d_ntrk_p_all->Clone("ntrk_p_tag");
 
@@ -50,32 +55,37 @@ void sus::Loop()
 
    TH1 *h_ip3d_ntrk_np_inc_all = new TH1D("ntrk_np_inc_all", "", 40, 0., 40.);
    TH1 *h_ip3d_ntrk_np_inc_tag = (TH1 *)h_ip3d_ntrk_np_inc_all->Clone("ntrk_np_inc_tag");
+///////////////////////////////////////////////////////////////////////////////////////////
+   TH1 *h_ip3d_ntrk_pw_all = new TH1D("ntrk_pw_all", "", 40, 0., 40.);
+   TH1 *h_ip3d_ntrk_pw_tag = (TH1 *)h_ip3d_ntrk_pw_all->Clone("ntrk_pw_tag");
 
-   TH1 *h_lxy_all = new TH1D("lxy_all", "", ndiv, xdiv);
-   TH1 *h_lxy_p_tag = (TH1 *)h_lxy_all->Clone("lxy_p_tag");
-   TH1 *h_lxy_np_tag = (TH1 *)h_lxy_all->Clone("lxy_np_tag");
-   TH1 *h_lxy_np_inc_tag = (TH1 *)h_lxy_all->Clone("lxy_np_inc_tag");
+   TH1 *h_ip3d_ntrk_npw_all = new TH1D("ntrk_npw_all", "", 40, 0., 40.);
+   TH1 *h_ip3d_ntrk_npw_tag = (TH1 *)h_ip3d_ntrk_npw_all->Clone("ntrk_npw_tag");
 
-   TH1 *h_bip_all = new TH1D("bip_all", "", ndiv1, xdiv1);
-   TH1 *h_bip_tag = (TH1 *)h_bip_all->Clone("bip_tag");
+   TH1 *h_ip3d_ntrk_npw_inc_all = new TH1D("ntrk_npw_inc_all", "", 40, 0., 40.);
+   TH1 *h_ip3d_ntrk_npw_inc_tag = (TH1 *)h_ip3d_ntrk_npw_inc_all->Clone("ntrk_npw_inc_tag");
+////////////////////////////////////////////////////////////////////////////////////////////
+   TH1 *h_lxy_p_all = new TH1D("lxy_p_all", "", ndiv, xdiv);
+   TH1 *h_lxy_np_all = new TH1D("lxy_np_all", "", ndiv, xdiv);
+   TH1 *h_lxy_np_inc_all = new TH1D("lxy_np_inc_all", "", ndiv, xdiv);
+   TH1 *h_lxy_p_tag = (TH1 *)h_lxy_p_all->Clone("lxy_p_tag");
+   TH1 *h_lxy_np_tag = (TH1 *)h_lxy_np_all->Clone("lxy_np_tag");
+   TH1 *h_lxy_np_inc_tag = (TH1 *)h_lxy_np_inc_all->Clone("lxy_np_inc_tag");
 
-   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv1, xdiv1,ndiv,xdiv);
-   TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
+   //TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv1, xdiv1,ndiv,xdiv);
+   //TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
 
    const int njf = 3;
 
-   double xpdiv[] = {20, 30, 40, 50, 60, 75, 90, 110, 140, 200, 300};
+   double xpdiv[] = {20, 30, 40, 50, 60, 75, 90, 110, 140, 200, 250, 300};
    const int npdiv = sizeof(xpdiv) / sizeof(double) - 1;
 
-   TH1 *h_jetpt_all[njf];
-   TH1 *h_jetpt_tag[njf];
-
-   for (int jf = 0; jf < njf; ++jf)
-   {
-      h_jetpt_all[jf] = new TH1D(TString("jetpt_") + jf + "_all", "", npdiv, xpdiv);
-      h_jetpt_tag[jf] = (TH1 *)h_jetpt_all[jf]->Clone(TString("jetpt_") + jf + "_tag");
-   }
-
+   TH1 *h_jetpt_p_all = new TH1D("jetpt_p_all", "", npdiv, xpdiv);
+   TH1 *h_jetpt_np_all = new TH1D("jetpt_np_all", "", npdiv, xpdiv);
+   TH1 *h_jetpt_np_inc_all = new TH1D("jetpt_np_inc_all", "", npdiv, xpdiv);
+   TH1 *h_jetpt_p_tag = (TH1 *)h_jetpt_p_all->Clone("jetpt_p_tag");
+   TH1 *h_jetpt_np_tag = (TH1 *)h_jetpt_np_all->Clone("jetpt_np_tag");
+   TH1 *h_jetpt_np_inc_tag = (TH1 *)h_jetpt_np_inc_all->Clone("jetpt_np_inc_tag");
 
    Long64_t nentries = fChain->GetEntriesFast();
 
@@ -167,34 +177,58 @@ void sus::Loop()
                   TVector3 v_bh((*jet_bH_x)[ijet][0] - truth_PVx, (*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_z)[ijet][0] - truth_PVz);
                   double dr = v_llp.DeltaR(v_bh);
 
-                  h_lxy_all->Fill(jetlxy);
+                  double jetpt = (*jet_pt)[ijet] / 1e3;
+
 
                   if (fabs(jetbip) <= 1e-5 )
                   {
+                     int ibin = h_w_p->GetXaxis()->FindBin(jetlxy);
+                     double scale = h_w_p->GetBinContent(ibin);
 
+                     h_lxy_p_all->Fill(jetlxy);
+                     h_jetpt_p_all->Fill(jetpt);
                      h_ip3d_ntrk_p_all->Fill(ntrk);
+                     h_ip3d_ntrk_pw_all->Fill(ntrk, scale);
                      if (tagged)
                      {
-                        h_lxy_p_tag->Fill(lxy);
+                        h_jetpt_p_tag->Fill(jetpt);
+                        h_lxy_p_tag->Fill(jetlxy);
                         h_ip3d_ntrk_p_tag->Fill(ntrk);
+                        h_ip3d_ntrk_pw_tag->Fill(ntrk, scale);
                      }
                   }
                   else if (fabs(jetbip) > 1e-5 && fabs(jetbip) < 0.2 && dr<0.1)
                   {
+                     int ibin = h_w_np->GetXaxis()->FindBin(jetlxy);
+                     double scale = h_w_np->GetBinContent(ibin);
+
+                     h_lxy_np_all->Fill(jetlxy);
+                     h_jetpt_np_all->Fill(jetpt);
                      h_ip3d_ntrk_np_all->Fill(ntrk);
+                     h_ip3d_ntrk_npw_all->Fill(ntrk, scale);
                      if (tagged)
                      {
-                        h_lxy_np_tag->Fill(lxy);
+                        h_jetpt_np_tag->Fill(jetpt);
+                        h_lxy_np_tag->Fill(jetlxy);
                         h_ip3d_ntrk_np_tag->Fill(ntrk);
+                        h_ip3d_ntrk_npw_tag->Fill(ntrk, scale);
                      }
                   }
                   else if (fabs(jetbip) > 1e-5)
                   {
+                     int ibin = h_w_np_inc->GetXaxis()->FindBin(jetlxy);
+                     double scale = h_w_np_inc->GetBinContent(ibin);
+
+                     h_lxy_np_inc_all->Fill(jetlxy);
+                     h_jetpt_np_inc_all->Fill(jetpt);
                      h_ip3d_ntrk_np_inc_all->Fill(ntrk);
+                     h_ip3d_ntrk_npw_inc_all->Fill(ntrk, scale);
                      if (tagged)
                      {
-                        h_lxy_np_inc_tag->Fill(lxy);
+                        h_jetpt_np_inc_tag->Fill(jetpt);
+                        h_lxy_np_inc_tag->Fill(jetlxy);
                         h_ip3d_ntrk_np_inc_tag->Fill(ntrk);
+                        h_ip3d_ntrk_npw_inc_tag->Fill(ntrk, scale);
                      }
                   }
                }

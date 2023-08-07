@@ -45,7 +45,7 @@ void tt::Loop()
 
    const int njf = 3;
 
-   double xpdiv[] = {20, 30, 40, 50, 60, 75, 90, 110, 140, 200, 300};
+   double xpdiv[] = {20, 30, 40, 50, 60, 75, 90, 110, 140, 200, 250, 300};
    const int npdiv = sizeof(xpdiv) / sizeof(double) - 1;
 
    TH1 *h_jetpt_all[njf];
