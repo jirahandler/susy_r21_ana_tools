@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Mon Aug  7 18:39:41 2023 by ROOT version 6.28/04
+// Sun Aug  6 02:10:28 2023 by ROOT version 6.08/06
 // from TTree bTag_AntiKt4EMPFlowJets_BTagging201810/bTagAntiKt4EMPFlowJets_BTagging201810
-// found on file: flav_Akt4EMPf_BTagging201810.root
+// found on file: lf_1100.root
 //////////////////////////////////////////////////////////
 
-#ifndef tt_h
-#define tt_h
+#ifndef sus_h
+#define sus_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -17,7 +17,7 @@
 
 using namespace std;
 
-class tt {
+class sus {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -496,8 +496,8 @@ public :
    TBranch        *b_mymc1_phi;   //!
    TBranch        *b_mymc1_pdgId;   //!
 
-   tt(TTree *tree=0);
-   virtual ~tt();
+   sus(TTree *tree=0);
+   virtual ~sus();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
@@ -509,15 +509,15 @@ public :
 
 #endif
 
-#ifdef tt_cxx
-tt::tt(TTree *tree) : fChain(0)
+#ifdef sus_cxx
+sus::sus(TTree *tree) : fChain(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("flav_Akt4EMPf_BTagging201810.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("lf_1100.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("flav_Akt4EMPf_BTagging201810.root");
+         f = new TFile("lf_1100.root");
       }
       f->GetObject("bTag_AntiKt4EMPFlowJets_BTagging201810",tree);
 
@@ -525,19 +525,19 @@ tt::tt(TTree *tree) : fChain(0)
    Init(tree);
 }
 
-tt::~tt()
+sus::~sus()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
 }
 
-Int_t tt::GetEntry(Long64_t entry)
+Int_t sus::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t tt::LoadTree(Long64_t entry)
+Long64_t sus::LoadTree(Long64_t entry)
 {
 // Set the environment to read one entry
    if (!fChain) return -5;
@@ -550,7 +550,7 @@ Long64_t tt::LoadTree(Long64_t entry)
    return centry;
 }
 
-void tt::Init(TTree *tree)
+void sus::Init(TTree *tree)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -1020,7 +1020,7 @@ void tt::Init(TTree *tree)
    Notify();
 }
 
-Bool_t tt::Notify()
+Bool_t sus::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -1031,18 +1031,18 @@ Bool_t tt::Notify()
    return kTRUE;
 }
 
-void tt::Show(Long64_t entry)
+void sus::Show(Long64_t entry)
 {
 // Print contents of entry.
 // If entry is not specified, print current entry
    if (!fChain) return;
    fChain->Show(entry);
 }
-Int_t tt::Cut(Long64_t entry)
+Int_t sus::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
 }
-#endif // #ifdef tt_cxx
+#endif // #ifdef sus_cxx

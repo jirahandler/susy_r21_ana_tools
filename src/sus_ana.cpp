@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 {
   if (argc<2) return 1;
 
-  const char* chtree = "bTag_AntiKt4EMPFlowJets_BTagging201810";
+  const char* chtree = "bTag_AntiKt4EMPFlowJets";
   TChain* sust = new TChain(chtree);
   for (int i1 = 1; i1<argc; ++i1) {
     sust->Add(argv[i1]);
@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
   TTree* mytree = (TTree*)gROOT->FindObject(chtree);
   Long64_t nentries = mytree->GetEntries();
   sus* t = new sus(mytree); // all branches are set
-  
+
   TString foutname = std::string("a1_") + std::string(fs::path(argv[1]).filename());
   TFile* fout = new TFile(foutname,"RECREATE");
   t->Loop();

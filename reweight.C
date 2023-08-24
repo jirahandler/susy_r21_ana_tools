@@ -11,19 +11,19 @@ int reweight()
     gStyle->SetOptStat(0);
 
     // Input and output file names
-    const char *inputFile1 = "a1_410470.root";
-    const char *inputFile2 = "a1_hf_1700.root";
-    const char *outputFileName = "rw_lxy.root";
+    const char *inputFile1 = "a1_410470_new.root";
+    const char *inputFile2 = "a1_hf_1700_new.root";
+    const char *outputFileName = "rw_lxy_new.root";
 
     // Load histograms from the ROOT files
     TFile *file1 = TFile::Open(inputFile1,"READ");
     TFile *file2 = TFile::Open(inputFile2, "READ");
     TFile *file3 = TFile::Open(outputFileName, "RECREATE");
 
-    TH1F *hist1_lxy_all = static_cast<TH1F *>(file1->Get("lxy_all"));
-    TH1F *hist2_lxy_all = static_cast<TH1F *>(file2->Get("lxy_p_all"));
-    TH1F *hist3_lxy_all = static_cast<TH1F *>(file2->Get("lxy_np_all"));
-    TH1F *hist4_lxy_all = static_cast<TH1F *>(file2->Get("lxy_np_inc_all"));
+    TH1D *hist1_lxy_all = static_cast<TH1D *>(file1->Get("lxy_all"));
+    TH1D *hist2_lxy_all = static_cast<TH1D *>(file2->Get("lxy_p_all"));
+    TH1D *hist3_lxy_all = static_cast<TH1D *>(file2->Get("lxy_np_all"));
+    TH1D *hist4_lxy_all = static_cast<TH1D *>(file2->Get("lxy_np_inc_all"));
 
     try
     {

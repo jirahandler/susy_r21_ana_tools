@@ -131,7 +131,12 @@
     "lfplotspt.C": "cpp",
     "hfplotspt.C": "cpp",
     "hfplotslxy.C": "cpp",
-    "reweight.C": "cpp"
+    "reweight.C": "cpp",
+    "hfplotsntrkw.C": "cpp",
+    "analyze.C": "cpp",
+    "tt.C": "cpp",
+    "r.C": "cpp",
+    "a.C": "cpp"
   },
   "C_Cpp_Runner.msvcWarnings": [
     "/W4",

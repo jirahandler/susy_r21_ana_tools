@@ -42,11 +42,6 @@ void sus::Loop()
    const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
    const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
 
-   TFile *f_rew_in = new TFile("rw_lxy.root");
-   TH1 *h_w_p = (TH1 *)f_rew_in->Get("lxy_rw_p");
-   TH1 *h_w_np = (TH1 *)f_rew_in->Get("lxy_rw_np");
-   TH1 *h_w_np_inc = (TH1 *)f_rew_in->Get("lxy_rw_np_inc");
-
    TH1 *h_ip3d_ntrk_p_all = new TH1D("ntrk_p_all", "", 40, 0., 40.);
    TH1 *h_ip3d_ntrk_p_tag = (TH1 *)h_ip3d_ntrk_p_all->Clone("ntrk_p_tag");
 
@@ -86,6 +81,12 @@ void sus::Loop()
    TH1 *h_jetpt_p_tag = (TH1 *)h_jetpt_p_all->Clone("jetpt_p_tag");
    TH1 *h_jetpt_np_tag = (TH1 *)h_jetpt_np_all->Clone("jetpt_np_tag");
    TH1 *h_jetpt_np_inc_tag = (TH1 *)h_jetpt_np_inc_all->Clone("jetpt_np_inc_tag");
+
+   TFile *f_rew_in = new TFile("rw_lxy.root", "READ");
+   TH1 *h_w_p = (TH1 *)f_rew_in->Get("lxy_rw_p");
+   TH1 *h_w_np = (TH1 *)f_rew_in->Get("lxy_rw_np");
+   TH1 *h_w_np_inc = (TH1 *)f_rew_in->Get("lxy_rw_np_inc");
+   // f_rew_in->Close();
 
    Long64_t nentries = fChain->GetEntriesFast();
 

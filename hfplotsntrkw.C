@@ -5,7 +5,7 @@
 #include <TLatex.h>
 #include "AtlasStyle.C"
 
-int hfplotsntrk()
+int hfplotsntrkw()
 {
     SetAtlasStyle();
     gStyle->SetOptStat(0);
@@ -13,23 +13,23 @@ int hfplotsntrk()
     // Input and output file names
     const char *inputFile1 = "a1_410470.root";
     const char *inputFile2 = "a1_hf_1700.root";
-    const char *outputFileName = "Beff_vs_ntrk_p_np_npinc_hf-tt.png";
+    const char *outputFileName = "Beff_vs_ntrk_weighted_p_np_npinc_hf-tt.png";
 
     // Load histograms from the ROOT files
     TFile *file1 = TFile::Open(inputFile1);
     TFile *file2 = TFile::Open(inputFile2);
 
-    TH1D *hist1_ntrk_all = static_cast<TH1D *>(file1->Get("ntrk_all"));
-    TH1D *hist1_ntrk_tag = static_cast<TH1D *>(file1->Get("ntrk_tag"));
+    TH1F *hist1_ntrk_all = static_cast<TH1F *>(file1->Get("ntrk_all"));
+    TH1F *hist1_ntrk_tag = static_cast<TH1F *>(file1->Get("ntrk_tag"));
 
-    TH1D *hist2_ntrk_all = static_cast<TH1D *>(file2->Get("ntrk_np_all"));
-    TH1D *hist2_ntrk_tag = static_cast<TH1D *>(file2->Get("ntrk_np_tag"));
+    TH1F *hist2_ntrk_all = static_cast<TH1F *>(file2->Get("ntrk_npw_all"));
+    TH1F *hist2_ntrk_tag = static_cast<TH1F *>(file2->Get("ntrk_npw_tag"));
 
-    TH1D *hist3_ntrk_all = static_cast<TH1D *>(file2->Get("ntrk_p_all"));
-    TH1D *hist3_ntrk_tag = static_cast<TH1D *>(file2->Get("ntrk_p_tag"));
+    TH1F *hist3_ntrk_all = static_cast<TH1F *>(file2->Get("ntrk_pw_all"));
+    TH1F *hist3_ntrk_tag = static_cast<TH1F *>(file2->Get("ntrk_pw_tag"));
 
-    TH1D *hist4_ntrk_all = static_cast<TH1D *>(file2->Get("ntrk_np_inc_all"));
-    TH1D *hist4_ntrk_tag = static_cast<TH1D *>(file2->Get("ntrk_np_inc_tag"));
+    TH1F *hist4_ntrk_all = static_cast<TH1F *>(file2->Get("ntrk_npw_inc_all"));
+    TH1F *hist4_ntrk_tag = static_cast<TH1F *>(file2->Get("ntrk_npw_inc_tag"));
 
     try
     {
@@ -82,7 +82,7 @@ int hfplotsntrk()
         ratio4->Draw("HIST SAME");
 
         TString legtextprett = "t#bar{t} ";
-        TString legtextpre = "SUSY HF ";
+        TString legtextpre = "SUSY HF, weighted ";
         TString latexpart = " m_{#tilde{g}} ";
         TString legtextpostnp = " = 1700 GeV non prompt (single-b), ";
         TString legtextpostp = " = 1700 GeV prompt (single-b), ";
@@ -154,7 +154,7 @@ int hfplotsntrk()
 
         TString xTitle = "Num Tracks";
         TString yTitle = "Ratio";
-        double xTitlePos = 0.9;  // Position of X-axis title on the pad (0 = left, 1 = right)
+        double xTitlePos = 0.9; // Position of X-axis title on the pad (0 = left, 1 = right)
         double yTitlePos = 0.2; // Position of X-axis title on the pad (0 = bottom, 1 = top)
         double xTitleSize = 0.08;
         double yTitleSize = 0.08;
