@@ -67,8 +67,11 @@ void sus::Loop()
    TH1 *h_lxy_np_tag = (TH1 *)h_lxy_np_all->Clone("lxy_np_tag");
    TH1 *h_lxy_np_inc_tag = (TH1 *)h_lxy_np_inc_all->Clone("lxy_np_inc_tag");
 
-   //TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv1, xdiv1,ndiv,xdiv);
-   //TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
+   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", 100, -2.5,2.5,ndiv,xdiv);
+   TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
+
+   TH2 *h_ntr_lxy_all = new TH2F("ntr_lxy_all", "", 20, 0., 20., ndiv, xdiv);
+   TH2 *h_ntr_lxy_tag = (TH2F *)h_ntr_lxy_all->Clone("ntr_lxy_tag");
 
    const int njf = 3;
 
@@ -222,12 +225,14 @@ void sus::Loop()
 
                      h_lxy_np_inc_all->Fill(jetlxy);
                      h_jetpt_np_inc_all->Fill(jetpt);
+                     h_ntr_lxy_all->Fill(ntrk,jetlxy);
                      h_ip3d_ntrk_np_inc_all->Fill(ntrk);
                      h_ip3d_ntrk_npw_inc_all->Fill(ntrk, scale);
                      if (tagged)
                      {
                         h_jetpt_np_inc_tag->Fill(jetpt);
                         h_lxy_np_inc_tag->Fill(jetlxy);
+                        h_ntr_lxy_tag->Fill(ntrk, jetlxy);
                         h_ip3d_ntrk_np_inc_tag->Fill(ntrk);
                         h_ip3d_ntrk_npw_inc_tag->Fill(ntrk, scale);
                      }

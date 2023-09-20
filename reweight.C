@@ -12,7 +12,7 @@ int reweight()
 
     // Input and output file names
     const char *inputFile1 = "a1_410470_new.root";
-    const char *inputFile2 = "a1_hf_1700_new.root";
+    const char *inputFile2 = "a1_hf_1700_new_uw.root";
     const char *outputFileName = "rw_lxy_new.root";
 
     // Load histograms from the ROOT files

@@ -37,10 +37,13 @@ void sus::Loop()
 
     TH1 *h_jetflav = new TH1I("jetflav", "", 10, 0., 100.);
 
-    double xdiv[] = {0.0001, 0.001, 0.01, 0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
+    double xdiv[] = {0.0001, 0.001, 0.01, 0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100., 150., 200., 250.};
     double xdiv1[] = {-20., -15., -10., -7.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.8, -0.5, -0.2, -0.1, -0.01, 0, 0.01, 0.1, 0.2, 0.5, 0.8, 1., 1.5, 2., 2.5, 3, 3.5, 4, 4.5, 5., 7.5, 10., 15., 20.};
     const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
     const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
+
+    double xpdiv[] = {20, 30, 40, 50, 60, 75, 90, 110, 140, 200, 250, 300};
+    const int npdiv = sizeof(xpdiv) / sizeof(double) - 1;
 
     TH1 *h_ntrk_p_all = new TH1D("ntrk_p_all", "", 40, 0., 40.);
     TH1 *h_ntrk_p_tag = (TH1 *)h_ntrk_p_all->Clone("ntrk_p_tag");
@@ -70,10 +73,15 @@ void sus::Loop()
     // TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv1, xdiv1,ndiv,xdiv);
     // TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
 
+    TH2 *h_ntr_lxy_all = new TH2F("ntr_lxy_all", "", 20, 0., 20., ndiv, xdiv);
+    TH2 *h_ntr_lxy_tag = (TH2F *)h_ntr_lxy_all->Clone("ntr_lxy_tag");
+
+    TH2 *h_ntr_jpt_all = new TH2F("ntr_jpt_all", "", 20, 0., 20., npdiv, xpdiv);
+    TH2 *h_ntr_jpt_tag = (TH2F *)h_ntr_jpt_all->Clone("ntr_jpt_tag");
+
     const int njf = 3;
 
-    double xpdiv[] = {20, 30, 40, 50, 60, 75, 90, 110, 140, 200, 250, 300};
-    const int npdiv = sizeof(xpdiv) / sizeof(double) - 1;
+
 
     TH1 *h_jetpt_p_all = new TH1D("jetpt_p_all", "", npdiv, xpdiv);
     TH1 *h_jetpt_np_all = new TH1D("jetpt_np_all", "", npdiv, xpdiv);
@@ -165,17 +173,19 @@ void sus::Loop()
                                 double d0 = (*jet_trk_d0)[ijet][itr];
                                 double z0 = (*jet_trk_z0)[ijet][itr];
                                 z0 *= sin((*jet_trk_theta)[ijet][itr]);
-                                if (fabs(d0) > 1. || fabs(z0) > 1.5)
+                                if (fabs(d0) > 2. || fabs(z0) > 3)
                                     continue;
                                 int nb = (*jet_trk_nBLHits)[ijet][itr];
                                 int np = (*jet_trk_nPixHits)[ijet][itr];
                                 int ns = (*jet_trk_nSCTHits)[ijet][itr];
+                                /**
                                 if (nb < 1)
                                     continue;
                                 if (np < 1)
                                     continue;
                                 if (np + ns < 7)
                                     continue;
+                                */
                                 ++ntrk;
                             }
                         }
@@ -220,7 +230,7 @@ void sus::Loop()
                                 h_ntrk_pw_tag->Fill(ntrk, scale);
                             }
                         }
-                        else if (fabs(jetbip) > 1e-5 && fabs(jetbip) < 0.2 && dr < 0.1)
+                        else if (fabs(jetbip) > 1e-5 && fabs(jetbip) < (5.0/jetlxy) && dr < 0.1)
                         {
                             int ibin = h_w_np->GetXaxis()->FindBin(jetlxy);
                             double scale = h_w_np->GetBinContent(ibin);
@@ -241,17 +251,23 @@ void sus::Loop()
                         {
                             int ibin = h_w_np_inc->GetXaxis()->FindBin(jetlxy);
                             double scale = h_w_np_inc->GetBinContent(ibin);
+                            double jpt = (1e-3)*(*jet_pt)[ijet];
 
                             h_lxy_np_inc_all->Fill(jetlxy);
                             h_jetpt_np_inc_all->Fill(jetpt);
                             h_ntrk_np_inc_all->Fill(ntrk);
                             h_ntrk_npw_inc_all->Fill(ntrk, scale);
+                            h_ntr_lxy_all->Fill(ntrk, jetlxy);
+                            h_ntr_jpt_all->Fill(ntrk, jpt);
+
                             if (tagged)
                             {
                                 h_jetpt_np_inc_tag->Fill(jetpt);
                                 h_lxy_np_inc_tag->Fill(jetlxy);
                                 h_ntrk_np_inc_tag->Fill(ntrk);
                                 h_ntrk_npw_inc_tag->Fill(ntrk, scale);
+                                h_ntr_lxy_tag->Fill(ntrk, jetlxy);
+                                h_ntr_jpt_tag->Fill(ntrk,jpt);
                             }
                         }
                     }

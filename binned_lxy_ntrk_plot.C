@@ -5,7 +5,7 @@
 #include <TLatex.h>
 #include "AtlasStyle.C"
 
-int hfplotslxy()
+int binned_lxy_ntrk_plot()
 {
     SetAtlasStyle();
     gStyle->SetOptStat(0);
@@ -15,18 +15,21 @@ int hfplotslxy()
     const char *inpfnames[numFiles] = {
         "a1_410470_new.root",
         "a1_hf_1700_new_w.root",
-        "a1_hf_1700_old_w.root"};
+        "a1_hf_1700_old_w.root"
+    };
 
     const char *histNames[3] = {
-        "lxy",
-        "lxy_np_inc",
-        "lxy_np_inc"};
+        "ntrk",
+        "ntrk_npw_inc",
+        "ntrk_npw_inc"
+    };
 
     const char *hist2DNames[2] = {
         "ntr_lxy",
-        "ntr_lxy"};
+        "ntr_lxy",
+    };
 
-    const char *outputFileName = "Beff_vs_lxy_weighted_npinc_hf_new-tt.png";
+    const char *outputFileName = "Beff_vs_ntrk_weighted_npinc_hf_new-tt.png";
 
     // Load histograms from the ROOT files
     TFile *files[numFiles];
@@ -44,14 +47,14 @@ int hfplotslxy()
 
     for (int i = 0; i < sizeof(histNames) / sizeof(const char *); i++)
     {
-        hall[i] = static_cast<TH1F *>(files[i]->Get(TString(histNames[i]) + "_all"));
-        htag[i] = static_cast<TH1F *>(files[i]->Get(TString(histNames[i]) + "_tag"));
+        hall[i] = static_cast<TH1F *> (files[i]->Get(TString(histNames[i]) + "_all"));
+        htag[i] = static_cast<TH1F *> (files[i]->Get(TString(histNames[i]) + "_tag"));
     }
 
     for (int i = 0; i < sizeof(hist2DNames) / sizeof(const char *); i++)
     {
-        hprojall[i] = static_cast<TH2F *>(files[i]->Get(TString(hist2DNames[i]) + "_all"));
-        hprojtag[i] = static_cast<TH2F *>(files[i]->Get(TString(hist2DNames[i]) + "_tag"));
+        hprojall[i] = static_cast<TH2F *> (files[i]->Get(TString(hist2DNames[i]) + "_all"));
+        hprojtag[i] = static_cast<TH2F *> (files[i]->Get(TString(hist2DNames[i]) + "_tag"));
     }
 
     TH1D *ratio[numHist];
@@ -69,7 +72,6 @@ int hfplotslxy()
         pad_upper->cd();
 
         pad_upper->SetGridx();
-        pad_upper->SetLogx();
         pad_upper->SetGridy();
 
         pad_upper->SetBottomMargin(0.05);
@@ -78,22 +80,18 @@ int hfplotslxy()
         {
             ratio[i] = static_cast<TH1D *>(htag[i]->Clone());
             ratio[i]->Divide(htag[i], hall[i], 1.0, 1.0, "B");
-            if (i == 0)
-            {
+            if(i==0){
                 ratio[i]->GetYaxis()->SetTitle("b-tag Efficiency");
                 ratio[i]->GetYaxis()->SetRangeUser(0, 1.1);
             }
             ratio[i]->SetLineColor(icol[i]);
             ratio[i]->GetXaxis()->SetRangeUser(0, 25);
-            if (i == 0)
-            {
-                ratio[i]->Draw("HIST");
-            }
+            if (i==0)
+                {ratio[i]->Draw("HIST");}
             else
-            {
-                ratio[i]->Draw("HIST SAME");
-            }
+                {ratio[i]->Draw("HIST SAME");}
         }
+
 
         TString legtextprett = "t#bar{t} ";
         TString legtextposttt = " (single-b) ";
@@ -102,14 +100,14 @@ int hfplotslxy()
         TString latexpart = " m_{#tilde{g}} ";
         TString legtextpostnp = " = 1700 GeV non prompt (single-b), ";
 
-        // TString legtextpostnpcond = " #left|bip#right| > 10^{-5} , #left|bip#right| #leq 0.2, #DeltaR #leq 0.1  ";
+        //TString legtextpostnpcond = " #left|bip#right| > 10^{-5} , #left|bip#right| #leq 0.2, #DeltaR #leq 0.1  ";
         TString legtextpostnpcond_inc = " #left|bip#right| > 10^{-5} inclusive ";
 
         TString s1 = legtextprett + legtextposttt;
         TString s2 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond_inc;
         TString s3 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond_inc + "(ip3d def)";
 
-        TString leglabel[3] = {s1, s2, s3};
+        TString leglabel[3]={s1,s2,s3};
 
         TLegend *l = new TLegend(0.18, 0.86, 0.4, 0.96);
         l->SetMargin(0.2);
@@ -135,15 +133,15 @@ int hfplotslxy()
 
         TH1D *l_ratio[(sizeof(ratio) / sizeof(TH1D *)) - 1];
 
-        for (int i = 0; i < sizeof(ratio) / sizeof(TH1D *) - 1; i++)
+        for (int i = 0; i < sizeof(ratio) / sizeof(TH1D *) -1; i++)
         {
-            l_ratio[i] = static_cast<TH1D *>(ratio[i + 1]->Clone());
+            l_ratio[i] = static_cast<TH1D *>(ratio[i+1]->Clone());
             l_ratio[i]->Divide(static_cast<TH1D *>(ratio[0]->Clone()));
             l_ratio[i]->SetStats(0); // Disable statistics box for the lower ratio pad
             l_ratio[i]->SetLineColor(icol[i]);
             l_ratio[i]->SetMarkerColor(icol[i]);
             l_ratio[i]->GetYaxis()->SetRangeUser(0, 2.5);
-            if (i == 0)
+            if(i==0)
                 l_ratio[i]->Draw();
             else
                 l_ratio[i]->Draw("SAME");
@@ -165,10 +163,10 @@ int hfplotslxy()
         }
         l1->Draw();
 
-        TString xTitle = "L_{xy} (mm)";
+        TString xTitle = "Num Tracks";
         TString yTitle = "Ratio";
         double xTitlePos = 0.9; // Position of X-axis title on the pad (0 = left, 1 = right)
-        double yTitlePos = 0.2; // Position of X-axis title on the pad (0 = bottom, 1 = top)
+        double yTitlePos = 0.2; // Position of y-axis title on the pad (0 = bottom, 1 = top)
         double xTitleSize = 0.08;
         double yTitleSize = 0.08;
         TLatex *latex = new TLatex();

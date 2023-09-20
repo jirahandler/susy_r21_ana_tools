@@ -136,7 +136,11 @@
     "analyze.C": "cpp",
     "tt.C": "cpp",
     "r.C": "cpp",
-    "a.C": "cpp"
+    "a.C": "cpp",
+    "bin_perf.C": "cpp",
+    "binned_lxy_ntrk_plot.C": "cpp",
+    "plot2d.C": "cpp",
+    "hfplotstopq1.C": "cpp"
   },
   "C_Cpp_Runner.msvcWarnings": [
     "/W4",

@@ -20,10 +20,13 @@ void tt::Loop()
    TH1 *h_nbbjet = new TH1I("nbbjet", "", 100, 0., 100.);
    TH1 *h_nbcjet = new TH1I("nbcjet", "", 100, 0., 100.);
 
-   double xdiv[] = {0.0001,0.001,0.01,0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100.};
+   double xdiv[] = {0.0001,0.001,0.01,0.1, 0.2, 0.5, 1., 2., 5., 10., 20., 50., 100., 150.,200.,250.};
    double xdiv1[] = {-5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.8, -0.5, -0.2, -0.1, 0, 0.1, 0.2, 0.5, 0.8, 1., 1.5, 2., 2.5, 3, 3.5, 4, 4.5, 5.};
    const int ndiv = sizeof(xdiv) / sizeof(double) - 1;
    const int ndiv1 = sizeof(xdiv1) / sizeof(double) - 1;
+
+   double xpdiv[] = {20, 30, 40, 50, 60, 75, 90, 110, 140, 200, 250, 300};
+   const int npdiv = sizeof(xpdiv) / sizeof(double) - 1;
 
    TH1 *h_ntrk_all = new TH1D("ntrk_all", "", 40, 0., 40.);
    TH1 *h_ntrk_tag = (TH1 *)h_ntrk_all->Clone("ntrk_tag");
@@ -43,13 +46,16 @@ void tt::Loop()
    TH1 *h_bip_all = new TH1D("bip_all", "", ndiv1, xdiv1);
    TH1 *h_bip_tag = (TH1 *)h_bip_all->Clone("bip_tag");
 
-   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", ndiv1, xdiv1, ndiv, xdiv);
+   TH2 *h_bip_lxy_all = new TH2F("bip_lxy_all", "", 100, -2.5, 2.5, ndiv, xdiv);
    TH2 *h_bip_lxy_tag = (TH2F *)h_bip_lxy_all->Clone("bip_lxy_tag");
 
-   const int njf = 3;
+   TH2 *h_ntr_lxy_all = new TH2F("ntr_lxy_all", "", 20, 0., 20., ndiv, xdiv);
+   TH2 *h_ntr_lxy_tag = (TH2F *)h_ntr_lxy_all->Clone("ntr_lxy_tag");
 
-   double xpdiv[] = {20, 30, 40, 50, 60, 75, 90, 110, 140, 200, 250, 300};
-   const int npdiv = sizeof(xpdiv) / sizeof(double) - 1;
+   TH2 *h_ntr_jpt_all = new TH2F("ntr_jpt_all", "", 20, 0., 20., npdiv, xpdiv);
+   TH2 *h_ntr_jpt_tag = (TH2F *)h_ntr_jpt_all->Clone("ntr_jpt_tag");
+
+   const int njf = 3;
 
    TH1 *h_jetpt_all[njf];
    TH1 *h_jetpt_tag[njf];
@@ -100,17 +106,19 @@ void tt::Loop()
                double d0 = (*jet_trk_d0)[ijet][itr];
                double z0 = (*jet_trk_z0)[ijet][itr];
                z0 *= sin((*jet_trk_theta)[ijet][itr]);
-               if (fabs(d0) > 1. || fabs(z0) > 1.5)
+               if (fabs(d0) > 2. || fabs(z0) > 3)
                   continue;
                int nb = (*jet_trk_nBLHits)[ijet][itr];
                int np = (*jet_trk_nPixHits)[ijet][itr];
                int ns = (*jet_trk_nSCTHits)[ijet][itr];
+               /**
                if (nb < 1)
                   continue;
                if (np < 1)
                   continue;
                if (np + ns < 7)
                   continue;
+               */
                ++ntrk;
             }
          }
@@ -190,10 +198,18 @@ void tt::Loop()
          {
             float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
             float lxy = (*jet_bH_Lxy)[ijet][0];
+            double jpt = (1e-3)*(*jet_pt)[ijet];
+
+            h_bip_all->Fill(bip);
             h_bip_lxy_all->Fill(bip, lxy);
+            h_ntr_lxy_all->Fill(ntrk, lxy);
+            h_ntr_jpt_all->Fill(ntrk, jpt);
             if (tagged)
             {
+               h_bip_tag->Fill(bip);
                h_bip_lxy_tag->Fill(bip, lxy);
+               h_ntr_lxy_tag->Fill(ntrk, lxy);
+               h_ntr_jpt_tag->Fill(ntrk, jpt);
             }
          }
 
@@ -203,17 +219,6 @@ void tt::Loop()
          if (tagged)
          {
             h_jetpt_tag[jf]->Fill(jetpt);
-         }
-
-         // This has to do with bip; without this we can't get the angle between b Hadron and the LLP
-         if ((jf == 2) && jet_bH_Lxy && !(*jet_bH_Lxy)[ijet].empty() && !(*jet_bH_x)[ijet].empty() && !(*jet_bH_y)[ijet].empty())
-         {
-            float bip = (*jet_bH_Lxy)[ijet][0] * sin(atan2((*jet_bH_y)[ijet][0] - truth_PVy, (*jet_bH_x)[ijet][0] - truth_PVx) - (*jet_bH_phi)[ijet][0]);
-            h_bip_all->Fill(bip);
-            if (tagged)
-            {
-               h_bip_tag->Fill(bip);
-            }
          }
       }
    }

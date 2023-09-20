@@ -5,7 +5,7 @@
 #include <TLatex.h>
 #include "AtlasStyle.C"
 
-int hfplotslxy()
+int hfplotstopq1()
 {
     SetAtlasStyle();
     gStyle->SetOptStat(0);
@@ -13,20 +13,16 @@ int hfplotslxy()
     // Input and output file names
     const int numFiles = 3;
     const char *inpfnames[numFiles] = {
-        "a1_410470_new.root",
-        "a1_hf_1700_new_w.root",
-        "a1_hf_1700_old_w.root"};
+        "a1_410470_presel.root",
+        "merged_1700.root",
+        "merged_1700.root"};
 
     const char *histNames[3] = {
         "lxy",
-        "lxy_np_inc",
+        "lxy_np",
         "lxy_np_inc"};
 
-    const char *hist2DNames[2] = {
-        "ntr_lxy",
-        "ntr_lxy"};
-
-    const char *outputFileName = "Beff_vs_lxy_weighted_npinc_hf_new-tt.png";
+    const char *outputFileName = "topq1_Beff_vs_lxy_npinc_restrictive_hf1700_merged-tt.png";
 
     // Load histograms from the ROOT files
     TFile *files[numFiles];
@@ -38,20 +34,11 @@ int hfplotslxy()
     TH1 *hall[numHist];
     TH1 *htag[numHist];
 
-    const int numHist2D = sizeof(hist2DNames) / sizeof(const char *);
-    TH2 *hprojall[numHist2D];
-    TH2 *hprojtag[numHist2D];
 
     for (int i = 0; i < sizeof(histNames) / sizeof(const char *); i++)
     {
         hall[i] = static_cast<TH1F *>(files[i]->Get(TString(histNames[i]) + "_all"));
         htag[i] = static_cast<TH1F *>(files[i]->Get(TString(histNames[i]) + "_tag"));
-    }
-
-    for (int i = 0; i < sizeof(hist2DNames) / sizeof(const char *); i++)
-    {
-        hprojall[i] = static_cast<TH2F *>(files[i]->Get(TString(hist2DNames[i]) + "_all"));
-        hprojtag[i] = static_cast<TH2F *>(files[i]->Get(TString(hist2DNames[i]) + "_tag"));
     }
 
     TH1D *ratio[numHist];
@@ -84,7 +71,7 @@ int hfplotslxy()
                 ratio[i]->GetYaxis()->SetRangeUser(0, 1.1);
             }
             ratio[i]->SetLineColor(icol[i]);
-            ratio[i]->GetXaxis()->SetRangeUser(0, 25);
+            ratio[i]->GetXaxis()->SetRangeUser(0.001, 250);
             if (i == 0)
             {
                 ratio[i]->Draw("HIST");
@@ -106,8 +93,8 @@ int hfplotslxy()
         TString legtextpostnpcond_inc = " #left|bip#right| > 10^{-5} inclusive ";
 
         TString s1 = legtextprett + legtextposttt;
-        TString s2 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond_inc;
-        TString s3 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond_inc + "(ip3d def)";
+        TString s2 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond_inc + "restrictive";
+        TString s3 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond_inc ;
 
         TString leglabel[3] = {s1, s2, s3};
 
@@ -140,8 +127,8 @@ int hfplotslxy()
             l_ratio[i] = static_cast<TH1D *>(ratio[i + 1]->Clone());
             l_ratio[i]->Divide(static_cast<TH1D *>(ratio[0]->Clone()));
             l_ratio[i]->SetStats(0); // Disable statistics box for the lower ratio pad
-            l_ratio[i]->SetLineColor(icol[i]);
-            l_ratio[i]->SetMarkerColor(icol[i]);
+            l_ratio[i]->SetLineColor(icol[i+1]);
+            l_ratio[i]->SetMarkerColor(icol[i+1]);
             l_ratio[i]->GetYaxis()->SetRangeUser(0, 2.5);
             if (i == 0)
                 l_ratio[i]->Draw();
@@ -150,8 +137,8 @@ int hfplotslxy()
         }
 
         TString lp_leglabel[(sizeof(ratio) / sizeof(TH1D *)) - 1] = {
-            "HF non-prompt inclusive",
-            "HF non-prompt inclusive (ip3d def)"};
+            "HF non-prompt inclusive (restrictive)",
+            "HF non-prompt inclusive"};
 
         TLegend *l1 = new TLegend(0.2, 0.5, 0.4, 0.8);
         l1->SetMargin(0.2);

@@ -11,44 +11,48 @@ int hfplotsntrkw()
     gStyle->SetOptStat(0);
 
     // Input and output file names
-    const char *inputFile1 = "a1_410470.root";
-    const char *inputFile2 = "a1_hf_1700.root";
-    const char *outputFileName = "Beff_vs_ntrk_weighted_p_np_npinc_hf-tt.png";
+    const char *inputFile1 = "a1_410470_new.root";
+    const char *inputFile2 = "a1_hf_1700_new_w.root";
+    const char *inputFile3 = "a1_hf_1700_old_w.root";
+    const char *outputFileName = "Beff_vs_ntrk_weighted_npinc_hf_new-tt.png";
 
     // Load histograms from the ROOT files
     TFile *file1 = TFile::Open(inputFile1);
     TFile *file2 = TFile::Open(inputFile2);
+    TFile *file3 = TFile::Open(inputFile3);
 
     TH1F *hist1_ntrk_all = static_cast<TH1F *>(file1->Get("ntrk_all"));
     TH1F *hist1_ntrk_tag = static_cast<TH1F *>(file1->Get("ntrk_tag"));
 
-    TH1F *hist2_ntrk_all = static_cast<TH1F *>(file2->Get("ntrk_npw_all"));
-    TH1F *hist2_ntrk_tag = static_cast<TH1F *>(file2->Get("ntrk_npw_tag"));
+    //TH1F *hist2_ntrk_all = static_cast<TH1F *>(file2->Get("ntrk_npw_all"));
+    //TH1F *hist2_ntrk_tag = static_cast<TH1F *>(file2->Get("ntrk_npw_tag"));
 
-    TH1F *hist3_ntrk_all = static_cast<TH1F *>(file2->Get("ntrk_pw_all"));
-    TH1F *hist3_ntrk_tag = static_cast<TH1F *>(file2->Get("ntrk_pw_tag"));
+    //TH1F *hist3_ntrk_all = static_cast<TH1F *>(file2->Get("ntrk_pw_all"));
+    //TH1F *hist3_ntrk_tag = static_cast<TH1F *>(file2->Get("ntrk_pw_tag"));
 
     TH1F *hist4_ntrk_all = static_cast<TH1F *>(file2->Get("ntrk_npw_inc_all"));
     TH1F *hist4_ntrk_tag = static_cast<TH1F *>(file2->Get("ntrk_npw_inc_tag"));
 
+    TH1F *hist5_ntrk_all = static_cast<TH1F *>(file3->Get("ntrk_npw_inc_all"));
+    TH1F *hist5_ntrk_tag = static_cast<TH1F *>(file3->Get("ntrk_npw_inc_tag"));
+
     try
     {
-        if (hist1_ntrk_all->GetEntries() == 0 || hist2_ntrk_all->GetEntries() == 0)
-        {
-            throw std::runtime_error("One or both histograms are empty. Skipping efficiency calculation. Aborting... I'll be bacc.");
-        }
 
         TH1D *ratio1 = static_cast<TH1D *>(hist1_ntrk_tag->Clone());
         ratio1->Divide(hist1_ntrk_tag, hist1_ntrk_all, 1.0, 1.0, "B");
 
-        TH1D *ratio2 = static_cast<TH1D *>(hist2_ntrk_tag->Clone());
-        ratio2->Divide(hist2_ntrk_tag, hist2_ntrk_all, 1.0, 1.0, "B");
+        //TH1D *ratio2 = static_cast<TH1D *>(hist2_ntrk_tag->Clone());
+        //ratio2->Divide(hist2_ntrk_tag, hist2_ntrk_all, 1.0, 1.0, "B");
 
-        TH1D *ratio3 = static_cast<TH1D *>(hist3_ntrk_tag->Clone());
-        ratio3->Divide(hist3_ntrk_tag, hist3_ntrk_all, 1.0, 1.0, "B");
+        //TH1D *ratio3 = static_cast<TH1D *>(hist3_ntrk_tag->Clone());
+        //ratio3->Divide(hist3_ntrk_tag, hist3_ntrk_all, 1.0, 1.0, "B");
 
         TH1D *ratio4 = static_cast<TH1D *>(hist4_ntrk_tag->Clone());
         ratio4->Divide(hist4_ntrk_tag, hist4_ntrk_all, 1.0, 1.0, "B");
+
+        TH1D *ratio5 = static_cast<TH1D *>(hist5_ntrk_tag->Clone());
+        ratio5->Divide(hist5_ntrk_tag, hist5_ntrk_all, 1.0, 1.0, "B");
 
         TCanvas *canvas = new TCanvas("canvas", "Canvas", 1200, 1100);
         canvas->cd();
@@ -67,19 +71,22 @@ int hfplotsntrkw()
         ratio1->GetYaxis()->SetRangeUser(0, 1.1);
 
         ratio1->SetLineColor(kBlue);
-        ratio2->SetLineColor(kRed);
-        ratio3->SetLineColor(kGreen);
+        //ratio2->SetLineColor(kRed);
+        //ratio3->SetLineColor(kGreen);
         ratio4->SetLineColor(kMagenta);
+        ratio5->SetLineColor(36);
 
         ratio1->GetXaxis()->SetRangeUser(0, 25);
-        ratio2->GetXaxis()->SetRangeUser(0, 25);
-        ratio3->GetXaxis()->SetRangeUser(0, 25);
+        //ratio2->GetXaxis()->SetRangeUser(0, 25);
+        //ratio3->GetXaxis()->SetRangeUser(0, 25);
         ratio4->GetXaxis()->SetRangeUser(0, 25);
+        ratio5->GetXaxis()->SetRangeUser(0, 25);
 
         ratio1->Draw("HIST");
-        ratio2->Draw("HIST SAME");
-        ratio3->Draw("HIST SAME");
+        //ratio2->Draw("HIST SAME");
+        //ratio3->Draw("HIST SAME");
         ratio4->Draw("HIST SAME");
+        ratio5->Draw("HIST SAME");
 
         TString legtextprett = "t#bar{t} ";
         TString legtextpre = "SUSY HF, weighted ";
@@ -87,14 +94,15 @@ int hfplotsntrkw()
         TString legtextpostnp = " = 1700 GeV non prompt (single-b), ";
         TString legtextpostp = " = 1700 GeV prompt (single-b), ";
         TString legtextpostnpcond = " #left|bip#right| > 10^{-5} , #left|bip#right| #leq 0.2, #DeltaR #leq 0.1  ";
-        TString legtextpostnpcond_inc = " #left|bip#right| > 10^{-5} ";
+        TString legtextpostnpcond_inc = " #left|bip#right| > 10^{-5} inclusive ";
         TString legtextpostpcond = " #left|bip#right| #leq 10^{-5} ";
         TString legtextposttt = " (single-b) ";
 
         TString rat1 = legtextprett + legtextposttt;
-        TString rat2 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond;
-        TString rat3 = legtextpre + latexpart + legtextpostp + legtextpostpcond;
+        //TString rat2 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond;
+        //TString rat3 = legtextpre + latexpart + legtextpostp + legtextpostpcond;
         TString rat4 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond_inc;
+        TString rat5 = legtextpre + latexpart + legtextpostnp + legtextpostnpcond_inc + "(ip3d def)";
 
         TLegend *l = new TLegend(0.18, 0.86, 0.4, 0.96);
         l->SetMargin(0.2);
@@ -103,9 +111,10 @@ int hfplotsntrkw()
         l->SetTextFont(42);
         l->SetTextSize(0.03);
         l->AddEntry(ratio1, rat1, "l");
-        l->AddEntry(ratio2, rat2, "l");
-        l->AddEntry(ratio3, rat3, "l");
+        //l->AddEntry(ratio2, rat2, "l");
+        //l->AddEntry(ratio3, rat3, "l");
         l->AddEntry(ratio4, rat4, "l");
+        l->AddEntry(ratio5, rat5, "l");
         l->Draw();
 
         canvas->cd();
@@ -118,6 +127,7 @@ int hfplotsntrkw()
         pad_lower->SetGridx();
         pad_lower->SetGridy();
 
+        /**
         TH1F *ratio_lower = static_cast<TH1F *>(ratio2->Clone());
         ratio_lower->Divide(static_cast<TH1F *>(ratio1->Clone()));
         ratio_lower->SetStats(0); // Disable statistics box for the ratio_lower
@@ -132,6 +142,7 @@ int hfplotsntrkw()
         ratio_lower_1->SetMarkerColor(kGreen);
         ratio_lower_1->GetYaxis()->SetRangeUser(0, 2.5);
         ratio_lower_1->Draw("SAME");
+        */
 
         TH1F *ratio_lower_2 = static_cast<TH1F *>(ratio4->Clone());
         ratio_lower_2->Divide(static_cast<TH1F *>(ratio1->Clone()));
@@ -141,15 +152,24 @@ int hfplotsntrkw()
         ratio_lower_2->GetYaxis()->SetRangeUser(0, 2.5);
         ratio_lower_2->Draw("SAME");
 
+        TH1F *ratio_lower_3 = static_cast<TH1F *>(ratio5->Clone());
+        ratio_lower_3->Divide(static_cast<TH1F *>(ratio1->Clone()));
+        ratio_lower_3->SetStats(0); // Disable statistics box for the ratio_lower
+        ratio_lower_3->SetLineColor(36);
+        ratio_lower_3->SetMarkerColor(36);
+        ratio_lower_3->GetYaxis()->SetRangeUser(0, 2.5);
+        ratio_lower_3->Draw("SAME");
+
         TLegend *l1 = new TLegend(0.2, 0.5, 0.4, 0.8);
         l1->SetMargin(0.2);
         l1->SetBorderSize(0);
         l1->SetFillStyle(0);
         l1->SetTextFont(42);
         l1->SetTextSize(0.08);
-        l1->AddEntry(ratio_lower, "HF non-prompt", "l");
-        l1->AddEntry(ratio_lower_1, "HF prompt", "l");
+        //l1->AddEntry(ratio_lower, "HF non-prompt", "l");
+        //l1->AddEntry(ratio_lower_1, "HF prompt", "l");
         l1->AddEntry(ratio_lower_2, "HF non-prompt inclusive", "l");
+        l1->AddEntry(ratio_lower_3, "HF non-prompt inclusive (ip3d def)", "l");
         l1->Draw();
 
         TString xTitle = "Num Tracks";
